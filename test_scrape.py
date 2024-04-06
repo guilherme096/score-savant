@@ -37,6 +37,9 @@ def scrape_listing_page(listing_url):
         url = link.get("href")
         scrape_player_data("https://fminside.net" + url)
 
+    load_more_link = soup.find("a", class_="loadmore")
+    print(load_more_link)
+
 
 # Main URL to start scraping from - adjust as needed
 listing_url = "https://fminside.net/players"
