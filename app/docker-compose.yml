@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  go-app:
+    build: .
+    volumes:
+      - .:/app
+      - go-build:/go/pkg/mod
+      - go-build:/root/.cache/go-build
+    ports:
+      - "8080:8080"
+    environment:
+      - GO_ENV=development
+    command: "/go/bin/air"
+
+volumes:
+  go-build:
