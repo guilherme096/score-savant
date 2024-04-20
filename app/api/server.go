@@ -1,8 +1,9 @@
 package api
 
 import (
-	"net/http"
+	Hello "guilherme096/score-savant/templates/Hello"
 
+	"github.com/a-h/templ"
 	"github.com/labstack/echo"
 )
 
@@ -16,12 +17,16 @@ func New_server(listen_add string) *Server {
 	}
 }
 
+func render(ctx echo.Context, cmp templ.Component) error {
+	return cmp.Render(ctx.Request().Context(), ctx.Response())
+}
+
 func (s *Server) Start() {
 
 	e := echo.New()
 
 	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hi there :)")
+		return render(c, Hello.Hello())
 	})
 
 	e.Logger.Fatal(e.Start(s.listen_add))

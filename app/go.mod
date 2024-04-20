@@ -2,7 +2,10 @@ module guilherme096/score-savant
 
 go 1.21.4
 
-require github.com/labstack/echo v3.3.10+incompatible
+require (
+	github.com/a-h/templ v0.2.663
+	github.com/labstack/echo v3.3.10+incompatible
+)
 
 require (
 	github.com/labstack/gommon v0.4.2 // indirect
