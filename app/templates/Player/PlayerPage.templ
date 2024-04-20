@@ -3,12 +3,14 @@ import "guilherme096/score-savant/templates/Layout"
 
 templ Player() {
     @Layout.Base(){
-        <div class="w-full h-full m-16">
+        <div class="w-full h-full m-16 flex flex-row">
             <div class="w-1/5">
                 @PlayerBio()
                 <div class="mt-6">
                     @PlayerContract()
                 </div>
+            </div>
+            <div class="mx-5">
             </div>
         </div>
     }
