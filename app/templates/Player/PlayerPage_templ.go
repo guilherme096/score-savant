@@ -31,7 +31,23 @@ func Player() templ.Component {
 				templ_7745c5c3_Buffer = templ.GetBuffer()
 				defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"w-full h-full m-24\"><div class=\"w-fit h-fit rounded-xl shadow-lg p-4 bg-primary\"><div class=\"w-auto flex flex-row\"><div class=\"flex-1 w-56 h-56\"><img class=\"h-full rounded-lg drop-shadow-lg object-cover\" src=\"https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fleonino.pt%2Fwp-content%2Fuploads%2F2023%2F08%2Fgyokeres.jpg&amp;f=1&amp;nofb=1&amp;ipt=bd6c969ebe7e0b59aad945ecdb24b1ec4af5997c5a3fa36bbc7d5e79f01305a1&amp;ipo=images\" alt=\"Player Image\"></div><div class=\"ml-4 mt-4 h-full\"><div class=\"text-lg font-bold\">Viktor Gyokeres</div><div class=\"flex flex-col h-full justify-around mt-4\"><div class=\"text-sm font-semibold\">Nationality: <span class=\"font-normal\">Sweeden</span></div><div class=\"text-sm font-semibold\">Age: <span class=\"font-normal\">26</span></div><div class=\"text-sm font-semibold\">Height: <span class=\"font-normal\">180cm</span></div><div class=\"text-sm font-semibold\">Weight: <span class=\"font-normal\">85kg</span></div><div class=\"text-sm font-semibold\">Best Foot: <span class=\"font-normal\">Right</span></div></div></div></div></div></div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"w-full h-full m-16\"><div class=\"w-1/5\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = PlayerBio().Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"mt-6\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = PlayerContract().Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

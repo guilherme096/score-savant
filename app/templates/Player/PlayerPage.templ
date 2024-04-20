@@ -3,25 +3,12 @@ import "guilherme096/score-savant/templates/Layout"
 
 templ Player() {
     @Layout.Base(){
-        <div class="w-full h-full m-24">
-            <div class="w-fit h-fit rounded-xl shadow-lg p-4 bg-primary">
-               <div class="w-auto flex flex-row">
-                    <div class="flex-1 w-56 h-56">
-                        <img class="h-full rounded-lg drop-shadow-lg object-cover" src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fleonino.pt%2Fwp-content%2Fuploads%2F2023%2F08%2Fgyokeres.jpg&f=1&nofb=1&ipt=bd6c969ebe7e0b59aad945ecdb24b1ec4af5997c5a3fa36bbc7d5e79f01305a1&ipo=images" alt="Player Image" />
-                    </div>
-                    <div class="ml-4 mt-4 h-full">
-                       <div class="text-lg font-bold">
-                        Viktor Gyokeres
-                       </div>
-                        <div class="flex flex-col h-full justify-around mt-4">
-                           <div class="text-sm font-semibold">Nationality: <span class="font-normal">Sweeden</span></div>
-                           <div class="text-sm font-semibold">Age: <span class="font-normal">26</span></div>
-                           <div class="text-sm font-semibold">Height: <span class="font-normal">180cm</span></div>
-                           <div class="text-sm font-semibold">Weight: <span class="font-normal">85kg</span></div>
-                           <div class="text-sm font-semibold">Best Foot: <span class="font-normal">Right</span></div>
-                        </div>
-                    </div>
-               </div>
+        <div class="w-full h-full m-16">
+            <div class="w-1/5">
+                @PlayerBio()
+                <div class="mt-6">
+                    @PlayerContract()
+                </div>
             </div>
         </div>
     }
