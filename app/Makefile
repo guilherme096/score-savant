@@ -6,3 +6,7 @@ run:
 
 stop:
 	docker-compose down
+
+clean:
+	rm -r node_modules
+	rm ./templates/*_templ.go
