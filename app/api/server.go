@@ -24,6 +24,7 @@ func render(ctx echo.Context, cmp templ.Component) error {
 func (s *Server) Start() {
 
 	e := echo.New()
+	e.Static("/static", "static")
 
 	e.GET("/", func(c echo.Context) error {
 		return render(c, Hello.Hello())

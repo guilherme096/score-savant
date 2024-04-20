@@ -7,10 +7,13 @@ services:
       - .:/app
       - go-build:/go/pkg/mod
       - go-build:/root/.cache/go-build
+      - /app/node_modules
+
     ports:
       - "8080:8080"
     environment:
       - GO_ENV=development
+      - NODE_ENV=development
     command: "/go/bin/air"
 
 volumes:
