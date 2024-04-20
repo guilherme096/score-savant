@@ -1,7 +1,7 @@
 package api
 
 import (
-	Hello "guilherme096/score-savant/templates/Hello"
+	Player "guilherme096/score-savant/templates/Player"
 
 	"github.com/a-h/templ"
 	"github.com/labstack/echo"
@@ -27,7 +27,7 @@ func (s *Server) Start() {
 	e.Static("/static", "static")
 
 	e.GET("/", func(c echo.Context) error {
-		return render(c, Hello.Hello())
+		return render(c, Player.Player())
 	})
 
 	e.Logger.Fatal(e.Start(s.listen_add))
