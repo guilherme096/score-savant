@@ -2,7 +2,11 @@
 module.exports = {
     content: ["./templates/**/*.templ"],
     theme: {
-        extend: {},
+        extend: {
+            colors: {
+                "primary-darker": "#220151",
+            },
+        },
     },
     daisyui: {
         themes: [

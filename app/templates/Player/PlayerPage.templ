@@ -3,14 +3,51 @@ import "guilherme096/score-savant/templates/Layout"
 
 templ Player() {
     @Layout.Base(){
-        <div class="w-full h-full m-16 flex flex-row">
-            <div class="w-1/5">
+        <div class="w-full max-h-full m-16 flex flex-row">
+            <div class="w-1/4">
                 @PlayerBio()
                 <div class="mt-6">
                     @PlayerContract()
                 </div>
             </div>
-            <div class="mx-5">
+            <div class="ml-5 mr-2 max-h-full">
+                <div class="w-52 h-full bg-primary-darker rounded-xl p-4">
+                    <div class="text-lg font-bold">
+                        Technical
+                    </div>
+                    <div class="mt-4 flex flex-col">
+                        <div class="flex flex-row justify-between bg-primary rounded-md p-2">
+                            <div>Passing</div>
+                            <div>15</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mx-2 max-h-full">
+                <div class="w-52 h-full bg-primary-darker rounded-xl p-4">
+                    <div class="text-lg font-bold">
+                        Mental
+                    </div>
+                    <div class="mt-4 flex flex-col">
+                        <div class="flex flex-row justify-between bg-primary rounded-md p-2">
+                            <div>Agression</div>
+                            <div>15</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mr-10 ml-2 max-h-full">
+            <div class="w-52 h-full bg-primary-darker rounded-xl p-4">
+            <div class="text-lg font-bold">
+            Physical
+            </div>
+            <div class="mt-4 flex flex-col">
+            <div class="flex flex-row justify-between bg-primary rounded-md p-2">
+            <div>Acceleration</div>
+            <div>15</div>
+            </div>
+            </div>
+            </div>
             </div>
         </div>
     }
