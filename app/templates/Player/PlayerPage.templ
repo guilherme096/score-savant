@@ -16,10 +16,9 @@ templ Player() {
                         Technical
                     </div>
                     <div class="mt-4 flex flex-col">
-                        <div class="flex flex-row justify-between bg-primary rounded-md p-2">
-                            <div>Passing</div>
-                            <div>15</div>
-                        </div>
+                        @Attribute("Dribbling", "15")
+                        @Attribute("Passing", "15")
+                        @Attribute("Shooting", "15")
                     </div>
                 </div>
             </div>
@@ -29,25 +28,23 @@ templ Player() {
                         Mental
                     </div>
                     <div class="mt-4 flex flex-col">
-                        <div class="flex flex-row justify-between bg-primary rounded-md p-2">
-                            <div>Agression</div>
-                            <div>15</div>
-                        </div>
+                        @Attribute("Vision", "15")
+                        @Attribute("Positioning", "15")
+                        @Attribute("Composure", "15")
                     </div>
                 </div>
             </div>
             <div class="mr-10 ml-2 max-h-full">
-            <div class="w-52 h-full bg-primary-darker rounded-xl p-4">
-            <div class="text-lg font-bold">
-            Physical
-            </div>
-            <div class="mt-4 flex flex-col">
-            <div class="flex flex-row justify-between bg-primary rounded-md p-2">
-            <div>Acceleration</div>
-            <div>15</div>
-            </div>
-            </div>
-            </div>
+                <div class="w-52 h-full bg-primary-darker rounded-xl p-4">
+                    <div class="text-lg font-bold">
+                        Physical
+                    </div>
+                    <div class="mt-4 flex flex-col">
+                        @Attribute("Pace", "15")
+                        @Attribute("Strength", "15")
+                        @Attribute("Stamina", "15")
+                    </div>
+                </div>
             </div>
         </div>
     }

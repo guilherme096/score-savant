@@ -47,7 +47,55 @@ func Player() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div><div class=\"ml-5 mr-2 max-h-full\"><div class=\"w-52 h-full bg-primary-darker rounded-xl p-4\"><div class=\"text-lg font-bold\">Technical</div><div class=\"mt-4 flex flex-col\"><div class=\"flex flex-row justify-between bg-primary rounded-md p-2\"><div>Passing</div><div>15</div></div></div></div></div><div class=\"mx-2 max-h-full\"><div class=\"w-52 h-full bg-primary-darker rounded-xl p-4\"><div class=\"text-lg font-bold\">Mental</div><div class=\"mt-4 flex flex-col\"><div class=\"flex flex-row justify-between bg-primary rounded-md p-2\"><div>Agression</div><div>15</div></div></div></div></div><div class=\"mr-10 ml-2 max-h-full\"><div class=\"w-52 h-full bg-primary-darker rounded-xl p-4\"><div class=\"text-lg font-bold\">Physical</div><div class=\"mt-4 flex flex-col\"><div class=\"flex flex-row justify-between bg-primary rounded-md p-2\"><div>Acceleration</div><div>15</div></div></div></div></div></div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div><div class=\"ml-5 mr-2 max-h-full\"><div class=\"w-52 h-full bg-primary-darker rounded-xl p-4\"><div class=\"text-lg font-bold\">Technical</div><div class=\"mt-4 flex flex-col\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = Attribute("Dribbling", "15").Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = Attribute("Passing", "15").Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = Attribute("Shooting", "15").Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div></div><div class=\"mx-2 max-h-full\"><div class=\"w-52 h-full bg-primary-darker rounded-xl p-4\"><div class=\"text-lg font-bold\">Mental</div><div class=\"mt-4 flex flex-col\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = Attribute("Vision", "15").Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = Attribute("Positioning", "15").Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = Attribute("Composure", "15").Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div></div><div class=\"mr-10 ml-2 max-h-full\"><div class=\"w-52 h-full bg-primary-darker rounded-xl p-4\"><div class=\"text-lg font-bold\">Physical</div><div class=\"mt-4 flex flex-col\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = Attribute("Pace", "15").Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = Attribute("Strength", "15").Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = Attribute("Stamina", "15").Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div></div></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
