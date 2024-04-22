@@ -1,9 +1,12 @@
 package models
 
 type Player struct {
-	Id        string
-	PlayerBio *PlayerBio
-	Contract  *PlayerContract
+	Id                  string
+	PlayerBio           *PlayerBio
+	Contract            *PlayerContract
+	TechnicalAttributes []*Attribute
+	PhysicalAttributes  []*Attribute
+	MentalAttributes    []*Attribute
 }
 
 type PlayerBio struct {
@@ -27,11 +30,14 @@ type PlayerContract struct {
 	ReleaseClause    float64
 }
 
-func NewPlayer(Id string, PlayerBio *PlayerBio, PlayerContract *PlayerContract) *Player {
+func NewPlayer(Id string, PlayerBio *PlayerBio, PlayerContract *PlayerContract, TechnicalAttributes []*Attribute, MentalAttributes []*Attribute, PhysicalAttributes []*Attribute) *Player {
 	return &Player{
-		Id:        Id,
-		PlayerBio: PlayerBio,
-		Contract:  PlayerContract,
+		Id:                  Id,
+		PlayerBio:           PlayerBio,
+		Contract:            PlayerContract,
+		TechnicalAttributes: TechnicalAttributes,
+		MentalAttributes:    MentalAttributes,
+		PhysicalAttributes:  PhysicalAttributes,
 	}
 }
 
@@ -66,4 +72,16 @@ func (p *Player) SetContract(contract *PlayerContract) {
 
 func (p *Player) SetBio(bio *PlayerBio) {
 	p.PlayerBio = bio
+}
+
+func (p *Player) AddTechnicalAttribute(attribute *Attribute) {
+	p.TechnicalAttributes = append(p.TechnicalAttributes, attribute)
+}
+
+func (p *Player) AddPhysicalAttribute(attribute *Attribute) {
+	p.PhysicalAttributes = append(p.PhysicalAttributes, attribute)
+}
+
+func (p *Player) AddMentalAttribute(attribute *Attribute) {
+	p.MentalAttributes = append(p.MentalAttributes, attribute)
 }

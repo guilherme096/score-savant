@@ -29,10 +29,14 @@ func (s *Server) Start() {
 	e := echo.New()
 	e.Static("/static", "static")
 
-	e.GET("/", func(c echo.Context) error {
-		player, err := s.storage.LoadPlayerById("1")
+	e.GET("/player/:id", func(c echo.Context) error {
+		id := c.Param("id")
+		player, err := s.storage.LoadPlayerById(id)
 		if err != nil {
 			return c.String(500, "Internal Server Error")
+		}
+		if player == nil {
+			return c.String(404, "Not Found")
 		}
 		return render(c, Player.Player(*player))
 	})
