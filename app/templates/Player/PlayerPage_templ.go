@@ -10,9 +10,12 @@ import "context"
 import "io"
 import "bytes"
 
-import "guilherme096/score-savant/templates/Layout"
+import (
+	PlayerObj "guilherme096/score-savant/models"
+	"guilherme096/score-savant/templates/Layout"
+)
 
-func Player() templ.Component {
+func Player(Player PlayerObj.Player) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -35,7 +38,7 @@ func Player() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = PlayerBio().Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = PlayerBio(*Player.PlayerBio).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -43,7 +46,7 @@ func Player() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = PlayerContract().Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = PlayerContract(*Player.Contract).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

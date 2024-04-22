@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	server "guilherme096/score-savant/api"
+	storage "guilherme096/score-savant/storage"
 )
 
 func main() {
@@ -10,8 +11,10 @@ func main() {
 
 	fmt.Println("App listening on port: ", listen_addr)
 
+	db := storage.NewMemoryStorage()
+
 	// Create a new server
-	server := server.New_server(listen_addr)
+	server := server.New_server(listen_addr, db)
 
 	server.Start()
 }

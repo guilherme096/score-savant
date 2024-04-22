@@ -30,19 +30,11 @@ func (s *Server) Start() {
 	e.Static("/static", "static")
 
 	e.GET("/", func(c echo.Context) error {
-		return render(c, Player.Player())
-	})
-
-	e.GET("/player/:id", func(c echo.Context) error {
-		id := c.Param("id")
-		player, err := s.storage.LoadPlayerById(id)
+		player, err := s.storage.LoadPlayerById("1")
 		if err != nil {
 			return c.String(500, "Internal Server Error")
 		}
-		if player == nil {
-			return c.String(404, "Player not found")
-		}
-		return render(c, Player.Player(player))
+		return render(c, Player.Player(*player))
 	})
 
 	e.Logger.Fatal(e.Start(s.listen_add))

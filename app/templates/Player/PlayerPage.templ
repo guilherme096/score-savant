@@ -2,15 +2,16 @@ package Player;
 import (
     "guilherme096/score-savant/templates/Layout"
     PlayerObj "guilherme096/score-savant/models"
+
 )
 
 templ Player(Player PlayerObj.Player) {
     @Layout.Base(){
         <div class="w-full max-h-full m-16 flex flex-row">
             <div class="w-1/4">
-                @PlayerBio()
+                @PlayerBio(*Player.PlayerBio)
                 <div class="mt-6">
-                    @PlayerContract()
+                    @PlayerContract(*Player.Contract)
                 </div>
             </div>
             <div class="ml-5 mr-2 max-h-full">

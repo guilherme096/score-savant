@@ -24,8 +24,7 @@ func (m *MemoryStorage) LoadPlayerById(id string) (*Player.Player, error) {
 
 func temp_players() map[string]*Player.Player {
 	return map[string]*Player.Player{
-		"1": Player.NewPlayer("1", "Cristiano Ronaldo", 35, 80.0, 1.87, "Portugal", "Juventus", "Right", 100.0, "https://cdn.cnn.com/cnnnext/dam/assets/200805115818-ronaldo-juventus-file-super-tease.jpg"),
-		"2": Player.NewPlayer("2", "Lionel Messi", 33, 72.0, 1.70, "Argentina", "Barcelona", "Left", 100.0, "https://www.fcbarcelona.com/photo-resources/2020/08/30/6c9b5e9b-9b2a-4b5e-8c4d-1e5e1c7e3f2d/mini_Messi-1-.jpg?width=1200&height=750"),
-		"3": Player.NewPlayer("3", "Neymar Jr", 28, 68.0, 1.75, "Brazil", "Paris Saint-Germain", "Right", 100.0, "https://www.fcbarcelona.com/photo-resources/2020/08/30/6c9b5e9b-9b2a-4b5e-8c4d-1e5e1c7e3f2d/mini_Messi-1-.jpg?width=1200&height=750"),
+		"1": Player.NewPlayer("1", Player.NewPlayerBio("1", "Lionel Messi", 33, 72.0, 1.7, "Argentina", "Left", "https://cdn.scoresavant.com/players/lionel_messi.jpg"), Player.NewPlayerContract("1", 1000000.0, "Barcelona", 100000000.0, 5, "2025-06-30", 100000000.0)),
+		"2": Player.NewPlayer("2", Player.NewPlayerBio("2", "Cristiano Ronaldo", 35, 80.0, 1.85, "Portugal", "Right", "https://cdn.scoresavant.com/players/cristiano_ronaldo.jpg"), Player.NewPlayerContract("2", 1000000.0, "Juventus", 100000000.0, 5, "2022-06-30", 100000000.0)),
 	}
 }
