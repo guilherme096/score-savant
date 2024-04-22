@@ -5,15 +5,18 @@ import (
 
 	"github.com/a-h/templ"
 	"github.com/labstack/echo"
+	storage "guilherme096/score-savant/storage"
 )
 
 type Server struct {
 	listen_add string
+	storage    storage.IStorage
 }
 
-func New_server(listen_add string) *Server {
+func New_server(listen_add string, storage storage.IStorage) *Server {
 	return &Server{
 		listen_add: listen_add,
+		storage:    storage,
 	}
 }
 
@@ -28,6 +31,18 @@ func (s *Server) Start() {
 
 	e.GET("/", func(c echo.Context) error {
 		return render(c, Player.Player())
+	})
+
+	e.GET("/player/:id", func(c echo.Context) error {
+		id := c.Param("id")
+		player, err := s.storage.LoadPlayerById(id)
+		if err != nil {
+			return c.String(500, "Internal Server Error")
+		}
+		if player == nil {
+			return c.String(404, "Player not found")
+		}
+		return render(c, Player.Player(player))
 	})
 
 	e.Logger.Fatal(e.Start(s.listen_add))

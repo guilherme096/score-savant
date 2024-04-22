@@ -1,7 +1,10 @@
 package Player;
-import "guilherme096/score-savant/templates/Layout"
+import (
+    "guilherme096/score-savant/templates/Layout"
+    PlayerObj "guilherme096/score-savant/models"
+)
 
-templ Player() {
+templ Player(Player PlayerObj.Player) {
     @Layout.Base(){
         <div class="w-full max-h-full m-16 flex flex-row">
             <div class="w-1/4">
@@ -36,14 +39,14 @@ templ Player() {
             </div>
             <div class="mr-10 ml-2 max-h-full">
                 <div class="w-52 h-full bg-primary-darker rounded-xl p-4">
-                    <div class="text-lg font-bold">
-                        Physical
-                    </div>
-                    <div class="mt-4 flex flex-col">
-                        @Attribute("Pace", "15")
-                        @Attribute("Strength", "15")
-                        @Attribute("Stamina", "15")
-                    </div>
+                        <div class="text-lg font-bold">
+                            Physical
+                        </div>
+                        <div class="mt-4 flex flex-col">
+                            @Attribute("Pace", "15")
+                            @Attribute("Strength", "15")
+                            @Attribute("Stamina", "15")
+                        </div>
                 </div>
             </div>
         </div>
