@@ -82,6 +82,7 @@ CREATE TABLE [OutfieldAttributeRating] (
   [att_id] nvarchar(255),
   [player_id] integer,
   [rating] integer
+  PRIMARY KEY ([att_id], [player_id])
 )
 GO
 
@@ -89,6 +90,7 @@ CREATE TABLE [GoalkeeperAttributeRating] (
   [att_id] nvarchar(255),
   [player_id] integer,
   [rating] integer
+  PRIMARY KEY ([att_id], [player_id])
 )
 GO
 
@@ -104,22 +106,22 @@ CREATE TABLE [KeyAttributes] (
 GO
 
 CREATE TABLE [Technical_Att] (
-  [att_id] nvarchar(255)
+  [att_id] nvarchar(255) PRIMARY KEY
 )
 GO
 
 CREATE TABLE [Mental_Att] (
-  [att_id] nvarchar(255)
+  [att_id] nvarchar(255) PRIMARY KEY
 )
 GO
 
 CREATE TABLE [Physical_Att] (
-  [att_id] nvarchar(255)
+  [att_id] nvarchar(255) PRIMARY KEY
 )
 GO
 
 CREATE TABLE [Goalkeeping_Att] (
-  [att_id] nvarchar(255)
+  [att_id] nvarchar(255) PRIMARY KEY
 )
 GO
 
@@ -159,9 +161,6 @@ GO
 ALTER TABLE [Goalkeeper] ADD FOREIGN KEY ([player_id]) REFERENCES [Player] ([player_id])
 GO
 
-ALTER TABLE [Outfield_Player] ADD FOREIGN KEY ([player_id]) REFERENCES [OutfieldAttributeRating] ([player_id])
-GO
-
 ALTER TABLE [OutfieldAttributeRating] ADD FOREIGN KEY ([att_id]) REFERENCES [Technical_Att] ([att_id])
 GO
 
@@ -169,9 +168,6 @@ ALTER TABLE [OutfieldAttributeRating] ADD FOREIGN KEY ([att_id]) REFERENCES [Men
 GO
 
 ALTER TABLE [OutfieldAttributeRating] ADD FOREIGN KEY ([att_id]) REFERENCES [Physical_Att] ([att_id])
-GO
-
-ALTER TABLE [Goalkeeper] ADD FOREIGN KEY ([player_id]) REFERENCES [GoalkeeperAttributeRating] ([player_id])
 GO
 
 ALTER TABLE [GoalkeeperAttributeRating] ADD FOREIGN KEY ([att_id]) REFERENCES [Goalkeeping_Att] ([att_id])
