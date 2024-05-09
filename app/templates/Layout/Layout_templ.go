@@ -23,7 +23,7 @@ func Base(children ...templ.Component) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><title>Hello, TEMPL</title><link href=\"/static/css/tailwind.css\" rel=\"stylesheet\"></head><body><div class=\"h-screen w-screen m-0 p-0 left-0 top-0 absolute bg-gradient-to-tl from-primary to-base-100 overflow-clip\"><div class=\"drawer drawer-start\"><input id=\"my-drawer-4\" type=\"checkbox\" class=\"drawer-toggle\"><div class=\"drawer-content\"><label for=\"my-drawer-4\" class=\"drawer-button btn btn-primary p-3 mt-3 ml-3\"><img class=\"h-5 w-5\" src=\"/static/icons/menu.png\"></label>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><title>Hello, TEMPL</title><link href=\"/static/css/tailwind.css\" rel=\"stylesheet\"></head><body><div class=\"h-screen w-screen m-0 p-0 left-0 top-0 absolute bg-gradient-to-tl from-primary to-base-100 overflow-clip overflow-y-scroll\"><div class=\"drawer drawer-start\"><input id=\"my-drawer-4\" type=\"checkbox\" class=\"drawer-toggle\"><div class=\"drawer-content\"><label for=\"my-drawer-4\" class=\"drawer-button btn btn-primary p-3 mt-3 ml-3\"><img class=\"h-5 w-5\" src=\"/static/icons/menu.png\"></label>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

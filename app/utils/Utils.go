@@ -1,6 +1,9 @@
 package utils
 
-import "fmt"
+import (
+	"fmt"
+	"strconv"
+)
 
 func FormatNumber(num float64) string {
 	switch {
@@ -13,4 +16,24 @@ func FormatNumber(num float64) string {
 	default:
 		return fmt.Sprintf("%.1f", num)
 	}
+}
+
+func AttributeColor(str_val string) string {
+	value, err := strconv.Atoi(str_val)
+	prefix := "text-"
+	color := "black"
+	if err != nil {
+		color = "danger"
+	}
+	switch {
+	case value >= 16:
+		color = "success"
+	case value >= 12:
+		color = "info"
+	case value >= 8:
+		color = "warning"
+	default:
+		color = "danger"
+	}
+	return prefix + color
 }

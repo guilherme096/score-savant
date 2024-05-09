@@ -3,9 +3,11 @@ package api
 import (
 	Player "guilherme096/score-savant/templates/Player"
 
+	storage "guilherme096/score-savant/storage"
+
 	"github.com/a-h/templ"
 	"github.com/labstack/echo"
-	storage "guilherme096/score-savant/storage"
+	Insertions "guilherme096/score-savant/templates/InsertionPages"
 )
 
 type Server struct {
@@ -39,6 +41,10 @@ func (s *Server) Start() {
 			return c.String(404, "Not Found")
 		}
 		return render(c, Player.Player(*player))
+	})
+
+	e.GET("/player-insertion", func(c echo.Context) error {
+		return render(c, Insertions.PlayerInsertion())
 	})
 
 	e.Logger.Fatal(e.Start(s.listen_add))

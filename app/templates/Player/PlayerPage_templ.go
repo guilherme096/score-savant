@@ -14,6 +14,7 @@ import (
 	"fmt"
 	PlayerObj "guilherme096/score-savant/models"
 	"guilherme096/score-savant/templates/Layout"
+	utils "guilherme096/score-savant/utils"
 )
 
 func Player(Player PlayerObj.Player) templ.Component {
@@ -56,7 +57,7 @@ func Player(Player PlayerObj.Player) templ.Component {
 				return templ_7745c5c3_Err
 			}
 			for _, attribute := range Player.TechnicalAttributes {
-				templ_7745c5c3_Err = Attribute(attribute.Name, fmt.Sprintf("%d", attribute.Value)).Render(ctx, templ_7745c5c3_Buffer)
+				templ_7745c5c3_Err = Attribute(attribute.Name, fmt.Sprintf("%d", attribute.Value), utils.AttributeColor(fmt.Sprintf("%d", attribute.Value))).Render(ctx, templ_7745c5c3_Buffer)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -66,7 +67,7 @@ func Player(Player PlayerObj.Player) templ.Component {
 				return templ_7745c5c3_Err
 			}
 			for _, attribute := range Player.MentalAttributes {
-				templ_7745c5c3_Err = Attribute(attribute.Name, fmt.Sprintf("%d", attribute.Value)).Render(ctx, templ_7745c5c3_Buffer)
+				templ_7745c5c3_Err = Attribute(attribute.Name, fmt.Sprintf("%d", attribute.Value), utils.AttributeColor(fmt.Sprintf("%d", attribute.Value))).Render(ctx, templ_7745c5c3_Buffer)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -76,7 +77,7 @@ func Player(Player PlayerObj.Player) templ.Component {
 				return templ_7745c5c3_Err
 			}
 			for _, attribute := range Player.PhysicalAttributes {
-				templ_7745c5c3_Err = Attribute(attribute.Name, fmt.Sprintf("%d", attribute.Value)).Render(ctx, templ_7745c5c3_Buffer)
+				templ_7745c5c3_Err = Attribute(attribute.Name, fmt.Sprintf("%d", attribute.Value), utils.AttributeColor(fmt.Sprintf("%d", attribute.Value))).Render(ctx, templ_7745c5c3_Buffer)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
