@@ -7,7 +7,7 @@ import (
 
 	"github.com/a-h/templ"
 	"github.com/labstack/echo"
-	Insertions "guilherme096/score-savant/templates/InsertionPages"
+	Insertions "guilherme096/score-savant/templates/InsertionPages/PlayerInsertion"
 )
 
 type Server struct {
