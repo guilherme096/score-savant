@@ -1,5 +1,5 @@
 CREATE TABLE [Player] (
-  [player_id] integer PRIMARY KEY,
+  [player_id] integer PRIMARY KEY IDENTITY(1,1),
   [name] nvarchar(255),
   [age] integer,
   [weight] integer,
@@ -12,20 +12,20 @@ CREATE TABLE [Player] (
 GO
 
 CREATE TABLE [Nation] (
-  [nation_id] integer PRIMARY KEY,
+  [nation_id] integer PRIMARY KEY IDENTITY(1,1),
   [name] nvarchar(255)
 )
 GO
 
 CREATE TABLE [League] (
-  [nation_id] integer,
+  [nation_id] integer IDENTITY(1,1),
   [league_id] integer PRIMARY KEY,
   [name] nvarchar(255)
 )
 GO
 
 CREATE TABLE [Club] (
-  [club_id] integer PRIMARY KEY,
+  [club_id] integer PRIMARY KEY IDENTITY(1,1),
   [nation_id] integer,
   [league_id] integer,
   [name] nvarchar(255)
@@ -33,19 +33,19 @@ CREATE TABLE [Club] (
 GO
 
 CREATE TABLE [Role] (
-  [role_id] integer PRIMARY KEY,
+  [role_id] integer PRIMARY KEY IDENTITY(1,1),
   [name] nvarchar(255)
 )
 GO
 
 CREATE TABLE [Position] (
-  [position_id] integer PRIMARY KEY,
+  [position_id] integer PRIMARY KEY IDENTITY(1,1),
   [name] nvarchar(255)
 )
 GO
 
 CREATE TABLE [RolePosition] (
-  [id] integer PRIMARY KEY,
+  [id] integer PRIMARY KEY IDENTITY(1,1),
   [position_id] integer,
   [role_position] integer
 )
@@ -100,8 +100,9 @@ CREATE TABLE [Attribute] (
 GO
 
 CREATE TABLE [KeyAttributes] (
-  [role_id] integer PRIMARY KEY,
+  [role_id] integer,
   [attribute_id] nvarchar(255)
+    PRIMARY KEY ([role_id], [attribute_id])
 )
 GO
 

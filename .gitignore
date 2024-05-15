@@ -1,3 +1,4 @@
+./data_gathering/*.go
 .DS_Store
 tmp/
 # Byte-compiled / optimized / DLL files
