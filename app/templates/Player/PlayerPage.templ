@@ -3,6 +3,8 @@ import (
     "guilherme096/score-savant/templates/Layout"
     PlayerObj "guilherme096/score-savant/models"
     "fmt"
+	utils "guilherme096/score-savant/utils"
+    
 )
 
 templ Player(Player PlayerObj.Player) {
@@ -21,7 +23,7 @@ templ Player(Player PlayerObj.Player) {
                     </div>
                     <div class="mt-4 flex flex-col">
                         for _, attribute := range Player.TechnicalAttributes {
-                            @Attribute(attribute.Name, fmt.Sprintf("%d", attribute.Value))
+                            @Attribute(attribute.Name, fmt.Sprintf("%d", attribute.Value), utils.AttributeColor(fmt.Sprintf("%d", attribute.Value)))
                         }
                     </div>
                 </div>
@@ -33,7 +35,7 @@ templ Player(Player PlayerObj.Player) {
                     </div>
                     <div class="mt-4 flex flex-col">
                         for _, attribute := range Player.MentalAttributes {
-                            @Attribute(attribute.Name, fmt.Sprintf("%d", attribute.Value))
+                            @Attribute(attribute.Name, fmt.Sprintf("%d", attribute.Value), utils.AttributeColor(fmt.Sprintf("%d", attribute.Value)))
                         }
                     </div>
                 </div>
@@ -45,7 +47,7 @@ templ Player(Player PlayerObj.Player) {
                         </div>
                         <div class="mt-4 flex flex-col">
                         for _, attribute := range Player.PhysicalAttributes {
-                            @Attribute(attribute.Name, fmt.Sprintf("%d", attribute.Value))
+                            @Attribute(attribute.Name, fmt.Sprintf("%d", attribute.Value), utils.AttributeColor(fmt.Sprintf("%d", attribute.Value)))
                         }
                         </div>
                 </div>
