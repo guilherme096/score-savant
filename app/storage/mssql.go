@@ -31,7 +31,7 @@ func (m *MSqlStorage) Start() {
 }
 
 func (m *MSqlStorage) LoadPlayerById(id string) (*Player.Player, error) {
-	rows, err := m.db.Query("SELECT * FROM Players WHERE id = ?", id)
+	rows, err := m.db.Query("SELECT * FROM Player WHERE id=?", 1)
 	if err != nil {
 		fmt.Printf("Error: %v\n", err)
 		return nil, err
