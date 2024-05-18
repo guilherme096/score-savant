@@ -11,7 +11,7 @@ func main() {
 
 	fmt.Println("App listening on port: ", listen_addr)
 
-	db := storage.NewMemoryStorage()
+	db := storage.NewMSqlStorage("p5g5", "bo_jack64", "mednat.ieeta.pt", 8081, "p5g5")
 
 	// Create a new server
 	server := server.New_server(listen_addr, db)
