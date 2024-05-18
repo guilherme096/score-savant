@@ -3,8 +3,9 @@ package storage
 import (
 	"database/sql"
 	"fmt"
-	_ "github.com/microsoft/go-mssqldb"
 	Player "guilherme096/score-savant/models"
+
+	_ "github.com/microsoft/go-mssqldb"
 )
 
 type MSqlStorage struct {
@@ -27,27 +28,32 @@ func (m *MSqlStorage) Start() {
 	}
 	fmt.Println("Connected to SQL Server")
 	m.db = db
-	m.LoadPlayerById("1")
+	m.LoadPlayerById("2")
 }
 
 func (m *MSqlStorage) LoadPlayerById(id string) (*Player.Player, error) {
-	rows, err := m.db.Query("SELECT * FROM Player WHERE id=?", 1)
+	query := "SELECT * FROM Player WHERE player_id=@id"
+	prep, err := m.db.Prepare(query)
 	if err != nil {
 		fmt.Printf("Error: %v\n", err)
 		return nil, err
 	}
-	defer rows.Close()
-	for rows.Next() {
-		var id string
-		var name string
-		var age int
-		var weight float64
-		var height float64
-		if err := rows.Scan(&id, &name, &age, &weight, &height); err != nil {
-			return nil, err
-		}
-		fmt.Printf("%s is %d years old and weighs %f kg\n", name, age, weight)
+	defer prep.Close()
+
+	rows, err := prep.Query(sql.Named("id", id))
+
+	if err != nil {
+		fmt.Printf("Error: %v\n", err)
+		return nil, err
 	}
 
+	defer rows.Close()
+	fmt.Println("Player found")
+	var player *Player.Player = new(Player.Player)
+	var PlayerBio *Player.PlayerBio = new(Player.PlayerBio)
+	player.PlayerBio = PlayerBio
+	rows.Next()
+	fmt.Println(rows.Scan(&player.Id, &player.PlayerBio.Name, &player.PlayerBio.Age, &player.PlayerBio.Weight, &player.PlayerBio.Height, &player.PlayerBio.Nation, &player.Contract, &player.PlayerBio.Foot, &player.TechnicalAttributes))
+	fmt.Println(player.PlayerBio.Name)
 	return nil, nil
 }
