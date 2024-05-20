@@ -28,7 +28,11 @@ func (m *MSqlStorage) Start() {
 	}
 	fmt.Println("Connected to SQL Server")
 	m.db = db
-	m.LoadPlayerById("2")
+}
+
+func (m *MSqlStorage) Stop() {
+	m.db.Close()
+	fmt.Println("Disconnected from SQL Server")
 }
 
 func (m *MSqlStorage) LoadPlayerById(id string) (*Player.Player, error) {

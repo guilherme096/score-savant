@@ -52,7 +52,7 @@ func Player(Player PlayerObj.Player) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div><div class=\"ml-5 mr-2 max-h-full\"><div class=\"w-52 h-full bg-primary-darker rounded-xl p-4\"><div class=\"text-lg font-bold\">Technical</div><div class=\"mt-4 flex flex-col\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div><div class=\"ml-5 mr-2 max-h-full\"><div class=\"w-52 h-full bg-base-100 rounded-xl p-4\"><div class=\"text-lg font-bold\">Technical</div><div class=\"mt-4 flex flex-col\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -62,7 +62,7 @@ func Player(Player PlayerObj.Player) templ.Component {
 					return templ_7745c5c3_Err
 				}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div></div><div class=\"mx-2 max-h-full\"><div class=\"w-52 h-full bg-primary-darker rounded-xl p-4\"><div class=\"text-lg font-bold\">Mental</div><div class=\"mt-4 flex flex-col\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div></div><div class=\"mx-2 max-h-full\"><div class=\"w-52 h-full bg-base-100 rounded-xl p-4\"><div class=\"text-lg font-bold\">Mental</div><div class=\"mt-4 flex flex-col\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -72,7 +72,7 @@ func Player(Player PlayerObj.Player) templ.Component {
 					return templ_7745c5c3_Err
 				}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div></div><div class=\"mr-10 ml-2 max-h-full\"><div class=\"w-52 h-full bg-primary-darker rounded-xl p-4\"><div class=\"text-lg font-bold\">Physical</div><div class=\"mt-4 flex flex-col\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div></div><div class=\"mr-10 ml-2 max-h-full\"><div class=\"w-52 h-full bg-base-100 rounded-xl p-4\"><div class=\"text-lg font-bold\">Physical</div><div class=\"mt-4 flex flex-col\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

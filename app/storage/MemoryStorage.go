@@ -22,6 +22,12 @@ func (m *MemoryStorage) LoadPlayerById(id string) (*Player.Player, error) {
 	return player, nil
 }
 
+func (m *MemoryStorage) Start() {
+}
+
+func (m *MemoryStorage) Stop() {
+}
+
 func temp_players() map[string]*Player.Player {
 	return TempPlayers
 }
