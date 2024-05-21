@@ -23,7 +23,7 @@ func PlayerAttributeForms() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"w-full ml-8\"><div class=\"w-full text-left text-2xl font-bold\">Player Type</div><div role=\"tablist\" class=\"tabs tabs-lifted mt-4\"><input type=\"radio\" name=\"my_tabs_2\" role=\"tab\" class=\"tab\" aria-label=\"Outfield Player\" checked><div role=\"tabpanel\" class=\"tab-content bg-base-100 border-base-300 rounded-box p-6\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"w-full ml-8\"><div class=\"w-full text-left text-2xl font-bold\">Player Type</div><div role=\"tablist\" class=\"tabs tabs-lifted mt-4\"><input type=\"radio\" name=\"my_tabs_2\" role=\"tab\" class=\"tab\" aria-label=\"Outfield Player\" checked><div role=\"tabpanel\" class=\"tab-content bg-base-100 border-base-300 rounded-box p-4\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -31,7 +31,7 @@ func PlayerAttributeForms() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><input type=\"radio\" name=\"my_tabs_2\" role=\"tab\" class=\"tab\" aria-label=\"Goalkepeer\"><div role=\"tabpanel\" class=\"tab-content bg-base-100 border-base-300 rounded-box p-6\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><input type=\"radio\" name=\"my_tabs_2\" role=\"tab\" class=\"tab\" aria-label=\"Goalkepeer\"><div role=\"tabpanel\" class=\"tab-content bg-base-100 border-base-300 rounded-box p-4\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
