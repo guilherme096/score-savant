@@ -7,7 +7,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-ALTER PROCEDURE [dbo].[AddPlayer]
+CREATE PROCEDURE [dbo].[AddPlayer]
     @name NVARCHAR(255),
     @weight INT,
     @height INT,
