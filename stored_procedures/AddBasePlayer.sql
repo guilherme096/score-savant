@@ -7,7 +7,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE PROCEDURE [dbo].[AddBasePlayer]
+ALTER PROCEDURE [dbo].[AddBasePlayer]
     @name NVARCHAR(255),
     @age INT,
     @weight INT,
@@ -15,7 +15,8 @@ CREATE PROCEDURE [dbo].[AddBasePlayer]
     @nation_id INT,
     @club_id INT,
     @foot NVARCHAR(255),
-    @value INT
+    @value INT,
+    @player_type INT
 AS
 BEGIN
     IF EXISTS(SELECT 1 FROM Player WHERE name = @name)
@@ -45,6 +46,15 @@ BEGIN
     BEGIN
         INSERT INTO Player (name, age, weight, height, nation_id, club_id, foot, value) VALUES (@name, @age, @weight, @height, @nation_id, @club_id, @foot, @value);
         SET @player_id = SCOPE_IDENTITY();
+
+        IF @player_type = 0
+        BEGIN
+            INSERT INTO Outfield_Player (player_id) VALUES (@player_id);
+        end
+        ELSE
+        BEGIN
+            INSERT INTO Goalkeeper (player_id) VALUES (@player_id);
+        end
     END
 END
 GO
