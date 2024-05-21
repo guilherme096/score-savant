@@ -28,6 +28,9 @@ func render(ctx echo.Context, cmp templ.Component) error {
 
 func (s *Server) Start() {
 
+	s.storage.Start()
+	defer s.storage.Stop()
+
 	e := echo.New()
 	e.Static("/static", "static")
 

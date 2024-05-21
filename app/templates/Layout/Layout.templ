@@ -9,9 +9,14 @@ templ Base(children ...templ.Component) {
             <title>ScoreSavant</title>
             <link href="/static/css/tailwind.css" rel="stylesheet"/>
             <link rel="icon" href="/static/icons/logo.png"/>
+            <style>
+                body {
+                        box-sizing: border-box;
+                    }
+            </style>
         </head>
         <body>
-            <div class="h-screen w-screen m-0 p-0 left-0 top-0 absolute bg-gradient-to-tl from-primary to-base-100 overflow-clip overflow-y-scroll">
+            <div class="h-screen w-screen m-0 p-0 pb-8 left-0 top-0 absolute bg-gradient-to-tl from-base-200 to-base-100 overflow-clip overflow-y-scroll">
             <div class="drawer drawer-start">
                   <input id="my-drawer-4" type="checkbox" class="drawer-toggle" />
                   <div class="drawer-content">
@@ -24,7 +29,7 @@ templ Base(children ...templ.Component) {
                       <li><a>Search Player</a></li>
                       <li><a>Compare Players</a></li>
                       <li><a>Compare Clubs</a></li>
-                      <li><a>Add Players</a></li>
+                      <li><a href="/player-insertion">Add Players</a></li>
                     </ul>
                   </div>
                 </div>

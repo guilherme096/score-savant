@@ -47,7 +47,7 @@ GO
 CREATE TABLE [RolePosition] (
   [id] integer PRIMARY KEY IDENTITY(1,1),
   [position_id] integer,
-  [role_position] integer
+  [role_position_id] integer
 )
 GO
 

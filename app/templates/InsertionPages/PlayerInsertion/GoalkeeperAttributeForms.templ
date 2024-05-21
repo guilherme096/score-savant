@@ -1,0 +1,35 @@
+package PlayerInsertion;
+
+var goalkeeper []string = []string{"Aerial Reach", "Command of the Area", "Communication", "Eccentricity", "First Touch", "Handling", "Kicking", "One on ones", "Passing", "Punching", "Rushing Out", "Throwing","Free Kick","Penalties", "Technique"}
+templ GoalkeeperAttributeForms(){
+        <div class="flex flex-row w-full justify-between">
+           <div class="flex flex-col ml-6 mr-2 h-full">
+            <div class="text-xl font-bold">Goalkeeping</div>
+             for _,v := range goalkeeper{
+               <div class="w-48 flex flex-row justify-between my-2 align-middle items-center">
+                 <label for={v} class="text-sm">{v}</label>
+                 <input type="number" id={v} name={v} class="w-12 h-8 rounded-lg shadow-lg border-2"/>
+               </div>
+             }
+           </div>
+           <div class="flex flex-col mx-2 h-full">
+            <div class="text-xl font-bold">Mental</div>
+             for _,v := range mental{
+               <div class="w-48 flex flex-row justify-between my-2 align-middle items-center">
+                 <label for={v} class="text-sm">{v}</label>
+                 <input type="number" id={v} name={v} class="w-12 h-8 rounded-lg shadow-lg border-2"/>
+               </div>
+             }
+           </div>
+           <div class="flex flex-col mr-6 ml-2 h-full">
+            <div class="text-xl font-bold">Physical</div>
+             for _,v := range physical{
+               <div class="w-48 flex flex-row justify-between my-2 align-middle items-center">
+                 <label for={v} class="text-sm">{v}</label>
+                 <input type="number" id={v} name={v} class="w-12 h-8 rounded-lg shadow-lg border-2"/>
+               </div>
+             }
+           </div>
+        </div>
+
+    }

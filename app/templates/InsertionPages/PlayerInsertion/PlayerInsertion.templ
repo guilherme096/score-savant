@@ -4,9 +4,10 @@ import "guilherme096/score-savant/templates/Layout"
 
 templ PlayerInsertion(){
         @Layout.Base(){
-        <div class="w-full max-h-full m-16">
-                <form class="form-control mt-3">
+        <div class="w-full max-h-full p-16">
+                <form class="form-control mt-3 flex flex-row">
                     @PlayerInfoForms()
+                    @PlayerAttributeForms()
                 </form>
         </div>
         }

@@ -5,5 +5,7 @@ import (
 )
 
 type IStorage interface {
+	Start()
+	Stop()
 	LoadPlayerById(id string) (*Player.Player, error)
 }
