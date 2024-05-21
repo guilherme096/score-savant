@@ -33,7 +33,6 @@ BEGIN
     DECLARE @role_id INT;
     DECLARE @player_id INT;
     DECLARE @attribute_name NVARCHAR(255);
-    DECLARE @attribute_id NVARCHAR(255);
     DECLARE @rating INT;
     DECLARE @pos INT;
     DECLARE @str NVARCHAR(255);
