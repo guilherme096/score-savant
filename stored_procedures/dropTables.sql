@@ -2,6 +2,7 @@ USE [p5g5]
 GO
 
 -- Disable foreign key constraints
+ALTER TABLE Nation NOCHECK CONSTRAINT ALL;
 ALTER TABLE GoalkeeperAttributeRating NOCHECK CONSTRAINT ALL;
 ALTER TABLE OutfieldAttributeRating NOCHECK CONSTRAINT ALL;
 ALTER TABLE PlayerRole NOCHECK CONSTRAINT ALL;
@@ -14,6 +15,7 @@ ALTER TABLE Club NOCHECK CONSTRAINT ALL;
 ALTER TABLE League NOCHECK CONSTRAINT ALL;
 
 -- Delete data from tables in the correct order
+DELETE FROM Nation;
 DELETE FROM GoalkeeperAttributeRating;
 DELETE FROM OutfieldAttributeRating;
 DELETE FROM PlayerRole;
@@ -26,6 +28,7 @@ DELETE FROM Club;
 DELETE FROM League;
 
 -- Re-enable foreign key constraints
+ALTER TABLE Nation CHECK CONSTRAINT ALL;
 ALTER TABLE GoalkeeperAttributeRating CHECK CONSTRAINT ALL;
 ALTER TABLE OutfieldAttributeRating CHECK CONSTRAINT ALL;
 ALTER TABLE PlayerRole CHECK CONSTRAINT ALL;
@@ -36,3 +39,10 @@ ALTER TABLE PlayerPosition CHECK CONSTRAINT ALL;
 ALTER TABLE Player CHECK CONSTRAINT ALL;
 ALTER TABLE Club CHECK CONSTRAINT ALL;
 ALTER TABLE League CHECK CONSTRAINT ALL;
+
+-- Reset identity columns
+DBCC CHECKIDENT ('Nation', RESEED, 0);
+DBCC CHECKIDENT ('Player', RESEED, 0);
+DBCC CHECKIDENT ('Club', RESEED, 0);
+DBCC CHECKIDENT ('League', RESEED, 0);
+GO
