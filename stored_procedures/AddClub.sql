@@ -18,7 +18,7 @@ BEGIN
 
    IF NOT EXISTS (SELECT 1 FROM League WHERE league_id = 0)
     BEGIN
-        Raiserror('Nation id not valid');
+        Raiserror('Nation id not valid',16,1);
     end
 
     SELECT @club_id = club_id FROM Club WHERE name = @club;
