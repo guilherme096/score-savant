@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 USE [p5g5]
 GO
 
@@ -8,7 +7,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE PROCEDURE [dbo].[AddPlayer]
+ALTER PROCEDURE [dbo].[AddPlayerCOMPLEXO]
     @name NVARCHAR(255),
     @weight INT,
     @height INT,
@@ -49,6 +48,10 @@ BEGIN
     BEGIN
         SET @player_type = 1;
     END
+
+    -- CORRECT ORDER
+    -- NATION; LEAGUE; CLUB; POSITION; ROLE; PLAYER; CONTRACT; OUTFIELDPLAYER / GOALKEEPER
+    -- PLAYERPOSITION; PLAYERROLE; ATTRIBUTE; OUTFIELDATTRIBUTERATING / GOALKEEPERATTRIBUTERATING
 
     -- Get or insert club
     SELECT @club_id = club_id FROM Club WHERE name = @club;
@@ -159,5 +162,3 @@ BEGIN
     SET NOCOUNT OFF;
 END
 GO
-=======
->>>>>>> 8836ce65507fd726d0bd2cbecbf7439b85ccfa48
