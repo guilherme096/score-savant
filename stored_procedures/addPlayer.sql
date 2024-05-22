@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 USE [p5g5]
 GO
 
