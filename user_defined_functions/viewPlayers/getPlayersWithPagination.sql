@@ -7,13 +7,20 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
--- Create the UDF to get player information with pagination and predefined sorting options
-CREATE FUNCTION dbo.GetPlayersWithPagination
+-- Create the UDF to get player information with pagination, sorting, and search filters
+ALTER FUNCTION dbo.GetPlayersWithPagination
 (
     @PageNumber INT,
     @PageSize INT,
-    @OrderBy NVARCHAR(50),
-    @OrderDirection NVARCHAR(4)
+    @OrderBy NVARCHAR(50) = NULL,
+    @OrderDirection NVARCHAR(4) = NULL,
+    @SearchPlayerName NVARCHAR(255) = NULL,
+    @SearchClubName NVARCHAR(255) = NULL,
+    @SearchPositionName NVARCHAR(255) = NULL,
+    @MinWage DECIMAL(18,2) = NULL,
+    @MaxWage DECIMAL(18,2) = NULL,
+    @MinValue DECIMAL(18,2) = NULL,
+    @MaxValue DECIMAL(18,2) = NULL
 )
 RETURNS TABLE
 AS
@@ -60,6 +67,14 @@ RETURN
             Club cl ON p.club_id = cl.club_id
         INNER JOIN
             Contract c ON p.player_id = c.player_id
+        WHERE
+            (@SearchPlayerName IS NULL OR p.name LIKE '%' + @SearchPlayerName + '%') AND
+            (@SearchClubName IS NULL OR cl.name LIKE '%' + @SearchClubName + '%') AND
+            (@SearchPositionName IS NULL OR pos.name LIKE '%' + @SearchPositionName + '%') AND
+            (@MinWage IS NULL OR c.wage >= @MinWage) AND
+            (@MaxWage IS NULL OR c.wage <= @MaxWage) AND
+            (@MinValue IS NULL OR p.value >= @MinValue) AND
+            (@MaxValue IS NULL OR p.value <= @MaxValue)
     ) AS Paged
     WHERE Paged.RowNum BETWEEN (@PageNumber - 1) * @PageSize + 1 AND @PageNumber * @PageSize
 )

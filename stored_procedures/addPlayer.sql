@@ -23,7 +23,8 @@ CREATE PROCEDURE dbo.AddPlayer
     @wage DECIMAL(18,2),
     @contract_end DATE,
     @release_clause INT,
-    @attributes NVARCHAR(MAX)
+    @attributes NVARCHAR(MAX),
+    @url NVARCHAR(MAX)
 AS
 BEGIN
     SET NOCOUNT ON;
@@ -66,7 +67,7 @@ BEGIN
     -- Add Base Player
     EXEC dbo.AddBasePlayer @name = @name, @age = @age, @weight = @weight, @height = @height, 
                            @nation_id = @nation_id, @club_id = @club_id, @foot = @foot, 
-                           @value = @value, @player_type = @player_type;
+                           @value = @value, @player_type = @player_type, @url = @url;
     SELECT @player_id = player_id FROM Player WHERE name = @name;
 
     -- Add Contract

@@ -7,7 +7,8 @@ CREATE TABLE [Player] (
   [nation_id] integer,
   [club_id] integer,
   [foot] nvarchar(255),
-  [value] integer
+  [value] integer,
+  [url] nvarchar(MAX)
 );
 GO
 
