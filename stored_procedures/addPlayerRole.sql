@@ -1,41 +1,41 @@
-use [p5g5]
-go
+USE [p5g5]
+GO
 
-set ansi_nulls on
-go
+SET ANSI_NULLS ON
+GO
 
-set quoted_identifier on
-go
+SET QUOTED_IDENTIFIER ON
+GO
 
-create procedure [dbo].[AddPlayerRole]
-    @role int,
-    @player int
-as
-begin
-    set nocount on;
+CREATE PROCEDURE [dbo].[AddPlayerRole]
+    @role INT,
+    @player INT
+AS
+BEGIN
+    SET NOCOUNT ON;
 
-    declare @role_id int;
-    declare @player_id int;
+    DECLARE @role_id INT;
+    DECLARE @player_id INT;
 
     -- Get Role ID
-    select @role_id = role_id from Role where role_id = @role;
-    if @role_id is null
-    begin
-        raiserror('Role not found: %d', 16, 1, @role);
-        return;
-    end
+    SELECT @role_id = role_id FROM Role WHERE role_id = @role;
+    IF @role_id IS NULL
+    BEGIN
+        RAISERROR('Role not found: %d', 16, 1, @role);
+        RETURN;
+    END
 
-    -- Get or insert player
-    select @player_id = player_id from Player where player_id = @player;
-    if @player_id is null
-    begin
-        raiserror('Player not found: %d', 16, 1, @player);
-        return;
-    end
+    -- Get Player ID
+    SELECT @player_id = player_id FROM Player WHERE player_id = @player;
+    IF @player_id IS NULL
+    BEGIN
+        RAISERROR('Player not found: %d', 16, 1, @player);
+        RETURN;
+    END
 
-    -- Get or insert player role
-    if not exists (select * from PlayerRole where player_id = @player_id and role_id = @role_id)
-    begin
-        insert into PlayerRole (player_id, role_id) values (@player_id, @role_id);
-    end
-end
+    -- Insert Player Role if not exists
+    IF NOT EXISTS (SELECT * FROM PlayerRole WHERE player_id = @player_id AND role_position_id = @role_id)
+    BEGIN
+        INSERT INTO PlayerRole (player_id, role_position_id) VALUES (@player_id, @role_id);
+    END
+END
