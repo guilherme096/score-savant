@@ -27,7 +27,7 @@ func PlayerBio(bio map[string]interface{}) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"w-full h-fit rounded-3xl shadow-xl p-4 bg-primary\"><div class=\"w-auto flex flex-row justify-between\"><div class=\"max-w-40 h-56 mr-3\"><img class=\"h-full rounded-lg drop-shadow-lg object-cover\" src=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"w-full h-fit rounded-3xl shadow-xl p-4 bg-base-200\"><div class=\"w-auto flex flex-row justify-between\"><div class=\"max-w-40 h-56 mr-3\"><img class=\"h-full rounded-lg drop-shadow-lg object-cover\" src=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
