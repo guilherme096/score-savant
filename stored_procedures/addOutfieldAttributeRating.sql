@@ -18,12 +18,17 @@ BEGIN
     BEGIN TRY
         BEGIN TRANSACTION;
 
+        -- Verify and return attributes
         DECLARE @VerifiedAttributes TABLE (Attribute NVARCHAR(255), Rating INT)
         INSERT INTO @VerifiedAttributes
         SELECT Attribute, Rating
         FROM dbo.VerifyAndReturnAttributes(@Attributes)
 
-        -- Verify attributes exist in at least one of the attribute tables before inserting
+        -- Debugging: Print contents of @VerifiedAttributes
+        PRINT 'Verified Attributes:'
+        SELECT * FROM @VerifiedAttributes
+
+        -- Ensure attributes exist in at least one of the attribute tables before inserting
         IF EXISTS (
             SELECT 1
             FROM @VerifiedAttributes AS VA
@@ -32,6 +37,7 @@ BEGIN
               AND NOT EXISTS (SELECT 1 FROM Physical_Att WHERE att_id = VA.Attribute)
         )
         BEGIN
+            PRINT 'One or more attributes do not exist in the attribute tables.'
             ROLLBACK TRANSACTION;
             THROW 50002, 'One or more attributes do not exist in the attribute tables.', 1;
         END
@@ -46,21 +52,35 @@ BEGIN
         DECLARE @MissingMentalAtt TABLE (att_id NVARCHAR(255))
         DECLARE @MissingPhysicalAtt TABLE (att_id NVARCHAR(255))
 
+        -- Find missing technical attributes
         INSERT INTO @MissingTechnicalAtt
         SELECT att_id
         FROM Technical_Att
         WHERE att_id NOT IN (SELECT Attribute FROM @VerifiedAttributes)
 
+        -- Find missing mental attributes
         INSERT INTO @MissingMentalAtt
         SELECT att_id
         FROM Mental_Att
         WHERE att_id NOT IN (SELECT Attribute FROM @VerifiedAttributes)
 
+        -- Find missing physical attributes
         INSERT INTO @MissingPhysicalAtt
         SELECT att_id
         FROM Physical_Att
         WHERE att_id NOT IN (SELECT Attribute FROM @VerifiedAttributes)
 
+        -- Print the contents of the missing attribute tables
+        PRINT 'Missing Technical Attributes:'
+        SELECT * FROM @MissingTechnicalAtt
+
+        PRINT 'Missing Mental Attributes:'
+        SELECT * FROM @MissingMentalAtt
+
+        PRINT 'Missing Physical Attributes:'
+        SELECT * FROM @MissingPhysicalAtt
+
+        -- Check if any attributes are missing
         IF (SELECT COUNT(*) FROM @MissingTechnicalAtt) > 0
            OR (SELECT COUNT(*) FROM @MissingMentalAtt) > 0
            OR (SELECT COUNT(*) FROM @MissingPhysicalAtt) > 0
