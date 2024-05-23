@@ -28,7 +28,7 @@ func PlayerContract(Contract map[string]interface{}) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"w-full h-fit rounded-3xl shadow-xl p-5 bg-primary\"><div class=\"w-auto\"><div class=\"text-2xl font-bold\">Contract</div><div class=\"mt-3 h-full flex-col items-start\"><div class=\"flex flex-row h-full justify-between mt-4\"><div class=\"text-sm font-semibold\">Wage: </div><div class=\"text-sm\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"w-full h-fit rounded-3xl shadow-xl p-5 bg-base-300\"><div class=\"w-auto\"><div class=\"text-2xl font-bold\">Contract</div><div class=\"mt-3 h-full flex-col items-start\"><div class=\"flex flex-row h-full justify-between mt-4\"><div class=\"text-sm font-semibold\">Wage: </div><div class=\"text-sm\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
