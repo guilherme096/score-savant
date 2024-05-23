@@ -3,7 +3,7 @@ GO
 
 -- Example call to AddPlayer stored procedure
 EXEC dbo.AddPlayer
-    @name = 'Johnee Doe',
+    @name = 'Jane Doe',
     @age = 25,
     @weight = 75,
     @height = 180,
