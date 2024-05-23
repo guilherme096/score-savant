@@ -1,5 +1,4 @@
 USE [p5g5]
-GO
 
 -- Example call to AddPlayer stored procedure
 EXEC dbo.AddPlayer
