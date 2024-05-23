@@ -86,7 +86,12 @@ func (s *Server) Start() {
 
 		}
 
-		return render(c, Player.Player(player, technical_atts, mental_atts, physical_atts))
+		_, PlayerPosition, err := s.storage.GetPlayerPosition(id)
+		fmt.Println(PlayerPosition)
+		if err != nil {
+			return c.String(500, "Internal Server Error")
+		}
+		return render(c, Player.Player(player, technical_atts, mental_atts, physical_atts, PlayerPosition, nil))
 	})
 
 	e.GET("/player-insertion", func(c echo.Context) error {

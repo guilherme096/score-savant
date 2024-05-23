@@ -4,7 +4,7 @@ import (
 	"strconv"
 )
 
-templ Player(Player map[string]interface{}, Technical_Atts []map[string]interface{}, Mental_Atts []map[string]interface{}, Physical_Atts []map[string]interface{}){
+templ Player(Player map[string]interface{}, Technical_Atts []map[string]interface{}, Mental_Atts []map[string]interface{}, Physical_Atts []map[string]interface{}, PlayerPositionName string, RoleRatings []map[string]interface{}){
     @Layout.Base(){
 
         <div class="w-full max-h-full m-16 flex flex-row">
@@ -49,6 +49,9 @@ templ Player(Player map[string]interface{}, Technical_Atts []map[string]interfac
                       }                                                                                                                                                                                                        
                         </div>
                 </div>
+            </div>
+            <div class="ml-5 h-20">
+            @PlayerPosition(PlayerPositionName,nil)
             </div>
         </div>
     }

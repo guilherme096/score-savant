@@ -192,6 +192,29 @@ func (m *MSqlStorage) GetAttributeList(att_type string) []string {
 	return atts
 }
 
+func (m *MSqlStorage) GetPlayerPosition(id string) (int, string, error) {
+	rows, err := m.db.Query("SELECT * FROM GetPositionByPlayerID(@player_id)", sql.Named("player_id", id))
+	if err != nil {
+		fmt.Println(err)
+		return -1, "", err
+	}
+	defer rows.Close()
+
+	var position_id int
+	var position_name string
+
+	if rows.Next() {
+		err := rows.Scan(&position_id, &position_name)
+		if err != nil {
+			return -1, "", err
+		}
+	} else {
+		return -1, "", fmt.Errorf("player with id %s not found", id)
+	}
+
+	return position_id, position_name, nil
+}
+
 // Function to scan values from a row into a slice of interfaces
 func scanValues(rows *sql.Rows, columns []string) ([]interface{}, error) {
 	// Create a slice to hold the values of each row
