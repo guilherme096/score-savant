@@ -3,6 +3,9 @@ package storage
 import (
 	"database/sql"
 	"fmt"
+	"strconv"
+	"strings"
+	"time"
 
 	_ "github.com/microsoft/go-mssqldb"
 )
@@ -35,19 +38,22 @@ func (m *MSqlStorage) Stop() {
 }
 
 func (m *MSqlStorage) LoadPlayerById(id string) (map[string]interface{}, error) {
+
+	// execute stored procedure
 	rows, err := m.db.Query("SELECT * FROM GetPlayerById(@player_id)", sql.Named("player_id", id))
 	if err != nil {
 		return nil, err
 	}
+	// close when the function ends
 	defer rows.Close()
 
-	// Get column names
+	// get column names
 	columns, err := rows.Columns()
 	if err != nil {
 		return nil, err
 	}
 
-	// Prepare a slice of interfaces to hold column values
+	// create a slice of interfaces to store the values from the database
 	values := make([]interface{}, len(columns))
 	valuePtrs := make([]interface{}, len(columns))
 	for i := range values {
@@ -56,14 +62,13 @@ func (m *MSqlStorage) LoadPlayerById(id string) (map[string]interface{}, error) 
 
 	result := make(map[string]interface{})
 
+	// get the values from each row
 	if rows.Next() {
-		// Scan the result into the slice of interfaces
 		err := rows.Scan(valuePtrs...)
 		if err != nil {
 			return nil, err
 		}
 
-		// Populate the map with the column names and values
 		for i, col := range columns {
 			val := values[i]
 
@@ -71,18 +76,38 @@ func (m *MSqlStorage) LoadPlayerById(id string) (map[string]interface{}, error) 
 			if val == nil {
 				result[col] = nil
 			} else {
-				result[col] = val
+				switch v := val.(type) {
+				case int64:
+					result[col] = int(v)
+				case int:
+					result[col] = int(v)
+				case []uint8:
+					// Convert []uint8 to string then to float64
+					strVal := string(v)
+					floatVal, err := strconv.ParseFloat(strVal, 64)
+					if err != nil {
+						return nil, fmt.Errorf("error converting %s to float64: %v", col, err)
+					}
+					result[col] = floatVal
+				case time.Time:
+					result[col] = strings.Split(v.String(), " ")[0]
+				default:
+					result[col] = val
+				}
 			}
 		}
 	} else {
 		return nil, fmt.Errorf("player with id %s not found", id)
 	}
-	// Example of accessing and handling int64 values
+
+	// convert int64 to int if needed
 	for key, value := range result {
 		switch v := value.(type) {
 		case int64:
-			// Convert int64 to int if needed
 			result[key] = int(v)
+
+		case float64:
+			result[key] = v
 		}
 	}
 
