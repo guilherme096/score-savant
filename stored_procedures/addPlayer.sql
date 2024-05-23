@@ -13,6 +13,7 @@ CREATE PROCEDURE dbo.AddPlayer
     @weight INT,
     @height INT,
     @nation NVARCHAR(255),
+    @nation_league_id INT,
     @league NVARCHAR(255),
     @club NVARCHAR(255),
     @foot NVARCHAR(255),
@@ -41,7 +42,7 @@ BEGIN
     SELECT @nation_id = nation_id FROM Nation WHERE name = @nation;
 
     -- Add or get League
-    EXEC dbo.AddLeague @league = @league, @nation = @nation_id;
+    EXEC dbo.AddLeague @league = @league, @nation_league_id = @nation_id;
     SELECT @league_id = league_id FROM League WHERE name = @league;
 
     -- Add or get Club
