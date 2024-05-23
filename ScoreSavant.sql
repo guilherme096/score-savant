@@ -172,22 +172,10 @@ GO
 ALTER TABLE [Goalkeeper] ADD FOREIGN KEY ([player_id]) REFERENCES [Player] ([player_id]);
 GO
 
-ALTER TABLE [OutfieldAttributeRating] ADD FOREIGN KEY ([att_id]) REFERENCES [Technical_Att] ([att_id]);
+ALTER TABLE [OutfieldAttributeRating] ADD FOREIGN KEY ([att_id]) REFERENCES [Attribute] ([name]);
 GO
 
-ALTER TABLE [OutfieldAttributeRating] ADD FOREIGN KEY ([att_id]) REFERENCES [Mental_Att] ([att_id]);
-GO
-
-ALTER TABLE [OutfieldAttributeRating] ADD FOREIGN KEY ([att_id]) REFERENCES [Physical_Att] ([att_id]);
-GO
-
-ALTER TABLE [GoalkeeperAttributeRating] ADD FOREIGN KEY ([att_id]) REFERENCES [Goalkeeping_Att] ([att_id]);
-GO
-
-ALTER TABLE [GoalkeeperAttributeRating] ADD FOREIGN KEY ([att_id]) REFERENCES [Physical_Att] ([att_id]);
-GO
-
-ALTER TABLE [GoalkeeperAttributeRating] ADD FOREIGN KEY ([att_id]) REFERENCES [Mental_Att] ([att_id]);
+ALTER TABLE [GoalkeeperAttributeRating] ADD FOREIGN KEY ([att_id]) REFERENCES [Attribute] ([name]);
 GO
 
 ALTER TABLE [KeyAttributes] ADD FOREIGN KEY ([role_id]) REFERENCES [Role] ([role_id]);

@@ -7,7 +7,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE PROCEDURE dbo.AddOutfieldAttributeRating
+ALTER PROCEDURE dbo.AddOutfieldAttributeRating
 (
     @PlayerID INT,
     @Attributes NVARCHAR(MAX)
@@ -23,32 +23,65 @@ BEGIN
         SELECT Attribute, Rating
         FROM dbo.VerifyAndReturnAttributes(@Attributes)
 
+        -- Verify attributes exist in at least one of the attribute tables before inserting
+        IF EXISTS (
+            SELECT 1
+            FROM @VerifiedAttributes AS VA
+            WHERE NOT EXISTS (SELECT 1 FROM Technical_Att WHERE att_id = VA.Attribute)
+              AND NOT EXISTS (SELECT 1 FROM Mental_Att WHERE att_id = VA.Attribute)
+              AND NOT EXISTS (SELECT 1 FROM Physical_Att WHERE att_id = VA.Attribute)
+        )
+        BEGIN
+            ROLLBACK TRANSACTION;
+            THROW 50002, 'One or more attributes do not exist in the attribute tables.', 1;
+        END
+
         -- Insert into OutfieldAttributeRating
         INSERT INTO OutfieldAttributeRating (att_id, player_id, rating)
         SELECT Attribute, @PlayerID, Rating
         FROM @VerifiedAttributes
 
-        -- Verify insertion for each category
-        DECLARE @TechnicalCount INT, @MentalCount INT, @PhysicalCount INT
+        -- Verify all attributes from Technical_Att, Mental_Att, and Physical_Att are present
+        DECLARE @MissingTechnicalAtt TABLE (att_id NVARCHAR(255))
+        DECLARE @MissingMentalAtt TABLE (att_id NVARCHAR(255))
+        DECLARE @MissingPhysicalAtt TABLE (att_id NVARCHAR(255))
 
-        SELECT @TechnicalCount = COUNT(*) FROM Technical_Att WHERE att_id IN (SELECT Attribute FROM @VerifiedAttributes)
-        SELECT @MentalCount = COUNT(*) FROM Mental_Att WHERE att_id IN (SELECT Attribute FROM @VerifiedAttributes)
-        SELECT @PhysicalCount = COUNT(*) FROM Physical_Att WHERE att_id IN (SELECT Attribute FROM @VerifiedAttributes)
+        INSERT INTO @MissingTechnicalAtt
+        SELECT att_id
+        FROM Technical_Att
+        WHERE att_id NOT IN (SELECT Attribute FROM @VerifiedAttributes)
 
-        IF @TechnicalCount = (SELECT COUNT(*) FROM Technical_Att) AND
-           @MentalCount = (SELECT COUNT(*) FROM Mental_Att) AND
-           @PhysicalCount = (SELECT COUNT(*) FROM Physical_Att)
+        INSERT INTO @MissingMentalAtt
+        SELECT att_id
+        FROM Mental_Att
+        WHERE att_id NOT IN (SELECT Attribute FROM @VerifiedAttributes)
+
+        INSERT INTO @MissingPhysicalAtt
+        SELECT att_id
+        FROM Physical_Att
+        WHERE att_id NOT IN (SELECT Attribute FROM @VerifiedAttributes)
+
+        IF (SELECT COUNT(*) FROM @MissingTechnicalAtt) > 0
+           OR (SELECT COUNT(*) FROM @MissingMentalAtt) > 0
+           OR (SELECT COUNT(*) FROM @MissingPhysicalAtt) > 0
         BEGIN
-            COMMIT TRANSACTION;
-        END
-        ELSE
-        BEGIN
+            -- Display missing attributes
+            SELECT 'Missing Technical Attributes' AS AttributeType, att_id AS MissingAttribute FROM @MissingTechnicalAtt
+            UNION ALL
+            SELECT 'Missing Mental Attributes' AS AttributeType, att_id AS MissingAttribute FROM @MissingMentalAtt
+            UNION ALL
+            SELECT 'Missing Physical Attributes' AS AttributeType, att_id AS MissingAttribute FROM @MissingPhysicalAtt
+
             ROLLBACK TRANSACTION;
-            THROW 50001, 'Not all required attributes were inserted.', 1;
+            THROW 50003, 'Not all required attributes were inserted.', 1;
         END
+
+        COMMIT TRANSACTION;
     END TRY
     BEGIN CATCH
-        ROLLBACK TRANSACTION;
+        IF @@TRANCOUNT > 0
+            ROLLBACK TRANSACTION;
         THROW;
     END CATCH
 END
+GO
