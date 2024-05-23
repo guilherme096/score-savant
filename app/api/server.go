@@ -1,13 +1,15 @@
 package api
 
 import (
+	"fmt"
 	Player "guilherme096/score-savant/templates/Player"
 
 	storage "guilherme096/score-savant/storage"
 
+	Insertions "guilherme096/score-savant/templates/InsertionPages/PlayerInsertion"
+
 	"github.com/a-h/templ"
 	"github.com/labstack/echo"
-	Insertions "guilherme096/score-savant/templates/InsertionPages/PlayerInsertion"
 )
 
 type Server struct {
@@ -36,14 +38,55 @@ func (s *Server) Start() {
 
 	e.GET("/player/:id", func(c echo.Context) error {
 		id := c.Param("id")
-		player, err := s.storage.LoadPlayerById(id)
+		player, atts, err := s.storage.LoadPlayerById(id)
 		if err != nil {
 			return c.String(500, "Internal Server Error")
 		}
 		if player == nil {
 			return c.String(404, "Not Found")
 		}
-		return render(c, Player.Player(player))
+
+		technical_atts_list := s.storage.GetAttributeList("Technical")
+		mental_atts_list := s.storage.GetAttributeList("Mental")
+		physical_atts_list := s.storage.GetAttributeList("Physical")
+
+		var technical_atts []map[string]interface{}
+		var mental_atts []map[string]interface{}
+		var physical_atts []map[string]interface{}
+
+		// separate the attributes into the respective categories (technical, mental, physical)
+		for _, att := range atts {
+			ok := false
+			for _, att_name := range technical_atts_list {
+				if att["att_id"].(string) == att_name {
+					technical_atts = append(technical_atts, map[string]interface{}{"att_id": att["att_id"].(string), "rating": att["rating"].(int)})
+					ok = true
+					break
+				}
+			}
+			if !ok {
+				for _, att_name := range mental_atts_list {
+					if att["att_id"].(string) == att_name {
+						mental_atts = append(mental_atts, map[string]interface{}{"att_id": att["att_id"].(string), "rating": att["rating"].(int)})
+						ok = true
+						break
+					}
+				}
+			}
+
+			if !ok {
+				for _, att_name := range physical_atts_list {
+					if att["att_id"].(string) == att_name {
+						physical_atts = append(physical_atts, map[string]interface{}{"att_id": att["att_id"].(string), "rating": att["rating"].(int)})
+						ok = true
+						break
+					}
+				}
+			}
+
+		}
+
+		return render(c, Player.Player(player, technical_atts, mental_atts, physical_atts))
 	})
 
 	e.GET("/player-insertion", func(c echo.Context) error {
