@@ -5,3 +5,12 @@
 -- reseting the identity column auto-incrementer
 DBCC CHECKIDENT ('Nation', RESEED, 0);
 GO
+
+
+role associadas a uma posição
+keyatributos associados a uma role
+
+pesquisa de jogadores por filtros (TODOS)
+
+
+dar player id receber position name e id
