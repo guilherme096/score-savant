@@ -3,7 +3,9 @@ package storage
 import (
 	"database/sql"
 	"fmt"
-	Player "guilherme096/score-savant/models"
+	"strconv"
+	"strings"
+	"time"
 
 	_ "github.com/microsoft/go-mssqldb"
 )
@@ -35,29 +37,80 @@ func (m *MSqlStorage) Stop() {
 	fmt.Println("Disconnected from SQL Server")
 }
 
-func (m *MSqlStorage) LoadPlayerById(id string) (*Player.Player, error) {
-	query := "SELECT * FROM Player WHERE player_id=@id"
-	prep, err := m.db.Prepare(query)
+func (m *MSqlStorage) LoadPlayerById(id string) (map[string]interface{}, error) {
+
+	// execute stored procedure
+	rows, err := m.db.Query("SELECT * FROM GetPlayerById(@player_id)", sql.Named("player_id", id))
 	if err != nil {
-		fmt.Printf("Error: %v\n", err)
 		return nil, err
 	}
-	defer prep.Close()
-
-	rows, err := prep.Query(sql.Named("id", id))
-
-	if err != nil {
-		fmt.Printf("Error: %v\n", err)
-		return nil, err
-	}
-
+	// close when the function ends
 	defer rows.Close()
-	fmt.Println("Player found")
-	var player *Player.Player = new(Player.Player)
-	var PlayerBio *Player.PlayerBio = new(Player.PlayerBio)
-	player.PlayerBio = PlayerBio
-	rows.Next()
-	fmt.Println(rows.Scan(&player.Id, &player.PlayerBio.Name, &player.PlayerBio.Age, &player.PlayerBio.Weight, &player.PlayerBio.Height, &player.PlayerBio.Nation, &player.Contract, &player.PlayerBio.Foot, &player.TechnicalAttributes))
-	fmt.Println(player.PlayerBio.Name)
-	return nil, nil
+
+	// get column names
+	columns, err := rows.Columns()
+	if err != nil {
+		return nil, err
+	}
+
+	// create a slice of interfaces to store the values from the database
+	values := make([]interface{}, len(columns))
+	valuePtrs := make([]interface{}, len(columns))
+	for i := range values {
+		valuePtrs[i] = &values[i]
+	}
+
+	result := make(map[string]interface{})
+
+	// get the values from each row
+	if rows.Next() {
+		err := rows.Scan(valuePtrs...)
+		if err != nil {
+			return nil, err
+		}
+
+		for i, col := range columns {
+			val := values[i]
+
+			// If the value is nil, set it to a zero value
+			if val == nil {
+				result[col] = nil
+			} else {
+				switch v := val.(type) {
+				case int64:
+					result[col] = int(v)
+				case int:
+					result[col] = int(v)
+				case []uint8:
+					// Convert []uint8 to string then to float64
+					strVal := string(v)
+					floatVal, err := strconv.ParseFloat(strVal, 64)
+					if err != nil {
+						return nil, fmt.Errorf("error converting %s to float64: %v", col, err)
+					}
+					result[col] = floatVal
+				case time.Time:
+					result[col] = strings.Split(v.String(), " ")[0]
+				default:
+					result[col] = val
+				}
+			}
+		}
+	} else {
+		return nil, fmt.Errorf("player with id %s not found", id)
+	}
+
+	// convert int64 to int if needed
+	for key, value := range result {
+		switch v := value.(type) {
+		case int64:
+			result[key] = int(v)
+
+		case float64:
+			result[key] = v
+		}
+	}
+
+	return result, nil
+
 }

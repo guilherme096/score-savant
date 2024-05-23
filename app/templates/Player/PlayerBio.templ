@@ -2,25 +2,24 @@ package Player;
 import(
 
      "strconv"
-     PlayerObj "guilherme096/score-savant/models"
 )
 
-templ PlayerBio(bio PlayerObj.PlayerBio){
+templ PlayerBio(bio map[string]interface{}){
     <div class="w-full h-fit rounded-3xl shadow-xl p-4 bg-primary">
        <div class="w-auto flex flex-row justify-between">
             <div class="max-w-40 h-56 mr-3">
-                <img class="h-full rounded-lg drop-shadow-lg object-cover" src={bio.Photo} alt="Player Image" />
+                <img class="h-full rounded-lg drop-shadow-lg object-cover" src={""} alt="Player Image" />
             </div>
             <div class=" mt-3 h-full">
                <div class="text-2xl font-bold">
-                {bio.Name}
+                {bio["name"].(string)}
                </div>
                 <div class="flex flex-col h-full justify-around mt-4">
-                   <div class="text-sm font-semibold">Nationality: <span class="ml-auto font-normal">{bio.Nation}</span></div>
-                   <div class="text-sm font-semibold">Age: <span class="font-normal">{strconv.Itoa(bio.Age)}</span></div>
-                   <div class="text-sm font-semibold">Height: <span class="font-normal">{strconv.FormatFloat(bio.Height,'g',-1,64)}cm</span></div>
-                   <div class="text-sm font-semibold">Weight: <span class="font-normal">{strconv.FormatFloat(bio.Weight,'g',-1,64)}kg</span></div>
-                   <div class="text-sm font-semibold">Best Foot: <span class="font-normal">{bio.Foot}</span></div>
+                   <div class="text-sm font-semibold">Nationality: <span class="ml-auto font-normal">{bio["nation_name"].(string)}</span></div>
+                   <div class="text-sm font-semibold">Age: <span class="font-normal">{strconv.Itoa(bio["age"].(int))}</span></div>
+                   <div class="text-sm font-semibold">Height: <span class="font-normal">{strconv.Itoa(bio["height"].(int))}cm</span></div>
+                   <div class="text-sm font-semibold">Weight: <span class="font-normal">{strconv.Itoa(bio["weight"].(int))}kg</span></div>
+                   <div class="text-sm font-semibold">Best Foot: <span class="font-normal">{bio["foot"].(string)}</span></div>
                 </div>
             </div>
        </div>
