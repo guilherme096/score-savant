@@ -5,4 +5,5 @@ type IStorage interface {
 	Stop()
 	LoadPlayerById(id string) (map[string]interface{}, []map[string]interface{}, error)
 	GetAttributeList(att_type string) []string
+	GetPlayerPosition(id string) (int, string, error)
 }
