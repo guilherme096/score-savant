@@ -43,7 +43,7 @@ func (s *Server) Start() {
 		if player == nil {
 			return c.String(404, "Not Found")
 		}
-		return render(c, Player.Player(*player))
+		return render(c, Player.Player(player))
 	})
 
 	e.GET("/player-insertion", func(c echo.Context) error {

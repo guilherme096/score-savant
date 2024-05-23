@@ -3,7 +3,6 @@ package storage
 import (
 	"database/sql"
 	"fmt"
-	Player "guilherme096/score-savant/models"
 
 	_ "github.com/microsoft/go-mssqldb"
 )
@@ -35,29 +34,58 @@ func (m *MSqlStorage) Stop() {
 	fmt.Println("Disconnected from SQL Server")
 }
 
-func (m *MSqlStorage) LoadPlayerById(id string) (*Player.Player, error) {
-	query := "SELECT * FROM Player WHERE player_id=@id"
-	prep, err := m.db.Prepare(query)
+func (m *MSqlStorage) LoadPlayerById(id string) (map[string]interface{}, error) {
+	rows, err := m.db.Query("SELECT * FROM GetPlayerById(@player_id)", sql.Named("player_id", id))
 	if err != nil {
-		fmt.Printf("Error: %v\n", err)
 		return nil, err
 	}
-	defer prep.Close()
-
-	rows, err := prep.Query(sql.Named("id", id))
-
-	if err != nil {
-		fmt.Printf("Error: %v\n", err)
-		return nil, err
-	}
-
 	defer rows.Close()
-	fmt.Println("Player found")
-	var player *Player.Player = new(Player.Player)
-	var PlayerBio *Player.PlayerBio = new(Player.PlayerBio)
-	player.PlayerBio = PlayerBio
-	rows.Next()
-	fmt.Println(rows.Scan(&player.Id, &player.PlayerBio.Name, &player.PlayerBio.Age, &player.PlayerBio.Weight, &player.PlayerBio.Height, &player.PlayerBio.Nation, &player.Contract, &player.PlayerBio.Foot, &player.TechnicalAttributes))
-	fmt.Println(player.PlayerBio.Name)
-	return nil, nil
+
+	// Get column names
+	columns, err := rows.Columns()
+	if err != nil {
+		return nil, err
+	}
+
+	// Prepare a slice of interfaces to hold column values
+	values := make([]interface{}, len(columns))
+	valuePtrs := make([]interface{}, len(columns))
+	for i := range values {
+		valuePtrs[i] = &values[i]
+	}
+
+	result := make(map[string]interface{})
+
+	if rows.Next() {
+		// Scan the result into the slice of interfaces
+		err := rows.Scan(valuePtrs...)
+		if err != nil {
+			return nil, err
+		}
+
+		// Populate the map with the column names and values
+		for i, col := range columns {
+			val := values[i]
+
+			// If the value is nil, set it to a zero value
+			if val == nil {
+				result[col] = nil
+			} else {
+				result[col] = val
+			}
+		}
+	} else {
+		return nil, fmt.Errorf("player with id %s not found", id)
+	}
+	// Example of accessing and handling int64 values
+	for key, value := range result {
+		switch v := value.(type) {
+		case int64:
+			// Convert int64 to int if needed
+			result[key] = int(v)
+		}
+	}
+
+	return result, nil
+
 }

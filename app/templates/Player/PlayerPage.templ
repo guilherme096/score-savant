@@ -1,19 +1,15 @@
 package Player;
 import (
     "guilherme096/score-savant/templates/Layout"
-    PlayerObj "guilherme096/score-savant/models"
-    "fmt"
-	utils "guilherme096/score-savant/utils"
-    
 )
 
-templ Player(Player PlayerObj.Player) {
+templ Player(Player map[string]interface{}){
     @Layout.Base(){
         <div class="w-full max-h-full m-16 flex flex-row">
             <div class="w-1/4">
-                @PlayerBio(*Player.PlayerBio)
+                @PlayerBio(Player)
                 <div class="mt-6">
-                    @PlayerContract(*Player.Contract)
+                    //@PlayerContract(*Player.Contract)
                 </div>
             </div>
             <div class="ml-5 mr-2 max-h-full">
@@ -22,9 +18,9 @@ templ Player(Player PlayerObj.Player) {
                         Technical
                     </div>
                     <div class="mt-4 flex flex-col">
-                        for _, attribute := range Player.TechnicalAttributes {
-                            @Attribute(attribute.Name, fmt.Sprintf("%d", attribute.Value), utils.AttributeColor(fmt.Sprintf("%d", attribute.Value)))
-                        }
+                    //   for _, attribute := range Player.TechnicalAttributes {
+                    //       @Attribute(attribute.Name, fmt.Sprintf("%d", attribute.Value), utils.AttributeColor(fmt.Sprintf("%d", attribute.Value)))
+                    //   }
                     </div>
                 </div>
             </div>
@@ -34,9 +30,9 @@ templ Player(Player PlayerObj.Player) {
                         Mental
                     </div>
                     <div class="mt-4 flex flex-col">
-                        for _, attribute := range Player.MentalAttributes {
-                            @Attribute(attribute.Name, fmt.Sprintf("%d", attribute.Value), utils.AttributeColor(fmt.Sprintf("%d", attribute.Value)))
-                        }
+                    //   for _, attribute := range Player.MentalAttributes {
+                    //       @Attribute(attribute.Name, fmt.Sprintf("%d", attribute.Value), utils.AttributeColor(fmt.Sprintf("%d", attribute.Value)))
+                    //   }
                     </div>
                 </div>
             </div>
@@ -46,9 +42,9 @@ templ Player(Player PlayerObj.Player) {
                             Physical
                         </div>
                         <div class="mt-4 flex flex-col">
-                        for _, attribute := range Player.PhysicalAttributes {
-                            @Attribute(attribute.Name, fmt.Sprintf("%d", attribute.Value), utils.AttributeColor(fmt.Sprintf("%d", attribute.Value)))
-                        }
+                     //  for _, attribute := range Player.PhysicalAttributes {
+                     //      @Attribute(attribute.Name, fmt.Sprintf("%d", attribute.Value), utils.AttributeColor(fmt.Sprintf("%d", attribute.Value)))
+                     //  }
                         </div>
                 </div>
             </div>
