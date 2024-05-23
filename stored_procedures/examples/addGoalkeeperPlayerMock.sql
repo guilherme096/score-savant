@@ -2,7 +2,7 @@ USE [p5g5]
 
 -- Example call to AddPlayer stored procedure
 EXEC dbo.AddPlayer
-    @name = 'Johnny Boy',
+    @name = 'Johnny Boii',
     @age = 18,
     @weight = 75,
     @height = 180,

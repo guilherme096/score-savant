@@ -1,10 +1,12 @@
 package Player;
 import (
     "guilherme096/score-savant/templates/Layout"
+	"strconv"
 )
 
-templ Player(Player map[string]interface{}){
+templ Player(Player map[string]interface{}, Technical_Atts []map[string]interface{}, Mental_Atts []map[string]interface{}, Physical_Atts []map[string]interface{}){
     @Layout.Base(){
+
         <div class="w-full max-h-full m-16 flex flex-row">
             <div class="w-1/4">
                 @PlayerBio(Player)
@@ -18,9 +20,9 @@ templ Player(Player map[string]interface{}){
                         Technical
                     </div>
                     <div class="mt-4 flex flex-col">
-                    //   for _, attribute := range Player.TechnicalAttributes {
-                    //       @Attribute(attribute.Name, fmt.Sprintf("%d", attribute.Value), utils.AttributeColor(fmt.Sprintf("%d", attribute.Value)))
-                    //   }
+                      for _, attribute := range Technical_Atts{
+                          @Attribute(attribute["att_id"].(string), strconv.Itoa(attribute["rating"].(int)), "")
+                      }                                                                                                                                                                                                        
                     </div>
                 </div>
             </div>
@@ -30,9 +32,9 @@ templ Player(Player map[string]interface{}){
                         Mental
                     </div>
                     <div class="mt-4 flex flex-col">
-                    //   for _, attribute := range Player.MentalAttributes {
-                    //       @Attribute(attribute.Name, fmt.Sprintf("%d", attribute.Value), utils.AttributeColor(fmt.Sprintf("%d", attribute.Value)))
-                    //   }
+                      for _, attribute := range Mental_Atts{
+                          @Attribute(attribute["att_id"].(string), strconv.Itoa(attribute["rating"].(int)), "")
+                      }                                                                                                                                                                                                        
                     </div>
                 </div>
             </div>
@@ -42,9 +44,9 @@ templ Player(Player map[string]interface{}){
                             Physical
                         </div>
                         <div class="mt-4 flex flex-col">
-                     //  for _, attribute := range Player.PhysicalAttributes {
-                     //      @Attribute(attribute.Name, fmt.Sprintf("%d", attribute.Value), utils.AttributeColor(fmt.Sprintf("%d", attribute.Value)))
-                     //  }
+                      for _, attribute := range Physical_Atts{
+                          @Attribute(attribute["att_id"].(string), strconv.Itoa(attribute["rating"].(int)), "")
+                      }                                                                                                                                                                                                        
                         </div>
                 </div>
             </div>
