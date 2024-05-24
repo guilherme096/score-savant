@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import pyodbc
 from datetime import datetime
+import re
 
 file = open("data.csv", "w")
 
@@ -55,9 +56,13 @@ def scrape_player_data(player_url, file):
         if field == "Position(s)":
             value = value.split("/")[0]
             if value == "STST":
-                value = "ST"
+                value = "STC"
             elif value == "AMCAM":
                 value = "CAM"
+            elif value == "GKGK":
+                value = "GK"
+            elif value == "DCDC":
+                value = "DC"
         player_info[field] = value
         # file.write(f"{field}: {value} - ")
 
@@ -92,11 +97,19 @@ def scrape_player_data(player_url, file):
     role = role_wrapper[0].find("span", class_="key").text
     if "Attack" in role:
         role = role.split(" ")[:-1]
+        role = re.sub(r"(?<!^)(?=[A-Z])", " ", role[0])
         role += " (At)"
         role = "".join(role)
     if "Support" in role:
         role = role.split(" ")[:-1]
+        print(role)
+        role = re.sub(r"(?<!^)(?=[A-Z])", " ", role[0])
         role += " (Su)"
+        role = "".join(role)
+    if "Defend" in role:
+        role = role.split(" ")[:-1]
+        name = re.sub(r"(?<!^)(?=[A-Z])", " ", role[0])
+        role = " (De)"
         role = "".join(role)
 
     player_info["role"] = role
@@ -162,7 +175,10 @@ def scrape_player_data(player_url, file):
     }
 
     print(player_info["attributes"].keys())
-    attributes = [f"{key}:{value}" for key, value in player_info["attributes"].items()]
+    attributes = [
+        f"{att_name_mapping[key]}:{value}"
+        for key, value in player_info["attributes"].items()
+    ]
     attributes = ",".join(attributes)
     params = (
         player_info["name"],  # @name
@@ -170,7 +186,7 @@ def scrape_player_data(player_url, file):
         int(player_info["Weight"][0]),  # @height
         int(player_info["Height"][0]),  # @weight
         player_info["nation"],  # @nation
-        5,
+        1,
         "Premier League",  # @league
         player_info["club"],  # @value
         player_info["Foot"],  # @position
@@ -256,6 +272,31 @@ except Exception as e:
 # Main URL to start scraping from - adjust as needed
 listing_url = "https://fminside.net/beheer/modules/players/resources/inc/frontend/generate-player-table.php?ajax_request=1"
 sequence_url = "https://fminside.net/beheer/modules/players/resources/inc/frontend/generate-player-table.php?ajax_request=1&loadmore=true"
+url = "https://fminside.net/resources/inc/ajax/update_filter.php"
+payload = {
+    "page": "players",
+    "database_version": "5",
+    "name": "",
+    "uid": "",
+    "club": "",
+    "nationality": "",
+    "league": "Premier League",
+    "min_age": "",
+    "max_age": "",
+    "max_value": "",
+    "max_wage": "",
+    "min_ability": "",
+    "max_ability": "",
+    "min_potential": "",
+    "max_potential": "",
+}
+
+# Send the POST request
+response = requests.post(url, data=payload)
+
+# Print the response
+print(f"Status Code: {response.status_code}")
+print("Response Text:", response.text)
 scrape_listing_page(listing_url)
 while True:
     exists = scrape_listing_page(sequence_url)
