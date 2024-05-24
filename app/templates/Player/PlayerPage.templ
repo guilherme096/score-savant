@@ -11,7 +11,7 @@ templ Player(Player map[string]interface{}, Technical_Atts []map[string]interfac
             <div class="w-1/4">
                 @PlayerBio(Player)
                 <div class="mt-6">
-                    @PlayerContract(Player)
+                   @PlayerContract(Player)
                 </div>
             </div>
             <div class="ml-5 mr-2 max-h-full">
@@ -20,9 +20,9 @@ templ Player(Player map[string]interface{}, Technical_Atts []map[string]interfac
                         Technical
                     </div>
                     <div class="mt-4 flex flex-col">
-                      for _, attribute := range Technical_Atts{
-                          @Attribute(attribute["att_id"].(string), strconv.Itoa(attribute["rating"].(int)), "")
-                      }                                                                                                                                                                                                        
+                     for _, attribute := range Technical_Atts{
+                         @Attribute(attribute["att_id"].(string), strconv.Itoa(attribute["rating"].(int)), "")
+                     }                                                                                                                                                                                                        
                     </div>
                 </div>
             </div>

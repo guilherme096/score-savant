@@ -22,7 +22,8 @@ def scrape_player_data(player_url, file):
 
     player_info["name"] = player_name
 
-    print("\n\n- - - - - - - - - - - - " + player_name + " - - - - - - - - - - - - \n")
+    print("\n\n- - - - - - - - - - - - " +
+          player_name + " - - - - - - - - - - - - \n")
 
     if player_name is None:
         return
@@ -35,12 +36,13 @@ def scrape_player_data(player_url, file):
     end = player_image_style.find(
         ")", start
     )  # Find the end of the URL, starting from the end of 'url('
-    url = player_image_style[start + 2 : end]
+    url = player_image_style[start + 2: end]
     player_info["url"] = url
 
     # file.write(f"Name: {player_name} - ")
     basic_info_wrapper = (
-        player_name_wrapper.find("div", class_="meta").find("ul").find_all("li")
+        player_name_wrapper.find(
+            "div", class_="meta").find("ul").find_all("li")
     )
 
     # CLUB AND COUNTRY
@@ -78,6 +80,12 @@ def scrape_player_data(player_url, file):
                 value = "GK"
             elif value == "DCDC":
                 value = "DC"
+            elif value == "MCMC":
+                value = "MC"
+            elif value == "AMRAM":
+                value = "RAM"
+            elif value == "AMLAM":
+                value = "LAM"
         player_info[field] = value
         # file.write(f"{field}: {value} - ")
 
@@ -284,9 +292,6 @@ def scrape_player_data(player_url, file):
         print("Stored procedure executed successfully")
     except Exception as e:
         print(f"\nError: {e}\n")
-        cursor.close()
-        conn.close()
-        exit(1)
     finally:
         print("\n")
         cursor.close()
@@ -305,7 +310,8 @@ def scrape_listing_page(listing_url):
 
     # Find all links to player pages - adjust selector as needed
     # Assuming player_links_wrapper is correctly finding the <div> containing player information
-    player_links_wrapper = soup.find("div", class_="players")  # This finds the <div>
+    player_links_wrapper = soup.find(
+        "div", class_="players")  # This finds the <div>
 
     # Instead of iterating over player_links_wrapper directly,
     # you should find all <ul> or <li> elements (or whatever contains the player links) inside it
@@ -383,7 +389,6 @@ response = session.post(url, data=payload, timeout=15)
 print(f"Status Code: {response.status_code}")
 print("Response Text:", response.text)
 # scrape_listing_page(listing_url)
-response = session.get(sequence_url, timeout=15)
 while True:
     exists = scrape_listing_page(sequence_url)
 

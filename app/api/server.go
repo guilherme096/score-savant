@@ -49,14 +49,24 @@ func (s *Server) Start() {
 		technical_atts_list := s.storage.GetAttributeList("Technical")
 		mental_atts_list := s.storage.GetAttributeList("Mental")
 		physical_atts_list := s.storage.GetAttributeList("Physical")
+		gk_atts_list := s.storage.GetAttributeList("Goalkeeping")
 
 		var technical_atts []map[string]interface{}
 		var mental_atts []map[string]interface{}
 		var physical_atts []map[string]interface{}
 
+		fmt.Println(atts)
 		// separate the attributes into the respective categories (technical, mental, physical)
 		for _, att := range atts {
 			ok := false
+			for _, att_name := range gk_atts_list {
+				if att["att_id"].(string) == att_name {
+					fmt.Println("A gk att")
+					technical_atts = append(technical_atts, map[string]interface{}{"att_id": att["att_id"].(string), "rating": att["rating"].(int)})
+					ok = true
+					break
+				}
+			}
 			for _, att_name := range technical_atts_list {
 				if att["att_id"].(string) == att_name {
 					technical_atts = append(technical_atts, map[string]interface{}{"att_id": att["att_id"].(string), "rating": att["rating"].(int)})
