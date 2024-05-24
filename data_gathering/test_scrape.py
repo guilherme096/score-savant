@@ -97,20 +97,42 @@ def scrape_player_data(player_url, file):
     role = role_wrapper[0].find("span", class_="key").text
     if "Attack" in role:
         role = role.split(" ")[:-1]
-        role = re.sub(r"(?<!^)(?=[A-Z])", " ", role[0])
+        role = re.sub(r"(?<!^)(?=[A-Z])", " ", "".join(role[:]))
         role += " (At)"
         role = "".join(role)
     if "Support" in role:
         role = role.split(" ")[:-1]
-        print(role)
-        role = re.sub(r"(?<!^)(?=[A-Z])", " ", role[0])
+        role = re.sub(r"(?<!^)(?=[A-Z])", " ", "".join(role[:]))
         role += " (Su)"
         role = "".join(role)
     if "Defend" in role:
         role = role.split(" ")[:-1]
-        name = re.sub(r"(?<!^)(?=[A-Z])", " ", role[0])
-        role = " (De)"
+        role = re.sub(r"(?<!^)(?=[A-Z])", " ", "".join(role[:]))
+        role += " (De)"
         role = "".join(role)
+
+    print(role)
+    if role == "Goalkeeper Defensive":
+        role = "Goalkeeper (De)"
+    elif role == "Goalkeeper Support":
+        role = "Goalkeeper (Su)"
+    elif role == "Goalkeeper Attacking":
+        role = "Goalkeeper (At)"
+    elif role == "Anchor Man (De)":
+        role = "Anchor (De)"
+    elif role == "Wide Centre-back (De)":
+        role = "Wide Center-Back (De)"
+    elif role == "Wide Centre-back (De)":
+        role = "Wide Center-Back (Su)"
+    elif role == "Wide Centre-back (At)":
+        role = "Wide Center-Back (At)"
+    elif role == "No-nonsense Center-back (De)":
+        role = "No-nonsense Center-Back (De)"
+    elif role == "No-nonsense Center-back (Su)":
+        role = "No-nonsense Center-Back (Su)"
+    elif role == "No-nonsense Center-back (At)":
+        role = "No-nonsense Center-Back (At)"
+    print(role)
 
     player_info["role"] = role
 
@@ -121,6 +143,17 @@ def scrape_player_data(player_url, file):
     for attribute in attributes:
         # file.write(f"| {attribute.find('h3').text} - ")
         table = attribute.find("table").find_all("tr")
+        if table is None:
+            tables = attribute.find_all("table")
+            for table in tables:
+                print("-----------------------------------")
+                trs = table.find_all("tr")
+                for tr in trs:
+                    name = tr.find("th").text
+                    value = tr.find("td").text
+                    # file.write(f"{name}: {value} - ")
+                    player_info["attributes"][name] = value
+
         for row in table:
             name = row["id"]
             value = row.find_all("td")[1].text
@@ -173,12 +206,39 @@ def scrape_player_data(player_url, file):
         "stamina": "Stamina",
         "strength": "Strength",
     }
+    gk_att_name_mapping = {
+        "aerial-reach": "Aerial_Reach",
+        "command-of-area": "Command_Of_Area",
+        "communication": "Communication",
+        "eccentricity": "Eccentricity",
+        "first-touch": "Gk_First_Touch",
+        "free-kick-taking": "Gk_Free_Kick_Taking",
+        "passing": "Gk_Passing",
+        "penalty-taking": "Gk_Penalty_Taking",
+        "technique": "Gk_Techique",
+        "handling": "Handling",
+        "kicking": "Kicking",
+        "one-on-ones": "One_On_Ones",
+        "punching-tendency": "Punching",
+        "reflexes": "Reflexes",
+        "rushing-out-tendency": "Rushing_Out",
+        "throwing": "Throwing",
+    }
 
-    print(player_info["attributes"].keys())
-    attributes = [
-        f"{att_name_mapping[key]}:{value}"
-        for key, value in player_info["attributes"].items()
-    ]
+    attributes = []
+
+    gk_priority = False
+    if player_info["Position(s)"] == "GK":
+        gk_priority = True
+
+    for key, val in player_info["attributes"].items():
+        if gk_priority and key in gk_att_name_mapping:
+            attributes.append(f"{gk_att_name_mapping[key]}:{val}")
+        else:
+            attributes.append(f"{att_name_mapping[key]}:{val}")
+
+    player_info["attributes"] = attributes
+
     attributes = ",".join(attributes)
     params = (
         player_info["name"],  # @name
