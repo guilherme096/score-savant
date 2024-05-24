@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import pyodbc
 from datetime import datetime
+import re
 
 file = open("data.csv", "w")
 
@@ -18,7 +19,6 @@ def scrape_player_data(player_url, file):
     player_name = player_name_wrapper.find("h1").text
 
     player_info["name"] = player_name
-    print(player_name)
 
     # PLAYER IMAGE
     player_image_style = player_wrapper.find("span").get("style")
@@ -28,13 +28,12 @@ def scrape_player_data(player_url, file):
     end = player_image_style.find(
         ")", start
     )  # Find the end of the URL, starting from the end of 'url('
-    url = player_image_style[start + 2: end]
+    url = player_image_style[start + 2 : end]
     player_info["url"] = url
 
     # file.write(f"Name: {player_name} - ")
     basic_info_wrapper = (
-        player_name_wrapper.find(
-            "div", class_="meta").find("ul").find_all("li")
+        player_name_wrapper.find("div", class_="meta").find("ul").find_all("li")
     )
 
     # CLUB AND COUNTRY
@@ -55,19 +54,20 @@ def scrape_player_data(player_url, file):
             continue
         value = element.find("span", class_="value").text.replace(",", "/")
         if field == "Position(s)":
-            print(f"\n{value}\n")
-
             value = value.split("/")[0]
             if value == "STST":
-                value = "ST"
+                value = "STC"
             elif value == "AMCAM":
                 value = "CAM"
+            elif value == "GKGK":
+                value = "GK"
+            elif value == "DCDC":
+                value = "DC"
         player_info[field] = value
         # file.write(f"{field}: {value} - ")
 
     contract_wrapper = (
-        player_wrapper.find_all("div", class_="column")[
-            1].find("ul").find_all("li")
+        player_wrapper.find_all("div", class_="column")[1].find("ul").find_all("li")
     )
 
     for element in contract_wrapper:
@@ -91,19 +91,25 @@ def scrape_player_data(player_url, file):
         player_info[field] = value
 
     role_wrapper = (
-        player_wrapper.find_all("div", class_="column")[
-            2].find("ol").find_all("li")
+        player_wrapper.find_all("div", class_="column")[2].find("ol").find_all("li")
     )
 
     role = role_wrapper[0].find("span", class_="key").text
-    print(role.split("[A-Z]"))
     if "Attack" in role:
         role = role.split(" ")[:-1]
+        role = re.sub(r"(?<!^)(?=[A-Z])", " ", role[0])
         role += " (At)"
         role = "".join(role)
     if "Support" in role:
         role = role.split(" ")[:-1]
+        print(role)
+        role = re.sub(r"(?<!^)(?=[A-Z])", " ", role[0])
         role += " (Su)"
+        role = "".join(role)
+    if "Defend" in role:
+        role = role.split(" ")[:-1]
+        name = re.sub(r"(?<!^)(?=[A-Z])", " ", role[0])
+        role = " (De)"
         role = "".join(role)
 
     player_info["role"] = role
@@ -124,14 +130,55 @@ def scrape_player_data(player_url, file):
     # file.write(",\n")
     if "release_clause" not in player_info:
         player_info["release_clause"] = -1
-    print(player_info)
 
     stored_procedure = (
         "EXEC dbo.AddPlayer ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?"
     )
 
-    attributes = [f"{key}:{value}" for key,
-                  value in player_info["attributes"].items()]
+    att_name_mapping = {
+        "corners": "Corners",
+        "crossing": "Crossing",
+        "dribbling": "Dribbling",
+        "finishing": "Finishing",
+        "first-touch": "First_Touch",
+        "free-kick-taking": "Free_Kick_Taking",
+        "heading": "Heading",
+        "long-shots": "Long_Shots",
+        "long-throws": "Long_Throws",
+        "marking": "Marking",
+        "passing": "Passing",
+        "penalty-taking": "Penalty_Taking",
+        "tackling": "Tackling",
+        "technique": "Technique",
+        "aggression": "Aggression",
+        "anticipation": "Anticipation",
+        "bravery": "Bravery",
+        "composure": "Composure",
+        "concentration": "Concentration",
+        "decisions": "Decisons",
+        "determination": "Determination",
+        "flair": "Flair",
+        "leadership": "Leadership",
+        "off-the-ball": "Off_The_Ball",
+        "positioning": "Positioning",
+        "teamwork": "Teamwork",
+        "vision": "Vision",
+        "work-rate": "Work_Rate",
+        "acceleration": "Acceleration",
+        "agility": "Agility",
+        "balance": "Balance",
+        "jumping-reach": "Jumping_Reach",
+        "natural-fitness": "Natural_Fitness",
+        "pace": "Pace",
+        "stamina": "Stamina",
+        "strength": "Strength",
+    }
+
+    print(player_info["attributes"].keys())
+    attributes = [
+        f"{att_name_mapping[key]}:{value}"
+        for key, value in player_info["attributes"].items()
+    ]
     attributes = ",".join(attributes)
     params = (
         player_info["name"],  # @name
@@ -139,7 +186,7 @@ def scrape_player_data(player_url, file):
         int(player_info["Weight"][0]),  # @height
         int(player_info["Height"][0]),  # @weight
         player_info["nation"],  # @nation
-        5,
+        1,
         "Premier League",  # @league
         player_info["club"],  # @value
         player_info["Foot"],  # @position
@@ -163,6 +210,7 @@ def scrape_player_data(player_url, file):
     except Exception as e:
         print(f"Error: {e}")
     finally:
+        print("\n")
         cursor.close()
 
 
@@ -174,13 +222,9 @@ def scrape_listing_page(listing_url):
 
     soup = BeautifulSoup(response.text, "html.parser")
 
-    print(soup)
-
     # Find all links to player pages - adjust selector as needed
     # Assuming player_links_wrapper is correctly finding the <div> containing player information
-    player_links_wrapper = soup.find(
-        "div", class_="players")  # This finds the <div>
-    print(player_links_wrapper)
+    player_links_wrapper = soup.find("div", class_="players")  # This finds the <div>
 
     # Instead of iterating over player_links_wrapper directly,
     # you should find all <ul> or <li> elements (or whatever contains the player links) inside it
@@ -228,6 +272,31 @@ except Exception as e:
 # Main URL to start scraping from - adjust as needed
 listing_url = "https://fminside.net/beheer/modules/players/resources/inc/frontend/generate-player-table.php?ajax_request=1"
 sequence_url = "https://fminside.net/beheer/modules/players/resources/inc/frontend/generate-player-table.php?ajax_request=1&loadmore=true"
+url = "https://fminside.net/resources/inc/ajax/update_filter.php"
+payload = {
+    "page": "players",
+    "database_version": "5",
+    "name": "",
+    "uid": "",
+    "club": "",
+    "nationality": "",
+    "league": "Premier League",
+    "min_age": "",
+    "max_age": "",
+    "max_value": "",
+    "max_wage": "",
+    "min_ability": "",
+    "max_ability": "",
+    "min_potential": "",
+    "max_potential": "",
+}
+
+# Send the POST request
+response = requests.post(url, data=payload)
+
+# Print the response
+print(f"Status Code: {response.status_code}")
+print("Response Text:", response.text)
 scrape_listing_page(listing_url)
 while True:
     exists = scrape_listing_page(sequence_url)
