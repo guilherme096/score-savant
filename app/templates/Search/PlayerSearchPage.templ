@@ -1,0 +1,39 @@
+package Search;
+
+import ("guilherme096/score-savant/templates/Layout")
+
+var mock_players = []map[string]interface{}{
+    {"name": "Ronaldo", "team": "Juventus"},
+    {"name": "Neymar", "team": "PSG"},
+    {"name": "Mbappe", "team": "PSG"},
+    {"name": "Haaland", "team": "Dortmund"},
+    {"name": "Lewandowski", "team": "Bayern"},
+    {"name": "Kane", "team": "Tottenham"},
+    {"name": "Salah", "team": "Liverpool"},
+    {"name": "Messi", "team": "Barcelona"},
+}
+
+/*
+Como fazer um loop ali em baixo na função
+
+for _, player := range mock_players {
+    <div>
+        <h1>{player["name"]}</h1>
+    </div>
+}
+
+se nao funcionar diz :))
+
+*/
+
+templ PlayerSearchPage(){
+        @Layout.Base(){
+        <div class="w-full max-h-full m-16 flex flex-row">
+                    <h1>Search for a player</h1>
+                    <form action="/search" method="get">
+                        <input type="text" name="player" placeholder="Player name" />
+                        <input type="submit" value="Search" />
+                    </form>
+                </div>
+            }
+    }

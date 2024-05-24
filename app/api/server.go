@@ -8,6 +8,8 @@ import (
 
 	Insertions "guilherme096/score-savant/templates/InsertionPages/PlayerInsertion"
 
+	Search "guilherme096/score-savant/templates/Search"
+
 	"github.com/a-h/templ"
 	"github.com/labstack/echo"
 )
@@ -106,6 +108,10 @@ func (s *Server) Start() {
 
 	e.GET("/player-insertion", func(c echo.Context) error {
 		return render(c, Insertions.PlayerInsertion())
+	})
+
+	e.GET("/search-player", func(c echo.Context) error {
+		return render(c, Search.PlayerSearchPage())
 	})
 
 	e.Logger.Fatal(e.Start(s.listen_add))
