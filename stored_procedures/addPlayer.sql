@@ -18,7 +18,6 @@ CREATE PROCEDURE dbo.AddPlayer
     @club NVARCHAR(255),
     @foot NVARCHAR(255),
     @value INT,
-    @player_type INT, -- 0 for outfield player, 1 for goalkeeper
     @position NVARCHAR(255),
     @role NVARCHAR(255),
     @wage DECIMAL(18,2),
@@ -36,13 +35,14 @@ BEGIN
     DECLARE @player_id INT;
     DECLARE @position_id INT;
     DECLARE @role_id INT;
+    DECLARE @player_type INT;
 
     -- Add or get Nation
     EXEC dbo.AddNation @nation = @nation;
     SELECT @nation_id = nation_id FROM Nation WHERE name = @nation;
 
     -- Add or get League
-    EXEC dbo.AddLeague @league = @league, @nation_league_id = @nation_id;
+    EXEC dbo.AddLeague @league = @league, @nation = @nation_league_id;
     SELECT @league_id = league_id FROM League WHERE name = @league;
 
     -- Add or get Club
@@ -55,6 +55,16 @@ BEGIN
     BEGIN
         RAISERROR('Position not found: %s', 16, 1, @position);
         RETURN;
+    END
+
+    -- Determine player type based on position
+    IF @position = 'GK'
+    BEGIN
+        SET @player_type = 1;
+    END
+    ELSE
+    BEGIN
+        SET @player_type = 0;
     END
 
     -- Validate Role
