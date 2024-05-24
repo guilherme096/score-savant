@@ -16,7 +16,8 @@ ALTER PROCEDURE [dbo].[AddBasePlayer]
     @club_id INT,
     @foot NVARCHAR(255),
     @value INT,
-    @player_type INT
+    @player_type INT,
+    @url NVARCHAR(MAX)
 AS
 BEGIN
     IF EXISTS(SELECT 1 FROM Player WHERE name = @name)
@@ -44,7 +45,7 @@ BEGIN
     SELECT @player_id = player_id FROM Player WHERE name = @name
     IF @player_id IS NULL
     BEGIN
-        INSERT INTO Player (name, age, weight, height, nation_id, club_id, foot, value) VALUES (@name, @age, @weight, @height, @nation_id, @club_id, @foot, @value);
+        INSERT INTO Player (name, age, weight, height, nation_id, club_id, foot, value, url) VALUES (@name, @age, @weight, @height, @nation_id, @club_id, @foot, @value, @url);
         SET @player_id = SCOPE_IDENTITY();
 
         IF @player_type = 0

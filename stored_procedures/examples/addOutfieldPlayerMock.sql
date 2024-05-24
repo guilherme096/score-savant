@@ -13,7 +13,6 @@ EXEC dbo.AddPlayer
     @club = 'LA Galaxy',
     @foot = 'Right',
     @value = 1000000,
-    @player_type = 0, -- 0 for outfield player, 1 for goalkeeper
     @position = 'STC',
     @role = 'Complete Forward (At)',
     @wage = 50000,
