@@ -1,16 +1,4 @@
--- CORRECT ORDER
--- NATION; LEAGUE; CLUB; POSITION; ROLE; PLAYER; CONTRACT; OUTFIELDPLAYER / GOALKEEPER
--- PLAYERPOSITION; PLAYERROLE; ATTRIBUTE; OUTFIELDATTRIBUTERATING / GOALKEEPERATTRIBUTERATING
-
--- reseting the identity column auto-incrementer
-DBCC CHECKIDENT ('Nation', RESEED, 0);
-GO
-
-
-role associadas a uma posição
-keyatributos associados a uma role
-
-pesquisa de jogadores por filtros (TODOS)
-
-
-dar player id receber position name e id
+triggers que podemos fazer:
+- club avarage wage
+- club avarage age
+- club value of squad

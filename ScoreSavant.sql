@@ -136,6 +136,11 @@ CREATE TABLE [PlayerPosition] (
 );
 GO
 
+CREATE TABLE StaredPlayers (
+    player_id INT PRIMARY KEY
+);
+GO
+
 -- Foreign key constraints
 ALTER TABLE [Player] ADD FOREIGN KEY ([nation_id]) REFERENCES [Nation] ([nation_id]);
 GO
