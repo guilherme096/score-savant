@@ -4,13 +4,15 @@ import pyodbc
 from datetime import datetime
 import re
 
+session = requests.Session()
+
 file = open("data.csv", "w")
 
 
 def scrape_player_data(player_url, file):
     player_info = {}
     player_info["attributes"] = {}
-    response = requests.get(player_url, timeout=10)
+    response = session.get(player_url, timeout=15)
     soup = BeautifulSoup(response.text, "html.parser")
 
     # PLAYER NAME
@@ -19,6 +21,11 @@ def scrape_player_data(player_url, file):
     player_name = player_name_wrapper.find("h1").text
 
     player_info["name"] = player_name
+
+    print("\n\n- - - - - - - - - - - - " + player_name + " - - - - - - - - - - - - \n")
+
+    if player_name is None:
+        return
 
     # PLAYER IMAGE
     player_image_style = player_wrapper.find("span").get("style")
@@ -38,7 +45,15 @@ def scrape_player_data(player_url, file):
 
     # CLUB AND COUNTRY
     club = basic_info_wrapper[0].find("a").find("span", class_="value").text
-    country = basic_info_wrapper[1].find("span").find("a").text
+    country = basic_info_wrapper[1].find("span").find("a")
+
+    index = 0
+    while country is None:
+        country = basic_info_wrapper[index].find("span")
+        index += 1
+
+    country = country.text
+
     player_info["club"] = club
     player_info["nation"] = country
 
@@ -67,7 +82,9 @@ def scrape_player_data(player_url, file):
         # file.write(f"{field}: {value} - ")
 
     contract_wrapper = (
-        player_wrapper.find_all("div", class_="column")[1].find("ul").find_all("li")
+        player_wrapper.find_all("div", class_="column")[index + 1]
+        .find("ul")
+        .find_all("li")
     )
 
     for element in contract_wrapper:
@@ -79,6 +96,8 @@ def scrape_player_data(player_url, file):
             field = "Value"
             if value == "Not for sale":
                 value = -1
+            else:
+                value = float(value.split(" ")[1].replace(",", ""))
         elif field == "Wages":
             value = float(value.split(" ")[1].replace(",", ""))
         elif field == "Contract end":
@@ -91,48 +110,47 @@ def scrape_player_data(player_url, file):
         player_info[field] = value
 
     role_wrapper = (
-        player_wrapper.find_all("div", class_="column")[2].find("ol").find_all("li")
+        player_wrapper.find_all("div", class_="column")[index + 2]
+        .find("ol")
+        .find_all("li")
     )
 
     role = role_wrapper[0].find("span", class_="key").text
-    if "Attack" in role:
-        role = role.split(" ")[:-1]
-        role = re.sub(r"(?<!^)(?=[A-Z])", " ", "".join(role[:]))
-        role += " (At)"
-        role = "".join(role)
-    if "Support" in role:
-        role = role.split(" ")[:-1]
-        role = re.sub(r"(?<!^)(?=[A-Z])", " ", "".join(role[:]))
-        role += " (Su)"
-        role = "".join(role)
-    if "Defend" in role:
-        role = role.split(" ")[:-1]
-        role = re.sub(r"(?<!^)(?=[A-Z])", " ", "".join(role[:]))
-        role += " (De)"
-        role = "".join(role)
 
-    print(role)
     if role == "Goalkeeper Defensive":
-        role = "Goalkeeper (De)"
+        role = "Goalkeeper (Defend)"
     elif role == "Goalkeeper Support":
-        role = "Goalkeeper (Su)"
+        role = "Goalkeeper (Support)"
     elif role == "Goalkeeper Attacking":
-        role = "Goalkeeper (At)"
-    elif role == "Anchor Man (De)":
-        role = "Anchor (De)"
-    elif role == "Wide Centre-back (De)":
-        role = "Wide Center-Back (De)"
-    elif role == "Wide Centre-back (De)":
-        role = "Wide Center-Back (Su)"
-    elif role == "Wide Centre-back (At)":
-        role = "Wide Center-Back (At)"
-    elif role == "No-nonsense Center-back (De)":
-        role = "No-nonsense Center-Back (De)"
-    elif role == "No-nonsense Center-back (Su)":
-        role = "No-nonsense Center-Back (Su)"
-    elif role == "No-nonsense Center-back (At)":
-        role = "No-nonsense Center-Back (At)"
-    print(role)
+        role = "Goalkeeper (Attack)"
+    elif role == "No-Nonsense Centreback\t(Cover)":
+        role = "No-Nonsense Centreback (Cover)"
+    elif role == "No-Nonsense Centreback\t(Stopper)":
+        role = "No-Nonsense Centreback (Stopper)"
+    elif role == "No-Nonsense Centreback\t(Defend)":
+        role = "No-Nonsense Centreback (Defend)"
+    elif role == "No-Nonsense Centreback\t(Support)":
+        role = "No-Nonsense Centreback (Support)"
+    elif role == "No-Nonsense Full-back (Defend)":
+        role = "Full-back (Defend)"
+    elif role == "No-Nonsense Full-back (Support)":
+        role = "Full-back (Support)"
+    elif role == "No-Nonsense Full-back (Attack)":
+        role = "Full-back (Attack)"
+    elif role == "Target Man (Attack)":
+        role = "Target Forward (Attack)"
+    elif role == "Target Man (Support)":
+        role = "Target Forward (Support)"
+    elif role == "Centre-back (Cover)":
+        role = "Central Defender (Cover)"
+    elif role == "Centre-back (Stopper)":
+        role = "Central Defender (Stopper)"
+    elif role == "Centre-back (Defend)":
+        role = "Central Defender (Defend)"
+    elif role == "Wide Target Man (Support)":
+        role = "Wide Target Forward (Support)"
+    elif role == "Wide Target Man (Attack)":
+        role = "Wide Target Forward (Attack)"
 
     player_info["role"] = role
 
@@ -142,19 +160,16 @@ def scrape_player_data(player_url, file):
 
     for attribute in attributes:
         # file.write(f"| {attribute.find('h3').text} - ")
-        table = attribute.find("table").find_all("tr")
-        if table is None:
-            tables = attribute.find_all("table")
-            for table in tables:
-                print("-----------------------------------")
-                trs = table.find_all("tr")
-                for tr in trs:
-                    name = tr.find("th").text
-                    value = tr.find("td").text
-                    # file.write(f"{name}: {value} - ")
-                    player_info["attributes"][name] = value
+        tables = attribute.find_all("tr")
+        for table in tables:
+            trs = table.find_all("tr")
+            for tr in trs:
+                name = tr.find("th").text
+                value = tr.find("td").text
+                # file.write(f"{name}: {value} - ")
+                player_info["attributes"][name] = value
 
-        for row in table:
+        for row in tables:
             name = row["id"]
             value = row.find_all("td")[1].text
             # file.write(f"{name}: {value} - ")
@@ -268,15 +283,21 @@ def scrape_player_data(player_url, file):
         conn.commit()
         print("Stored procedure executed successfully")
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"\nError: {e}\n")
+        cursor.close()
+        conn.close()
+        exit(1)
     finally:
         print("\n")
         cursor.close()
 
+    return True
+
 
 # Function to scrape the listing page and get player URLs
 def scrape_listing_page(listing_url):
-    response = requests.get(listing_url, timeout=10)
+    response = session.get(listing_url, timeout=15)
+    print(f"Status Code: {response.status_code}")
     if response.status_code != 200:
         return False
 
@@ -288,9 +309,14 @@ def scrape_listing_page(listing_url):
 
     # Instead of iterating over player_links_wrapper directly,
     # you should find all <ul> or <li> elements (or whatever contains the player links) inside it
-    player_items = player_links_wrapper.find_all(
-        "ul"
-    )  # Assuming these are the containers
+    player_items = None
+
+    if player_links_wrapper is None:
+        player_items = soup.find_all("ul", class_="player")
+    else:
+        player_items = player_links_wrapper.find_all(
+            "ul"
+        )  # Assuming these are the containers
 
     for player_item in player_items:
         # Now, player_item is a BeautifulSoup object and you can use .find() with keyword arguments on it
@@ -298,11 +324,10 @@ def scrape_listing_page(listing_url):
         name_span = player.find("span", class_="name")
         link = name_span.find("a")
         url = link.get("href")
-        scrape_player_data("https://fminside.net" + url, file)
+        if not scrape_player_data("https://fminside.net" + url, file):
+            break
 
     file.close()
-
-    load_more_link = soup.find("a", class_="loadmore")
 
 
 # Define your connection parameters
@@ -349,18 +374,17 @@ payload = {
     "max_ability": "",
     "min_potential": "",
     "max_potential": "",
+    "clause": "",
 }
-
 # Send the POST request
-response = requests.post(url, data=payload)
+response = session.post(url, data=payload, timeout=15)
 
 # Print the response
 print(f"Status Code: {response.status_code}")
 print("Response Text:", response.text)
-scrape_listing_page(listing_url)
+# scrape_listing_page(listing_url)
+response = session.get(sequence_url, timeout=15)
 while True:
     exists = scrape_listing_page(sequence_url)
-    if not exists:
-        break
 
 conn.close()
