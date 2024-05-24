@@ -18,7 +18,6 @@ def scrape_player_data(player_url, file):
     player_name = player_name_wrapper.find("h1").text
 
     player_info["name"] = player_name
-    print(player_name)
 
     # PLAYER IMAGE
     player_image_style = player_wrapper.find("span").get("style")
@@ -28,13 +27,12 @@ def scrape_player_data(player_url, file):
     end = player_image_style.find(
         ")", start
     )  # Find the end of the URL, starting from the end of 'url('
-    url = player_image_style[start + 2: end]
+    url = player_image_style[start + 2 : end]
     player_info["url"] = url
 
     # file.write(f"Name: {player_name} - ")
     basic_info_wrapper = (
-        player_name_wrapper.find(
-            "div", class_="meta").find("ul").find_all("li")
+        player_name_wrapper.find("div", class_="meta").find("ul").find_all("li")
     )
 
     # CLUB AND COUNTRY
@@ -55,8 +53,6 @@ def scrape_player_data(player_url, file):
             continue
         value = element.find("span", class_="value").text.replace(",", "/")
         if field == "Position(s)":
-            print(f"\n{value}\n")
-
             value = value.split("/")[0]
             if value == "STST":
                 value = "ST"
@@ -66,8 +62,7 @@ def scrape_player_data(player_url, file):
         # file.write(f"{field}: {value} - ")
 
     contract_wrapper = (
-        player_wrapper.find_all("div", class_="column")[
-            1].find("ul").find_all("li")
+        player_wrapper.find_all("div", class_="column")[1].find("ul").find_all("li")
     )
 
     for element in contract_wrapper:
@@ -91,12 +86,10 @@ def scrape_player_data(player_url, file):
         player_info[field] = value
 
     role_wrapper = (
-        player_wrapper.find_all("div", class_="column")[
-            2].find("ol").find_all("li")
+        player_wrapper.find_all("div", class_="column")[2].find("ol").find_all("li")
     )
 
     role = role_wrapper[0].find("span", class_="key").text
-    print(role.split("[A-Z]"))
     if "Attack" in role:
         role = role.split(" ")[:-1]
         role += " (At)"
@@ -124,14 +117,12 @@ def scrape_player_data(player_url, file):
     # file.write(",\n")
     if "release_clause" not in player_info:
         player_info["release_clause"] = -1
-    print(player_info)
 
     stored_procedure = (
         "EXEC dbo.AddPlayer ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?"
     )
 
-    attributes = [f"{key}:{value}" for key,
-                  value in player_info["attributes"].items()]
+    attributes = [f"{key}:{value}" for key, value in player_info["attributes"].items()]
     attributes = ",".join(attributes)
     params = (
         player_info["name"],  # @name
@@ -163,6 +154,7 @@ def scrape_player_data(player_url, file):
     except Exception as e:
         print(f"Error: {e}")
     finally:
+        print("\n")
         cursor.close()
 
 
@@ -174,13 +166,9 @@ def scrape_listing_page(listing_url):
 
     soup = BeautifulSoup(response.text, "html.parser")
 
-    print(soup)
-
     # Find all links to player pages - adjust selector as needed
     # Assuming player_links_wrapper is correctly finding the <div> containing player information
-    player_links_wrapper = soup.find(
-        "div", class_="players")  # This finds the <div>
-    print(player_links_wrapper)
+    player_links_wrapper = soup.find("div", class_="players")  # This finds the <div>
 
     # Instead of iterating over player_links_wrapper directly,
     # you should find all <ul> or <li> elements (or whatever contains the player links) inside it
