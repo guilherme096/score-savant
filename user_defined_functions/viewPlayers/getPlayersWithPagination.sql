@@ -60,6 +60,8 @@ RETURN
                 ORDER BY
                     CASE WHEN @OrderBy = 'PlayerName' AND @OrderDirection = 'ASC' THEN p.name END ASC,
                     CASE WHEN @OrderBy = 'PlayerName' AND @OrderDirection = 'DESC' THEN p.name END DESC,
+                    CASE WHEN @OrderBy = 'Age' AND @OrderDirection = 'ASC' THEN p.age END ASC,
+                    CASE WHEN @OrderBy = 'Age' AND @OrderDirection = 'DESC' THEN p.age END DESC,
                     CASE WHEN @OrderBy = 'Position' AND @OrderDirection = 'ASC' THEN pos.name END ASC,
                     CASE WHEN @OrderBy = 'Position' AND @OrderDirection = 'DESC' THEN pos.name END DESC,
                     CASE WHEN @OrderBy = 'Club' AND @OrderDirection = 'ASC' THEN cl.name END ASC,
