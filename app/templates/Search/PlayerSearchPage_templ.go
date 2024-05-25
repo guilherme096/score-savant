@@ -15,14 +15,14 @@ import (
 )
 
 var mock_players = []map[string]interface{}{
-	{"name": "Ronaldo", "team": "Juventus"},
-	{"name": "Neymar", "team": "PSG"},
-	{"name": "Mbappe", "team": "PSG"},
-	{"name": "Haaland", "team": "Dortmund"},
-	{"name": "Lewandowski", "team": "Bayern"},
-	{"name": "Kane", "team": "Tottenham"},
-	{"name": "Salah", "team": "Liverpool"},
-	{"name": "Messi", "team": "Barcelona"},
+	{"name": "Ronaldo", "team": "Juventus", "position": "ST", "nation": "Portugal", "league": "Serie A", "wage": 300000, "value": 100000000, "age": 35, "release_clause": 200000000},
+	{"name": "Neymar", "team": "PSG", "position": "LW", "nation": "Brazil", "league": "Ligue 1", "wage": 250000, "value": 90000000, "age": 28, "release_clause": 180000000},
+	{"name": "Mbappe", "team": "PSG", "position": "ST", "nation": "France", "league": "Ligue 1", "wage": 200000, "value": 80000000, "age": 21, "release_clause": 160000000},
+	{"name": "Haaland", "team": "Dortmund", "position": "ST", "nation": "Norway", "league": "Bundesliga", "wage": 150000, "value": 70000000, "age": 20, "release_clause": 140000000},
+	{"name": "Lewandowski", "team": "Bayern", "position": "ST", "nation": "Poland", "league": "Bundesliga", "wage": 200000, "value": 80000000, "age": 32, "release_clause": 160000000},
+	{"name": "Kane", "team": "Tottenham", "position": "ST", "nation": "England", "league": "Premier League", "wage": 200000, "value": 80000000, "age": 27, "release_clause": 160000000},
+	{"name": "Salah", "team": "Liverpool", "position": "RW", "nation": "Egypt", "league": "Premier League", "wage": 200000, "value": 80000000, "age": 28, "release_clause": 160000000},
+	{"name": "Messi", "team": "Barcelona", "position": "RW", "nation": "Argentina", "league": "La Liga", "wage": 300000, "value": 100000000, "age": 33, "release_clause": 200000000},
 }
 
 /*
@@ -57,7 +57,43 @@ func PlayerSearchPage() templ.Component {
 				templ_7745c5c3_Buffer = templ.GetBuffer()
 				defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"w-full max-h-full m-16 flex flex-row\"><h1>Search for a player</h1><form action=\"/search\" method=\"get\"><input type=\"text\" name=\"player\" placeholder=\"Player name\"> <input type=\"submit\" value=\"Search\"></form></div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex h-full\"><div class=\"w-1/5 bg-gray-200 p-4\"><h2 class=\"text-xl font-bold mb-4\">Filters</h2><form action=\"/search\" method=\"get\" class=\"space-y-4\"><div><label for=\"playerName\" class=\"block text-sm font-medium\">Player Name</label> <input type=\"text\" name=\"playerName\" id=\"playerName\" placeholder=\"Player name\" class=\"w-full p-2 border border-gray-300 rounded\"></div><div><label for=\"clubName\" class=\"block text-sm font-medium\">Club Name</label> <input type=\"text\" name=\"clubName\" id=\"clubName\" placeholder=\"Club name\" class=\"w-full p-2 border border-gray-300 rounded\"></div><div><label for=\"positionName\" class=\"block text-sm font-medium\">Position</label> <input type=\"text\" name=\"positionName\" id=\"positionName\" placeholder=\"Position\" class=\"w-full p-2 border border-gray-300 rounded\"></div><div><label for=\"nationName\" class=\"block text-sm font-medium\">Nation</label> <input type=\"text\" name=\"nationName\" id=\"nationName\" placeholder=\"Nation\" class=\"w-full p-2 border border-gray-300 rounded\"></div><div><label for=\"leagueName\" class=\"block text-sm font-medium\">League</label> <input type=\"text\" name=\"leagueName\" id=\"leagueName\" placeholder=\"League\" class=\"w-full p-2 border border-gray-300 rounded\"></div><div><label for=\"minWage\" class=\"block text-sm font-medium\">Min Wage</label> <input type=\"number\" name=\"minWage\" id=\"minWage\" class=\"w-full p-2 border border-gray-300 rounded\"></div><div><label for=\"maxWage\" class=\"block text-sm font-medium\">Max Wage</label> <input type=\"number\" name=\"maxWage\" id=\"maxWage\" class=\"w-full p-2 border border-gray-300 rounded\"></div><div><label for=\"minValue\" class=\"block text-sm font-medium\">Min Value</label> <input type=\"number\" name=\"minValue\" id=\"minValue\" class=\"w-full p-2 border border-gray-300 rounded\"></div><div><label for=\"maxValue\" class=\"block text-sm font-medium\">Max Value</label> <input type=\"number\" name=\"maxValue\" id=\"maxValue\" class=\"w-full p-2 border border-gray-300 rounded\"></div><div><label for=\"minAge\" class=\"block text-sm font-medium\">Min Age</label> <input type=\"number\" name=\"minAge\" id=\"minAge\" class=\"w-full p-2 border border-gray-300 rounded\"></div><div><label for=\"maxAge\" class=\"block text-sm font-medium\">Max Age</label> <input type=\"number\" name=\"maxAge\" id=\"maxAge\" class=\"w-full p-2 border border-gray-300 rounded\"></div><div><label for=\"minReleaseClause\" class=\"block text-sm font-medium\">Min Release Clause</label> <input type=\"number\" name=\"minReleaseClause\" id=\"minReleaseClause\" class=\"w-full p-2 border border-gray-300 rounded\"></div><div><label for=\"maxReleaseClause\" class=\"block text-sm font-medium\">Max Release Clause</label> <input type=\"number\" name=\"maxReleaseClause\" id=\"maxReleaseClause\" class=\"w-full p-2 border border-gray-300 rounded\"></div><div><input type=\"submit\" value=\"Apply Filters\" class=\"w-full p-2 bg-blue-500 text-white font-bold rounded cursor-pointer\"></div></form></div><div class=\"w-4/5 p-4\"><div class=\"search-bar mb-4\"><form action=\"/search\" method=\"get\" class=\"flex\"><input type=\"text\" name=\"player\" placeholder=\"Search for a player\" class=\"flex-grow p-2 border border-gray-300 rounded-l\"> <input type=\"submit\" value=\"Search\" class=\"p-2 bg-blue-500 text-white font-bold rounded-r cursor-pointer\"></form></div><div class=\"player-list\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			for _, player := range mock_players {
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div><h1>")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				var templ_7745c5c3_Var3 string
+				templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(player["name"].(string))
+				if templ_7745c5c3_Err != nil {
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/Search/PlayerSearchPage.templ`, Line: 103, Col: 56}
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h1><p>")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				var templ_7745c5c3_Var4 string
+				templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(player["team"].(string))
+				if templ_7745c5c3_Err != nil {
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/Search/PlayerSearchPage.templ`, Line: 104, Col: 55}
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p></div>")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

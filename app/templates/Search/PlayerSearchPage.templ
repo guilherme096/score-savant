@@ -3,14 +3,14 @@ package Search;
 import ("guilherme096/score-savant/templates/Layout")
 
 var mock_players = []map[string]interface{}{
-    {"name": "Ronaldo", "team": "Juventus"},
-    {"name": "Neymar", "team": "PSG"},
-    {"name": "Mbappe", "team": "PSG"},
-    {"name": "Haaland", "team": "Dortmund"},
-    {"name": "Lewandowski", "team": "Bayern"},
-    {"name": "Kane", "team": "Tottenham"},
-    {"name": "Salah", "team": "Liverpool"},
-    {"name": "Messi", "team": "Barcelona"},
+    {"name": "Ronaldo", "team": "Juventus", "position": "ST", "nation": "Portugal", "league": "Serie A", "wage": 300000, "value": 100000000, "age": 35, "release_clause": 200000000},
+    {"name": "Neymar", "team": "PSG", "position": "LW", "nation": "Brazil", "league": "Ligue 1", "wage": 250000, "value": 90000000, "age": 28, "release_clause": 180000000},
+    {"name": "Mbappe", "team": "PSG", "position": "ST", "nation": "France", "league": "Ligue 1", "wage": 200000, "value": 80000000, "age": 21, "release_clause": 160000000},
+    {"name": "Haaland", "team": "Dortmund", "position": "ST", "nation": "Norway", "league": "Bundesliga", "wage": 150000, "value": 70000000, "age": 20, "release_clause": 140000000},
+    {"name": "Lewandowski", "team": "Bayern", "position": "ST", "nation": "Poland", "league": "Bundesliga", "wage": 200000, "value": 80000000, "age": 32, "release_clause": 160000000},
+    {"name": "Kane", "team": "Tottenham", "position": "ST", "nation": "England", "league": "Premier League", "wage": 200000, "value": 80000000, "age": 27, "release_clause": 160000000},
+    {"name": "Salah", "team": "Liverpool", "position": "RW", "nation": "Egypt", "league": "Premier League", "wage": 200000, "value": 80000000, "age": 28, "release_clause": 160000000},
+    {"name": "Messi", "team": "Barcelona", "position": "RW", "nation": "Argentina", "league": "La Liga", "wage": 300000, "value": 100000000, "age": 33, "release_clause": 200000000},
 }
 
 /*
@@ -29,7 +29,6 @@ se nao funcionar diz :))
 templ PlayerSearchPage() {
     @Layout.Base() {
         <div class="flex h-full">
-            <!-- Filter Section -->
             <div class="w-1/5 bg-gray-200 p-4">
                 <h2 class="text-xl font-bold mb-4">Filters</h2>
                 <form action="/search" method="get" class="space-y-4">
@@ -91,7 +90,6 @@ templ PlayerSearchPage() {
                 </form>
             </div>
 
-            <!-- Main Content Section -->
             <div class="w-4/5 p-4">
                 <div class="search-bar mb-4">
                     <form action="/search" method="get" class="flex">
@@ -100,34 +98,12 @@ templ PlayerSearchPage() {
                     </form>
                 </div>
                 <div class="player-list">
-                    {{range .Players}}
-                        <div class="player-item p-4 border-b border-gray-200">
-                            <h2 class="text-xl font-bold">{{.name}}</h2>
-                            <p class="text-sm">Age: {{.age}}</p>
-                            <p class="text-sm">Position: {{.position}}</p>
-                            <p class="text-sm">Nation: {{.nation}}</p>
-                            <p class="text-sm">League: {{.league}}</p>
-                            <p class="text-sm">Club: {{.club}}</p>
-                            <p class="text-sm">Wage: {{.wage}}</p>
-                            <p class="text-sm">Value: {{.value}}</p>
-                            <div class="flex space-x-2 mt-2">
-                                <form action="/search" method="get" class="inline">
-                                    <input type="hidden" name="orderBy" value="name">
-                                    <input type="hidden" name="orderDirection" value="ASC">
-                                    <button type="submit" class="text-blue-500 hover:text-blue-700">↑</button>
-                                </form>
-                                <form action="/search" method="get" class="inline">
-                                    <input type="hidden" name="orderBy" value="name">
-                                    <input type="hidden" name="orderDirection" value="DESC">
-                                    <button type="submit" class="text-blue-500 hover:text-blue-700">↓</button>
-                                </form>
-                                <form action="/star" method="post" class="inline">
-                                    <input type="hidden" name="playerName" value="{{.name}}">
-                                    <button type="submit" class="text-yellow-500 hover:text-yellow-700">⭐</button>
-                                </form>
-                            </div>
+                    for _, player := range mock_players {
+                        <div>
+                            <h1>{player["name"].(string)}</h1>
+                            <p>{player["team"].(string)}</p>
                         </div>
-                    {{end}}
+                    }   
                 </div>
             </div>
         </div>
