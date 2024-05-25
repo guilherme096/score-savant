@@ -3,11 +3,34 @@ import (
     "guilherme096/score-savant/templates/Layout"
 );
 
+
+var club = []map[string]interface{}{
+    {
+        "name": "Manchester United",
+        "nation": "England",
+        "league": "Premier League",
+        "player_count": "30",
+    },
+}
+
 templ ClubPage(){
     @Layout.Base(){
-        <div>
-            <h1>Club</h1>
-            <p>Club page</p>
+        <div class="w-full max-h-full m-16 flex flex-row">
+            <div class="w-1/2">
+                <h1 class="text-4xl font-bold mb-4">Clubs</h1>
+                <div class="flex flex-col">
+                    for _, c := range club {
+                        <div class="flex flex-row">
+                            <div class="w-1/2">
+                                <h2 class="text-2xl font-bold">{c["name"].(string)}</h2>
+                                <p class="text-lg">{c["nation"].(string)}</p>
+                                <p class="text-lg">{c["league"].(string)}</p>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
         </div>
+        
     }
 }

@@ -120,5 +120,9 @@ func (s *Server) Start() {
 		return render(c, Club.ClubPage())
 	})
 
+	e.GET("/search-club", func(c echo.Context) error {
+		return render(c, Search.ClubSearchPage())
+	})
+
 	e.Logger.Fatal(e.Start(s.listen_add))
 }

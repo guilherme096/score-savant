@@ -1,0 +1,26 @@
+package Search;
+
+import "guilherme096/score-savant/templates/Layout"
+
+var club = []map[string]interface{}{
+    {
+        "name": "Manchester United",
+        "nation": "England",
+        "league": "Premier League",
+        "player_count": "30",
+    },
+    {
+        "name": "Manchester City",
+        "nation": "England",
+        "league": "Premier League",
+        "player_count": "38",
+    },
+}
+
+templ ClubSearchPage(){
+        @Layout.Base(){
+            <div class="w-full max-h-full m-16 flex flex-row">
+                <h1>Club Search</h1>        
+            </div>
+            }
+    }
