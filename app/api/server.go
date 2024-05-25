@@ -10,6 +10,8 @@ import (
 
 	Search "guilherme096/score-savant/templates/Search"
 
+	Club "guilherme096/score-savant/templates/Club"
+
 	"github.com/a-h/templ"
 	"github.com/labstack/echo"
 )
@@ -112,6 +114,10 @@ func (s *Server) Start() {
 
 	e.GET("/search-player", func(c echo.Context) error {
 		return render(c, Search.PlayerSearchPage())
+	})
+
+	e.GET("/club", func(c echo.Context) error {
+		return render(c, Club.ClubPage())
 	})
 
 	e.Logger.Fatal(e.Start(s.listen_add))
