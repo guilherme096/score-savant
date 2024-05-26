@@ -29,7 +29,7 @@ se nao funcionar diz :))
 templ PlayerSearchPage() {
     @Layout.Base() {
         <div class="flex h-full">
-            <div class="w-1/5 bg-gray-200 p-4">
+            <div class="w-1/5 bg-gray-200 p-4 ml-10 mt-3 mr-5 rounded-lg">
                 <h2 class="text-xl font-bold mb-4">Filters</h2>
                 <form action="/search" method="get" class="space-y-4">
                     <div>
@@ -53,36 +53,32 @@ templ PlayerSearchPage() {
                         <input type="text" name="leagueName" id="leagueName" placeholder="League" class="w-full p-2 border border-gray-300 rounded"/>
                     </div>
                     <div>
-                        <label for="minWage" class="block text-sm font-medium">Min Wage</label>
-                        <input type="number" name="minWage" id="minWage" class="w-full p-2 border border-gray-300 rounded"/>
+                        <label for="wageTotalRange" class="block text-sm font-medium">Wage Total Range</label>
+                        <div class="flex space-x-2">
+                            <input type="number" name="minWage" id="minWage" placeholder="Min" class="w-full p-2 border border-gray-300 rounded"/>
+                            <input type="number" name="maxWage" id="maxWage" placeholder="Max" class="w-full p-2 border border-gray-300 rounded"/>
+                        </div>
                     </div>
                     <div>
-                        <label for="maxWage" class="block text-sm font-medium">Max Wage</label>
-                        <input type="number" name="maxWage" id="maxWage" class="w-full p-2 border border-gray-300 rounded"/>
+                        <label for="valueTotalRange" class="block text-sm font-medium">Value Total Range</label>
+                        <div class="flex space-x-2">
+                            <input type="number" name="minValue" id="minValue" placeholder="Min" class="w-full p-2 border border-gray-300 rounded"/>
+                            <input type="number" name="maxValue" id="maxValue" placeholder="Max" class="w-full p-2 border border-gray-300 rounded"/>
+                        </div>
                     </div>
                     <div>
-                        <label for="minValue" class="block text-sm font-medium">Min Value</label>
-                        <input type="number" name="minValue" id="minValue" class="w-full p-2 border border-gray-300 rounded"/>
+                        <label for="ageRange" class="block text-sm font-medium">Age Range</label>
+                        <div class="flex space x-2">
+                            <input type="number" name="minAge" id="minAge" placeholder="Min" class="w-full p-2 border border-gray-300 rounded"/>
+                            <input type="number" name="maxAge" id="maxAge" placeholder="Max" class="w-full p-2 border border-gray-300 rounded"/>
+                        </div>
                     </div>
                     <div>
-                        <label for="maxValue" class="block text-sm font-medium">Max Value</label>
-                        <input type="number" name="maxValue" id="maxValue" class="w-full p-2 border border-gray-300 rounded"/>
-                    </div>
-                    <div>
-                        <label for="minAge" class="block text-sm font-medium">Min Age</label>
-                        <input type="number" name="minAge" id="minAge" class="w-full p-2 border border-gray-300 rounded"/>
-                    </div>
-                    <div>
-                        <label for="maxAge" class="block text-sm font-medium">Max Age</label>
-                        <input type="number" name="maxAge" id="maxAge" class="w-full p-2 border border-gray-300 rounded"/>
-                    </div>
-                    <div>
-                        <label for="minReleaseClause" class="block text-sm font-medium">Min Release Clause</label>
-                        <input type="number" name="minReleaseClause" id="minReleaseClause" class="w-full p-2 border border-gray-300 rounded"/>
-                    </div>
-                    <div>
-                        <label for="maxReleaseClause" class="block text-sm font-medium">Max Release Clause</label>
-                        <input type="number" name="maxReleaseClause" id="maxReleaseClause" class="w-full p-2 border border-gray-300 rounded"/>
+                        <label for="releaseClauseRange" class="block text-sm font-medium">Release Clause Range</label>
+                        <div class="flex space x-2">
+                            <input type="number" name="minReleaseClause" id="minReleaseClause" placeholder="Min" class="w-full p-2 border border-gray-300 rounded"/>
+                            <input type="number" name="maxReleaseClause" id="maxReleaseClause" placeholder="Max" class="w-full p-2 border border-gray-300 rounded"/>
+                        </div>
                     </div>
                     <div>
                         <input type="submit" value="Apply Filters" class="w-full p-2 bg-blue-500 text-white font-bold rounded cursor-pointer"/>
