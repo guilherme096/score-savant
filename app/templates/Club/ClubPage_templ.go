@@ -23,6 +23,27 @@ var club = []map[string]interface{}{
 	},
 }
 
+var player_list = []map[string]interface{}{
+	{
+		"name":        "Cristiano Ronaldo",
+		"position":    "Forward",
+		"age":         "36",
+		"nationality": "Portugal",
+		"role":        "Player",
+		"wage":        "500000",
+		"value":       "1000000",
+	},
+	{
+		"name":        "Bruno Fernandes",
+		"position":    "Midfielder",
+		"age":         "26",
+		"nationality": "Portugal",
+		"role":        "Player",
+		"wage":        "200000",
+		"value":       "500000",
+	},
+}
+
 func ClubPage() templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
@@ -54,7 +75,7 @@ func ClubPage() templ.Component {
 				var templ_7745c5c3_Var3 string
 				templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(c["name"].(string))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/Club/ClubPage.templ`, Line: 25, Col: 82}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/Club/ClubPage.templ`, Line: 46, Col: 82}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 				if templ_7745c5c3_Err != nil {
@@ -67,7 +88,7 @@ func ClubPage() templ.Component {
 				var templ_7745c5c3_Var4 string
 				templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(c["nation"].(string))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/Club/ClubPage.templ`, Line: 26, Col: 72}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/Club/ClubPage.templ`, Line: 47, Col: 72}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 				if templ_7745c5c3_Err != nil {
@@ -80,7 +101,7 @@ func ClubPage() templ.Component {
 				var templ_7745c5c3_Var5 string
 				templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(c["league"].(string))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/Club/ClubPage.templ`, Line: 27, Col: 72}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/Club/ClubPage.templ`, Line: 48, Col: 72}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 				if templ_7745c5c3_Err != nil {
