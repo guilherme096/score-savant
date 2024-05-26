@@ -8,6 +8,7 @@ import (
 	"time"
 
 	_ "github.com/microsoft/go-mssqldb"
+	Utils "guilherme096/score-savant/utils"
 )
 
 type MSqlStorage struct {
@@ -287,7 +288,10 @@ func (m *MSqlStorage) GetRoleByPlayerId(player_id int) (string, error) {
 }
 
 func (m *MSqlStorage) GetPlayerList(page int, amount int) ([]map[string]interface{}, error) {
-	pageNumber := 1
+	if page < 1 {
+		page = 1
+	}
+	pageNumber := page
 	pageSize := 10
 	orderBy := ""
 	orderDirection := ""
@@ -363,6 +367,14 @@ func (m *MSqlStorage) GetPlayerList(page int, amount int) ([]map[string]interfac
 			fmt.Println(err)
 		}
 
+		PlayerValue := ""
+
+		if value < 0 {
+			PlayerValue = "Not For Sale"
+		} else {
+			PlayerValue = Utils.FormatNumber(value)
+		}
+
 		Players = append(Players, map[string]interface{}{
 			"player_id":      playerID,
 			"name":           playerName,
@@ -371,7 +383,7 @@ func (m *MSqlStorage) GetPlayerList(page int, amount int) ([]map[string]interfac
 			"nation":         nation,
 			"league":         league,
 			"wage":           wage,
-			"value":          value,
+			"value":          PlayerValue,
 			"age":            age,
 			"release_clause": releaseClause,
 		})

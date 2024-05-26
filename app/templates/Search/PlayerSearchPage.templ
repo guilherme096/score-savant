@@ -100,12 +100,31 @@ templ PlayerSearchPage(){
                                     <th class="py-2 px-6 border-b cursor-pointer">Value</th>
                                 </tr>
                             </thead>
-                           <tbody hx-get="api/list-players" hx-trigger="load">
+                           <tbody id="table-body" hx-get="api/list-players?page=1" hx-trigger="load" hx-swap="innerHTML">
                            </tbody>
                         </table>
+                         <button id="load-more" class="w-full p-2 bg-blue-500 text-white rounded">Load More</button>
                     </div>
                 </div>
             </div>
         </div>
+        <script>
+        let currentPage = 1; // Initialize the current page
+
+        document.getElementById('load-more').addEventListener('click', function () {
+                currentPage++; // Increment the current page
+                fetchPage(currentPage); // Fetch the new page
+                });
+
+        function fetchPage(page) {
+            htmx.ajax('GET', `/api/list-players?page=${page}`, {
+            swap: 'beforeend',
+            target: '#table-body',
+        });
+        }
+
+// Initially load the first page
+fetchPage(currentPage);
+</script>
     }
 }

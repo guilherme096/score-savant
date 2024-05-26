@@ -1,5 +1,9 @@
 package Search;
-import "strconv"
+import (
+    "strconv"
+    Utils "guilherme096/score-savant/utils"
+);
+
 
 templ PlayerSearchTable(mock_players []map[string]interface{}) {
         for _, player := range mock_players {
@@ -17,8 +21,8 @@ templ PlayerSearchTable(mock_players []map[string]interface{}) {
                <th class="py-2 px-6 border-b">{player["club"].(string)}</th>
                <th class="py-2 px-6 border-b">{player["nation"].(string)}</th>
                <th class="py-2 px-6 border-b">{player["league"].(string)}</th>
-               <th class="py-2 px-6 border-b">{strconv.FormatFloat(player["wage"].(float64),'E', -1, 64)}</th>
-               <th class="py-2 px-6 border-b">{strconv.FormatFloat(player["value"].(float64),'E', -1, 64)}</th>
+               <th class="py-2 px-6 border-b">{Utils.FormatNumber(player["wage"].(float64))}</th>
+               <th class="py-2 px-6 border-b">{player["value"].(string)}</th>
             </tr>
         }
-    }
+}

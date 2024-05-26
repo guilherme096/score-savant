@@ -3,6 +3,7 @@ package api
 import (
 	"fmt"
 	Player "guilherme096/score-savant/templates/Player"
+	"strconv"
 
 	storage "guilherme096/score-savant/storage"
 
@@ -14,9 +15,10 @@ import (
 
 	Utils "guilherme096/score-savant/utils"
 
+	"sort"
+
 	"github.com/a-h/templ"
 	"github.com/labstack/echo"
-	"sort"
 )
 
 type Server struct {
@@ -147,7 +149,11 @@ func (s *Server) Start() {
 	})
 
 	e.GET("/api/list-players", func(c echo.Context) error {
-		players, err := s.storage.GetPlayerList(0, 10)
+		page, err := strconv.Atoi(c.QueryParam("page"))
+		if err != nil {
+			page = 0
+		}
+		players, err := s.storage.GetPlayerList(page, 10)
 		if err != nil {
 			fmt.Println(err)
 			return c.String(500, "Internal Server Error")
