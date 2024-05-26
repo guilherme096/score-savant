@@ -4,10 +4,10 @@ import (
 	"strconv"
 )
 
-templ Player(Player map[string]interface{}, Technical_Atts []map[string]interface{}, Mental_Atts []map[string]interface{}, Physical_Atts []map[string]interface{}, PlayerPositionName string, RoleRatings []map[string]interface{}){
+templ Player(Player map[string]interface{}, Technical_Atts []map[string]interface{}, Mental_Atts []map[string]interface{}, Physical_Atts []map[string]interface{}, PlayerPositionName string, PreferedRole string, RoleRatings []map[string]interface{}){
     @Layout.Base(){
 
-        <div class="w-full max-h-full m-16 flex flex-row">
+        <div class="w-full max-h-full m-8 flex flex-row">
             <div class="w-1/4">
                 @PlayerBio(Player)
                 <div class="mt-6">
@@ -38,7 +38,7 @@ templ Player(Player map[string]interface{}, Technical_Atts []map[string]interfac
                     </div>
                 </div>
             </div>
-            <div class="mr-10 ml-2 max-h-full">
+            <div class="mr-4 ml-2 max-h-full">
                 <div class="w-52 h-full bg-base-100 rounded-xl p-4">
                         <div class="text-lg font-bold">
                             Physical
@@ -50,8 +50,8 @@ templ Player(Player map[string]interface{}, Technical_Atts []map[string]interfac
                         </div>
                 </div>
             </div>
-            <div class="ml-5 h-20">
-            @PlayerPosition(PlayerPositionName,nil)
+            <div class="h-20">
+            @PlayerPosition(PlayerPositionName,"",RoleRatings)
             </div>
         </div>
     }

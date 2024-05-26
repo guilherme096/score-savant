@@ -47,6 +47,7 @@ func (m *MSqlStorage) LoadPlayerById(id string) (map[string]interface{}, []map[s
 	// get column names
 	columns, err := rows.Columns()
 	if err != nil {
+		fmt.Println(err)
 		return nil, nil, err
 	}
 
@@ -213,6 +214,30 @@ func (m *MSqlStorage) GetPlayerPosition(id string) (int, string, error) {
 	}
 
 	return position_id, position_name, nil
+}
+
+func (m *MSqlStorage) GetRolesByPositionId(PositonId int) []map[string]interface{} {
+	rows, err := m.db.Query("SELECT * FROM GetRolesByPositionId(@position_id)", sql.Named("position_id", PositonId))
+	if err != nil {
+		fmt.Println(err)
+		return nil
+	}
+	defer rows.Close()
+
+	var roles []map[string]interface{}
+
+	for rows.Next() {
+		var role_id int
+		var role_name string
+		err := rows.Scan(&role_id, &role_name)
+		if err != nil {
+			fmt.Println(err)
+			return nil
+		}
+		roles = append(roles, map[string]interface{}{"role_id": role_id, "role_name": role_name})
+	}
+
+	return roles
 }
 
 // Function to scan values from a row into a slice of interfaces

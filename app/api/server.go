@@ -44,6 +44,7 @@ func (s *Server) Start() {
 		id := c.Param("id")
 		player, atts, err := s.storage.LoadPlayerById(id)
 		if err != nil {
+			fmt.Println(err)
 			return c.String(500, "Internal Server Error")
 		}
 		if player == nil {
@@ -59,13 +60,11 @@ func (s *Server) Start() {
 		var mental_atts []map[string]interface{}
 		var physical_atts []map[string]interface{}
 
-		fmt.Println(atts)
 		// separate the attributes into the respective categories (technical, mental, physical)
 		for _, att := range atts {
 			ok := false
 			for _, att_name := range gk_atts_list {
 				if att["att_id"].(string) == att_name {
-					fmt.Println("A gk att")
 					technical_atts = append(technical_atts, map[string]interface{}{"att_id": att["att_id"].(string), "rating": att["rating"].(int)})
 					ok = true
 					break
@@ -100,12 +99,25 @@ func (s *Server) Start() {
 
 		}
 
-		_, PlayerPosition, err := s.storage.GetPlayerPosition(id)
-		fmt.Println(PlayerPosition)
+		PositionId, PlayerPosition, err := s.storage.GetPlayerPosition(id)
+
+		Roles := s.storage.GetRolesByPositionId(PositionId)
+
+		RolesRating := make([]map[string]interface{}, len(Roles))
+
+		for i, role := range Roles {
+			RolesRating[i] = map[string]interface{}{
+				"role_name":   role["role_name"],
+				"role_rating": 1,
+			}
+		}
+
+		fmt.Println("RolesRating: ", RolesRating)
+
 		if err != nil {
 			return c.String(500, "Internal Server Error")
 		}
-		return render(c, Player.Player(player, technical_atts, mental_atts, physical_atts, PlayerPosition, nil))
+		return render(c, Player.Player(player, technical_atts, mental_atts, physical_atts, PlayerPosition, "", RolesRating))
 	})
 
 	e.GET("/player-insertion", func(c echo.Context) error {

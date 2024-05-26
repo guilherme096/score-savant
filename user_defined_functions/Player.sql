@@ -40,19 +40,39 @@ RETURN
         p.player_id = @player_id
     )
 
-
 CREATE FUNCTION dbo.GetPlayerAttributes(
     @player_id INT
 )
-RETURNS TABLE
-RETURN(
-        SELECT
-            our.att_id,
-            our.rating
-        FROM OutfieldAttributeRating our
-            INNER JOIN
-            Attribute attributes ON
-                attributes.name = our.att_id
-    WHERE player_id = @player_id
+RETURNS @PlayerAttributes TABLE (
+    att_id INT,
+    rating INT
+)
+AS
+BEGIN
+    -- Insert into the return table from OutfieldAttributeRating
+    INSERT INTO @PlayerAttributes (att_id, rating)
+    SELECT
+        our.att_id,
+        our.rating
+    FROM OutfieldAttributeRating our
+    INNER JOIN Attribute attributes ON
+        attributes.name = our.att_id
+    WHERE our.player_id = @player_id;
 
-    )
+    -- If the OutfieldAttributeRating selection is null, insert from GoalkeeperAttributeRating
+    IF NOT EXISTS (SELECT 1 FROM @PlayerAttributes)
+    BEGIN
+        INSERT INTO @PlayerAttributes (att_id, rating)
+        SELECT
+            gar.att_id,
+            gar.rating
+        FROM GoalkeeperAttributeRating gar
+        INNER JOIN Attribute attributes ON
+            attributes.name = gar.att_id
+        WHERE gar.player_id = @player_id;
+    END
+
+    RETURN;
+END
+GO
+

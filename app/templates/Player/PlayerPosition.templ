@@ -1,7 +1,23 @@
 package Player;
 
-templ PlayerPosition(PlayerPosition string, RoleRatings []map[string]interface{}) {
-    <div class="w-full h-fit rounded-3xl shadow-xl p-4 bg-base-200">
-        <p>Player Position: {PlayerPosition}</p>
+import "strconv"
+
+templ PlayerPosition(PlayerPosition string, PreferedRole string, RoleRatings []map[string]interface{}) {
+    <div class="flex flex-col w-full">
+    <div class="w-full h-fit rounded-2xl shadow-xl p-4 bg-base-200 text-lg">
+        <h1 class="font-bold">Player Position:  <span class="font-normal">{PlayerPosition}</span></h1>
+        <h1 class="font-bold mt-4">Prefered Role:  <span class="font-normal">{PreferedRole}</span></h1>
+    </div>
+    <div class="w-full h-fit rounded-2xl p-4 bg-base-100 shadow-lg mt-6 max-h-[450px] overflow-scroll">
+    <h1 class="font-bold text-xl">Role Ratings:</h1>
+        <div class="flex flex-col w-full mt-3">
+        for _, role := range RoleRatings {
+            <div class="flex flex-col w-full mb-3 rounded-lg shadow-lg bg-base-200 p-3">
+                <h1 class="font-bold">Role:  <span class="font-normal">{role["role_name"].(string)}</span></h1>
+                <h1 class="font-bold">Rating:  <span class="font-normal">{strconv.Itoa(role["role_rating"].(int))}</span></h1>
+            </div>
+        }
+        </div>
+    </div>
     </div>
 }
