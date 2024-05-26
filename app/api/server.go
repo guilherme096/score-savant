@@ -12,8 +12,11 @@ import (
 
 	Club "guilherme096/score-savant/templates/Club"
 
+	Utils "guilherme096/score-savant/utils"
+
 	"github.com/a-h/templ"
 	"github.com/labstack/echo"
+	"sort"
 )
 
 type Server struct {
@@ -103,21 +106,36 @@ func (s *Server) Start() {
 
 		Roles := s.storage.GetRolesByPositionId(PositionId)
 
+		PreferedRole, err := s.storage.GetRoleByPlayerId(PositionId)
+
+		if err != nil {
+			fmt.Println(err)
+			return c.String(500, "Internal Server Error")
+		}
+
+		RoleKeyAtts := make(map[string][]string)
+
+		for _, role := range Roles {
+			RoleKeyAtts[role["role_name"].(string)] = s.storage.GetKeyAttributeList(role["role_id"].(int))
+		}
+
 		RolesRating := make([]map[string]interface{}, len(Roles))
 
 		for i, role := range Roles {
 			RolesRating[i] = map[string]interface{}{
 				"role_name":   role["role_name"],
-				"role_rating": 1,
+				"role_rating": Utils.CalculateRoleRating(atts, RoleKeyAtts[role["role_name"].(string)]),
 			}
 		}
 
-		fmt.Println("RolesRating: ", RolesRating)
+		sort.Slice(RolesRating, func(i, j int) bool {
+			return RolesRating[i]["role_rating"].(int) > RolesRating[j]["role_rating"].(int)
+		})
 
 		if err != nil {
 			return c.String(500, "Internal Server Error")
 		}
-		return render(c, Player.Player(player, technical_atts, mental_atts, physical_atts, PlayerPosition, "", RolesRating))
+		return render(c, Player.Player(player, technical_atts, mental_atts, physical_atts, PlayerPosition, PreferedRole, RolesRating))
 	})
 
 	e.GET("/player-insertion", func(c echo.Context) error {

@@ -240,6 +240,52 @@ func (m *MSqlStorage) GetRolesByPositionId(PositonId int) []map[string]interface
 	return roles
 }
 
+func (m *MSqlStorage) GetKeyAttributeList(role_id int) []string {
+	rows, err := m.db.Query("SELECT * FROM GetKeyAttributesByRoleId(@role_id)", sql.Named("role_id", role_id))
+	if err != nil {
+		fmt.Println(err)
+		return nil
+	}
+	defer rows.Close()
+
+	var atts []string
+
+	for rows.Next() {
+		var att string
+		err := rows.Scan(&att)
+		if err != nil {
+			fmt.Println(err)
+			return nil
+		}
+		atts = append(atts, att)
+	}
+
+	return atts
+}
+
+func (m *MSqlStorage) GetRoleByPlayerId(player_id int) (string, error) {
+	rows, err := m.db.Query("SELECT * FROM GetRoleByPlayerId(@player_id)", sql.Named("player_id", player_id))
+	if err != nil {
+		fmt.Println(err)
+		return "", err
+	}
+	defer rows.Close()
+
+	var role_id int
+	var role_name string
+
+	if rows.Next() {
+		err := rows.Scan(&role_id, &role_name)
+		if err != nil {
+			return "", err
+		}
+	} else {
+		return "", fmt.Errorf("player with id %s not found", player_id)
+	}
+
+	return role_name, nil
+}
+
 // Function to scan values from a row into a slice of interfaces
 func scanValues(rows *sql.Rows, columns []string) ([]interface{}, error) {
 	// Create a slice to hold the values of each row

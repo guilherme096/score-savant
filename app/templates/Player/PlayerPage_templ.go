@@ -84,7 +84,7 @@ func Player(Player map[string]interface{}, Technical_Atts []map[string]interface
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = PlayerPosition(PlayerPositionName, "", RoleRatings).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = PlayerPosition(PlayerPositionName, PreferedRole, RoleRatings).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

@@ -37,3 +37,17 @@ func AttributeColor(str_val string) string {
 	}
 	return prefix + color
 }
+
+func CalculateRoleRating(atts_ratings []map[string]interface{}, role_key_atts []string) int {
+	role_rating := 0
+	lenght := len(role_key_atts)
+	for _, att := range atts_ratings {
+		for _, key_att := range role_key_atts {
+			if att["att_id"].(string) == key_att {
+				role_rating += att["rating"].(int)
+				break
+			}
+		}
+	}
+	return role_rating / lenght
+}
