@@ -286,6 +286,107 @@ func (m *MSqlStorage) GetRoleByPlayerId(player_id int) (string, error) {
 	return role_name, nil
 }
 
+func (m *MSqlStorage) GetPlayerList(page int, amount int) ([]map[string]interface{}, error) {
+	pageNumber := 1
+	pageSize := 10
+	orderBy := ""
+	orderDirection := ""
+	searchPlayerName := ""
+	searchClubName := ""
+	searchPositionName := ""
+	searchNationName := ""
+	searchLeagueName := ""
+	minWage := 0
+	maxWage := 900000.00
+	minValue := -1000000.00
+	maxValue := 50000000.00
+	minAge := 18
+	maxAge := 35
+	minReleaseClause := -1000000.00
+	maxReleaseClause := 100000000.00
+
+	// Execute the function
+	rows, err := m.db.Query(`
+        SELECT * FROM dbo.GetPlayersWithPagination(
+            @PageNumber,
+            @PageSize,
+            @OrderBy,
+            @OrderDirection,
+            @SearchPlayerName,
+            @SearchClubName,
+            @SearchPositionName,
+            @SearchNationName,
+            @SearchLeagueName,
+            @MinWage,
+            @MaxWage,
+            @MinValue,
+            @MaxValue,
+            @MinAge,
+            @MaxAge,
+            @MinReleaseClause,
+            @MaxReleaseClause
+        )`,
+		sql.Named("PageNumber", pageNumber),
+		sql.Named("PageSize", pageSize),
+		sql.Named("OrderBy", orderBy),
+		sql.Named("OrderDirection", orderDirection),
+		sql.Named("SearchPlayerName", searchPlayerName),
+		sql.Named("SearchClubName", searchClubName),
+		sql.Named("SearchPositionName", searchPositionName),
+		sql.Named("SearchNationName", searchNationName),
+		sql.Named("SearchLeagueName", searchLeagueName),
+		sql.Named("MinWage", minWage),
+		sql.Named("MaxWage", maxWage),
+		sql.Named("MinValue", minValue),
+		sql.Named("MaxValue", maxValue),
+		sql.Named("MinAge", minAge),
+		sql.Named("MaxAge", maxAge),
+		sql.Named("MinReleaseClause", minReleaseClause),
+		sql.Named("MaxReleaseClause", maxReleaseClause),
+	)
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer rows.Close()
+
+	var Players []map[string]interface{} = nil
+
+	// Process the results
+	for rows.Next() {
+		var playerID int
+		var playerName, position, club, nation, league string
+		var wage, value, releaseClause float64
+		var age int
+
+		err := rows.Scan(&playerID, &playerName, &position, &club, &wage, &value, &nation, &league, &age, &releaseClause)
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		Players = append(Players, map[string]interface{}{
+			"player_id":      playerID,
+			"name":           playerName,
+			"position":       position,
+			"club":           club,
+			"nation":         nation,
+			"league":         league,
+			"wage":           wage,
+			"value":          value,
+			"age":            age,
+			"release_clause": releaseClause,
+		})
+
+	}
+
+	if err := rows.Err(); err != nil {
+		fmt.Println(err)
+		return nil, err
+	}
+
+	return Players, nil
+
+}
+
 // Function to scan values from a row into a slice of interfaces
 func scanValues(rows *sql.Rows, columns []string) ([]interface{}, error) {
 	// Create a slice to hold the values of each row

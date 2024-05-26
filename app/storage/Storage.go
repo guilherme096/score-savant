@@ -9,4 +9,5 @@ type IStorage interface {
 	GetRolesByPositionId(PositonId int) []map[string]interface{}
 	GetKeyAttributeList(role_id int) []string
 	GetRoleByPlayerId(player_id int) (string, error)
+	GetPlayerList(page int, amount int) ([]map[string]interface{}, error)
 }

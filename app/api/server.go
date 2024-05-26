@@ -146,6 +146,15 @@ func (s *Server) Start() {
 		return render(c, Search.PlayerSearchPage())
 	})
 
+	e.GET("/api/list-players", func(c echo.Context) error {
+		players, err := s.storage.GetPlayerList(0, 10)
+		if err != nil {
+			fmt.Println(err)
+			return c.String(500, "Internal Server Error")
+		}
+		return render(c, Search.PlayerSearchTable(players))
+	})
+
 	e.GET("/club", func(c echo.Context) error {
 		return render(c, Club.ClubPage())
 	})
