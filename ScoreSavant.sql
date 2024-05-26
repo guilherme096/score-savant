@@ -29,7 +29,12 @@ CREATE TABLE [Club] (
   [club_id] integer PRIMARY KEY IDENTITY(1,1),
   [nation_id] integer,
   [league_id] integer,
-  [name] nvarchar(255)
+  [name] nvarchar(255),
+  [player_count] int,
+  [wage_total] decimal(18, 2),
+  [value_total] decimal(18, 2),
+  [wage_average] decimal(18, 2),
+  [value_average] decimal(18, 2)
 );
 GO
 
@@ -55,10 +60,8 @@ GO
 CREATE TABLE [PlayerRole] (
   [player_id] integer,
   [role_position_id] integer,
-  [rating] float,
   PRIMARY KEY ([player_id], [role_position_id])
 );
-GO
 
 CREATE TABLE [Contract] (
   [player_id] integer PRIMARY KEY,
