@@ -46,7 +46,7 @@ BEGIN
     SELECT @league_id = league_id FROM League WHERE name = @league;
 
     -- Add or get Club
-    EXEC dbo.AddClub @club = @club, @nation_id = @nation_id, @league_id = @league_id;
+    EXEC dbo.AddClub @club = @club, @nation_id = @nation_league_id, @league_id = @league_id;
     SELECT @club_id = club_id FROM Club WHERE name = @club;
 
     -- Validate Position
