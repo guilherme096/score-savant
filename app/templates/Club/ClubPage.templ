@@ -10,6 +10,8 @@ var club = []map[string]interface{}{
         "nation": "England",
         "league": "Premier League",
         "player_count": "30",
+        "average_wage": "300000",
+        "average_value": "500000",
     },
 }
 
@@ -37,18 +39,25 @@ var player_list = []map[string]interface{}{
 templ ClubPage(){
     @Layout.Base(){
         <div class="w-full max-h-full m-16 flex flex-row">
-            <div class="w-1/2">
-                <h1 class="text-4xl font-bold mb-4">Clubs</h1>
-                <div class="flex flex-col">
-                    for _, c := range club {
-                        <div class="flex flex-row">
-                            <div class="w-1/2">
-                                <h2 class="text-2xl font-bold">{c["name"].(string)}</h2>
-                                <p class="text-lg">{c["nation"].(string)}</p>
-                                <p class="text-lg">{c["league"].(string)}</p>
-                            </div>
+            <div class="w-1/4">
+                <div class="w-full h-1/2 bg-gray-200 rounded-lg p-4">
+                    <h1 class="text-2xl font-bold">Club</h1>
+                    <div class="w-full h-1/2 flex flex-col">
+                        <div class="w-full h-1/2 flex flex-row">
+                            <h1 class="text-lg font-bold">Name:</h1>
+                            <h1 class="text-lg ml-2">{club[0]["name"]}</h1>
+                            <h1 class="text-lg font-bold">Nation:</h1>
+                            <h1 class="text-lg ml-2">{club[0]["nation"]}</h1>
+                            <h1 class="text-lg font-bold">League:</h1>
+                            <h1 class="text-lg ml-2">{club[0]["league"]}</h1>
+                            <h1 class="text-lg font-bold">Player Count:</h1>
+                            <h1 class="text-lg ml-2">{club[0]["player_count"]}</h1>
+                            <h1 class="text-lg font-bold"> Average Wage:</h1>
+                            <h1 class="text-lg ml-2">{club[0]["average_wage"]}</h1>
+                            <h1 class="text-lg font-bold"> Average Value:</h1>
+                            <h1 class="text-lg ml-2">{club[0]["average_value"]}</h1>
                         </div>
-                    }
+                    </div>
                 </div>
             </div>
         </div>
