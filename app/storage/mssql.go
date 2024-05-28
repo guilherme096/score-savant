@@ -377,6 +377,7 @@ func (m *MSqlStorage) GetPlayerList(page int, amount int) ([]map[string]interfac
 
 		Players = append(Players, map[string]interface{}{
 			"player_id":      playerID,
+			"page_link":      fmt.Sprintf("/player/%d", playerID),
 			"name":           playerName,
 			"position":       position,
 			"club":           club,
