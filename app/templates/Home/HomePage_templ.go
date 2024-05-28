@@ -31,7 +31,7 @@ func HomePage() templ.Component {
 				templ_7745c5c3_Buffer = templ.GetBuffer()
 				defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div><h1>Home Page</h1></div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"max-w-xl mx-auto h-fit mt-28\"><h1 class=\"text-center text-5xl font-bold\">Score-Savant</h1><div class=\"w-full\"><ul class=\"w-full text-center  p-4 w-80 min-h-full bg-base-200 text-base-content rounded-xl mt-8\"><li class=\"mt-2 h-12 hover:bg-base-300 rounded-xl flex flex-col justify-center items-center align-middle\"><a href=\"/search-player\">Search Player</a></li><li class=\"mt-2 h-12 hover:bg-base-300 rounded-xl flex flex-col justify-center items-center align-middle\"><a href=\"/search-club\">Search Club</a></li><li class=\"mt-2 h-12 hover:bg-base-300 rounded-xl flex flex-col justify-center items-center align-middle\"><a>Compare Players</a></li><li class=\"mt-2 h-12 hover:bg-base-300 rounded-xl flex flex-col justify-center items-center align-middle\"><a>Compare Clubs</a></li><li class=\"mt-2 h-12 hover:bg-base-300 rounded-xl flex flex-col justify-center items-center align-middle\"><a href=\"/player-insertion\">Add Players</a></li></ul></div></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
