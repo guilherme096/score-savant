@@ -15,6 +15,8 @@ import (
 
 	Utils "guilherme096/score-savant/utils"
 
+	Home "guilherme096/score-savant/templates/Home"
+
 	"sort"
 
 	"github.com/a-h/templ"
@@ -167,6 +169,10 @@ func (s *Server) Start() {
 
 	e.GET("/search-club", func(c echo.Context) error {
 		return render(c, Search.ClubSearchPage())
+	})
+
+	e.GET("/", func(c echo.Context) error {
+		return render(c, Home.HomePage())
 	})
 
 	e.Logger.Fatal(e.Start(s.listen_add))
