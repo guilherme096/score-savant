@@ -287,27 +287,27 @@ func (m *MSqlStorage) GetRoleByPlayerId(player_id int) (string, error) {
 	return role_name, nil
 }
 
-func (m *MSqlStorage) GetPlayerList(page int, amount int) ([]map[string]interface{}, error) {
+func (m *MSqlStorage) GetPlayerList(page int, amount int, filters map[string]interface{}) ([]map[string]interface{}, error) {
 	if page < 1 {
 		page = 1
 	}
 	pageNumber := page
-	pageSize := 10
+	pageSize := amount
 	orderBy := ""
 	orderDirection := ""
-	searchPlayerName := ""
-	searchClubName := ""
-	searchPositionName := ""
-	searchNationName := ""
-	searchLeagueName := ""
-	minWage := 0
-	maxWage := 900000.00
-	minValue := -1000000.00
-	maxValue := 50000000.00
-	minAge := 18
-	maxAge := 35
-	minReleaseClause := -1000000.00
-	maxReleaseClause := 100000000.00
+	searchPlayerName := filters["playerName"].(string)
+	searchClubName := filters["clubName"].(string)
+	searchPositionName := filters["positionName"].(string)
+	searchNationName := filters["nationName"].(string)
+	searchLeagueName := filters["leagueName"].(string)
+	minWage := filters["minWage"].(float64)
+	maxWage := filters["maxWage"].(float64)
+	minValue := filters["minValue"].(float64)
+	maxValue := filters["maxValue"].(float64)
+	minAge := filters["minAge"].(int)
+	maxAge := filters["maxAge"].(int)
+	minReleaseClause := filters["minReleaseClause"].(float64)
+	maxReleaseClause := filters["maxReleaseClause"].(float64)
 
 	// Execute the function
 	rows, err := m.db.Query(`

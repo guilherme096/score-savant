@@ -20,10 +20,10 @@ se nao funcionar diz :))
 
 templ PlayerSearchPage(){
     @Layout.Base() {
-        <div class="flex h-full">
-            <div class="w-1/5 bg-gray-200 p-4 ml-10 mt-3 mr-5 rounded-lg">
+        <div class="flex flex-row h-full mr-6 p-4">
+            <div class="w-1/5 bg-gray-200 p-4 ml-10 mr-5 rounded-lg h-fit">
                 <h2 class="text-xl font-bold mb-4">Filters</h2>
-                <form action="/search" method="get" class="space-y-4">
+                <form hx-get="/api/list-players" method="get" hx-target="#table-body" class="space-y-4">
                     <div>
                         <label for="playerName" class="block text-sm font-medium">Player Name</label>
                         <input type="text" name="playerName" id="playerName" placeholder="Player name" class="w-full p-2 border border-gray-300 rounded"/>
@@ -73,20 +73,14 @@ templ PlayerSearchPage(){
                         </div>
                     </div>
                     <div>
-                        <input type="submit" value="Apply Filters" class="w-full p-2 bg-blue-500 text-white font-bold rounded cursor-pointer"/>
+                        <input type="submit" value="Apply Filters" class="w-full p-2 btn btn-primary text-white font-bold rounded cursor-pointer"/>
                     </div>
                 </form>
             </div>
-            <div class="w-full pr-32 pt-7">
-                <div class="search-bar mb-4">
-                    <form action="/search" method="get" class="flex">
-                        <input type="text" name="player" placeholder="Search for a player" class="flex-grow p-2 border border-gray-300 rounded-l"/>
-                        <input type="submit" value="Search" class="p-2 bg-blue-500 text-white font-bold rounded-r cursor-pointer"/>
-                    </form>
-                </div>
+            <div class="w-full">
                 <div class="player-list">
-                    <div class="container mx-auto p-5">
-                         <table class="w-full bg-gray-100 rounded-lg">
+                    <div class="container mx-auto">
+                         <table class="w-full bg-gray-100 rounded-lg shadow-lg overflow-clip">
                             <thead class="bg-gray-300">
                                 <tr>
                                     <th class="py-2 px-6 border-b cursor-pointer">Star</th>
@@ -103,7 +97,7 @@ templ PlayerSearchPage(){
                            <tbody id="table-body" hx-get="api/list-players?page=1" hx-trigger="load" hx-swap="innerHTML">
                            </tbody>
                         </table>
-                         <button id="load-more" class="w-full p-2 bg-blue-500 text-white rounded">Load More</button>
+                         <button id="load-more" class="w-full p-2 btn btn-primary text-white rounded mt-8">Load More</button>
                     </div>
                 </div>
             </div>
