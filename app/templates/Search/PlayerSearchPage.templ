@@ -4,26 +4,35 @@ import (
     "guilherme096/score-savant/templates/Layout"
 )
 
-
-/*
-Como fazer um loop ali em baixo na função
-
-for _, player := range mock_players {
-    <div>
-        <h1>{player["name"]}</h1>
-    </div>
-}
-
-se nao funcionar diz :))
-
-*/
-
 templ PlayerSearchPage(){
     @Layout.Base() {
         <div class="flex flex-row h-full mr-6 p-4">
-            <div class="w-1/5 bg-gray-200 p-4 ml-10 mr-5 rounded-lg h-fit">
+            <div class="w-72 bg-gray-200 p-4 ml-10 mr-5 rounded-lg h-fit">
                 <h2 class="text-xl font-bold mb-4">Filters</h2>
                 <form hx-get="/api/list-players" method="get" hx-target="#table-body" class="space-y-4">
+                    <div>
+                        <input type="submit" value="Apply Filters" class="w-full p-2 btn btn-primary text-white font-bold rounded cursor-pointer"/>
+                    </div>
+                    <div class="flex flex-rol justify-between space-x-">
+                        <div>
+                            <label for="sort" class="block text-sm font-medium">Sort By</label>
+                            <select name="sort" id="sort" class="w-full p-2 border border-gray-300 rounded">
+                                <option value="">Default</option>
+                                <option value="PlayerName">Player Name</option>
+                                <option value="Club">Club Name</option>
+                                <option value="Position">Position</option>
+                                <option value="Nation">Nation</option>
+                                <option value="League">League</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="direction" class="block text-sm font-medium">Direction</label>
+                            <select name="direction" id="direction" class="w-full p-2 border border-gray-300 rounded">
+                                <option value="DESC">Descending</option>
+                                <option value="ASC">Ascending</option>
+                            </select>
+                        </div>
+                    </div>
                     <div>
                         <label for="playerName" class="block text-sm font-medium">Player Name</label>
                         <input type="text" name="playerName" id="playerName" placeholder="Player name" class="w-full p-2 border border-gray-300 rounded"/>

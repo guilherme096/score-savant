@@ -288,13 +288,14 @@ func (m *MSqlStorage) GetRoleByPlayerId(player_id int) (string, error) {
 }
 
 func (m *MSqlStorage) GetPlayerList(page int, amount int, filters map[string]interface{}) ([]map[string]interface{}, error) {
+
 	if page < 1 {
 		page = 1
 	}
 	pageNumber := page
 	pageSize := amount
-	orderBy := ""
-	orderDirection := ""
+	orderBy := filters["order"].(string)
+	orderDirection := filters["direction"].(string)
 	searchPlayerName := filters["playerName"].(string)
 	searchClubName := filters["clubName"].(string)
 	searchPositionName := filters["positionName"].(string)
@@ -348,6 +349,7 @@ func (m *MSqlStorage) GetPlayerList(page int, amount int, filters map[string]int
 		sql.Named("MinReleaseClause", minReleaseClause),
 		sql.Named("MaxReleaseClause", maxReleaseClause),
 	)
+
 	if err != nil {
 		fmt.Println(err)
 	}

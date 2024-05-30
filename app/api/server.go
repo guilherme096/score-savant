@@ -152,6 +152,8 @@ func (s *Server) Start() {
 
 	e.GET("/api/list-players", func(c echo.Context) error {
 		page, page_err := strconv.Atoi(c.QueryParam("page"))
+		order := c.QueryParam("sort")
+		direction := c.QueryParam("direction")
 		playerName := c.QueryParam("playerName")
 		clubName := c.QueryParam("clubName")
 		positionName := c.QueryParam("positionName")
@@ -165,6 +167,10 @@ func (s *Server) Start() {
 		maxAge, err := strconv.Atoi(c.QueryParam("maxAge"))
 		minReleaseClause, err := strconv.ParseFloat(c.QueryParam("minReleaseClause"), 64)
 		maxReleaseClause, err := strconv.ParseFloat(c.QueryParam("maxReleaseClause"), 64)
+
+		if order == "" {
+			direction = ""
+		}
 
 		if page_err != nil {
 			page = 0
@@ -209,8 +215,8 @@ func (s *Server) Start() {
 		filters["maxAge"] = maxAge
 		filters["minReleaseClause"] = minReleaseClause
 		filters["maxReleaseClause"] = maxReleaseClause
-
-		fmt.Println(filters)
+		filters["order"] = order
+		filters["direction"] = direction
 
 		players, err := s.storage.GetPlayerList(page, 15, filters)
 
