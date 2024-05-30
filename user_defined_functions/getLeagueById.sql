@@ -34,6 +34,7 @@ RETURN
         l.league_id = @LeagueID
     GROUP BY
         l.league_id,
-        l.name
+        l.name,
+        n.name
 )
 GO

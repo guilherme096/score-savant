@@ -1,0 +1,81 @@
+package nation
+
+import (
+    "guilherme096/score-savant/templates/Layout"
+	"strconv"
+    Utils "guilherme096/score-savant/utils"
+	"fmt"
+)
+
+var nation map[string]interface{} = map[string]interface{}{
+    "nation_id": 1,
+    "nation_name": "England",
+    "total_leagues": 2,
+    "league_names": []string{"Premier League", "Championship"},
+    "total_player_value": 1000000000.00,
+}
+
+
+templ NationPage() {
+    @Layout.Base() {
+        <div class="w-full max-h-full m-8 flex flex-row">
+            <div class="w-96">
+                <div class="w-full bg-gray-200 rounded-lg p-4">
+                   <h1 class="text-2xl font-bold">{nation["nation_name"].(string)}</h1>
+                    <div class="w-full h-1/2 flex flex-col mt-6">
+                        <div class="w-full h-1/2 flex flex-col">
+                            <div class="flex flex-row">
+                                <h1 class="text-lg font-bold">Total Leagues:</h1>
+                                <h1 class="text-lg ml-2">{strconv.Itoa(nation["total_leagues"].(int))}</h1>
+                            </div>
+                            <div class="flex flex-row">
+                                <h1 class="text-lg font-bold">Leagues:</h1>
+                                <h1 class="text-lg ml-2">
+                                    for _, league := range nation["league_names"].([]string) {
+                                        <span class="text-sm">{league}</span>
+                                    }
+                                </h1>
+                            </div>
+                            <div class="flex flex-row">
+                                <h1 class="text-lg font-bold">Total Value:</h1>
+                                <h1 class="text-lg ml-2">{Utils.FormatNumber(nation["total_player_value"].(float64))}</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mx-auto px-12 flex-1">
+                <div class="search-bar w-full mb-5">
+                    <form action="/search" method="get" class="flex">
+                        <input type="text" name="search" class="w-full p-2 rounded-l-lg border border-gray-300" placeholder="Search for a player"/>
+                        <input type="submit" value="Search" class="p-2 bg-blue-500 text-white font-bold rounded-r-lg cursor-pointer"/>
+                    </form>
+                </div>
+                <div class="w-full">
+                    <div class="club-list">
+                        <div class="mx-auto">
+                            <table class="table table-zebra w-full rounded-lg overflow-clip">
+                                <thead class="bg-gray-300">
+                                    <tr class="text-md">
+                                        <th class="py-2 px-6 border-b">Star</th>
+                                        <th class="py-2 px-6 border-b">Name</th>
+                                        <th class="py-2 px-6 border-b">Age</th>
+                                        <th class="py-2 px-6 border-b">Position</th>
+                                        <th class="py-2 px-6 border-b">Club</th>
+                                        <th class="py-2 px-6 border-b">Nation</th>
+                                        <th class="py-2 px-6 border-b">League</th>
+                                        <th class="py-2 px-6 border-b">Wage</th>
+                                        <th class="py-2 px-6 border-b">Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="table-body" hx-get={fmt.Sprintf("/api/list-players?page=1&nationName=%s", nation["nation_name"].(string))} hx-trigger="load" hx-swap="innerHTML">
+                                </tbody>
+                            </table>
+                            <button id="load-more" class="w-full p-2 btn btn-primary text-white rounded mt-8">Load More</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
