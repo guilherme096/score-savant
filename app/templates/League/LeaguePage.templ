@@ -7,29 +7,18 @@ import (
 	"fmt"
 )
 
-var league map[string]interface{} = map[string]interface{}{
-    "league_id": 1,
-    "league_name": "Premier League",
-    "nation_name": "England",
-    "total_clubs": 20,
-    "total_players": 500,
-    "total_value": 1000000000.00,
-    "total_wage": 100000000.00,
-    "avg_att": 12,
-}
 
-
-templ LeaguePage() {
+templ LeaguePage(league map[string]interface{}) {
     @Layout.Base() {
         <div class="w-full max-h-full m-8 flex flex-row">
             <div class="w-96">
                 <div class="w-full bg-gray-200 rounded-lg p-4">
-                   <h1 class="text-2xl font-bold">{league["league_name"].(string)}</h1>
+                   <h1 class="text-2xl font-bold">{league["name"].(string)}</h1>
                     <div class="w-full h-1/2 flex flex-col mt-6">
                         <div class="w-full h-1/2 flex flex-col">
                             <div class="flex flex-row">
                                 <h1 class="text-lg font-bold">Nation:</h1>
-                                <h1 class="text-lg ml-2">{league["nation_name"].(string)}</h1>
+                                <h1 class="text-lg ml-2">{league["nation"].(string)}</h1>
                             </div>
                             <div class="flex flex-row">
                                 <h1 class="text-lg font-bold">Total Clubs:</h1>
@@ -41,7 +30,7 @@ templ LeaguePage() {
                             </div>
                             <div class="flex flex-row">
                                 <h1 class="text-lg font-bold">Average Attribute Rating:</h1>
-                                <h1 class="text-lg ml-2">{strconv.Itoa(league["avg_att"].(int))}</h1>
+                                <h1 class="text-lg ml-2">{Utils.FormatNumber(league["avg_att"].(float64))}</h1>
                             </div>
                             <div class="flex flex-row">
                                 <h1 class="text-lg font-bold">Total Wage:</h1>
@@ -57,9 +46,9 @@ templ LeaguePage() {
             </div>
             <div class="mx-auto px-12 flex-1">
                 <div class="search-bar w-full mb-5">
-                    <form action="/search" method="get" class="flex">
-                        <input type="text" name="search" class="w-full p-2 rounded-l-lg border border-gray-300" placeholder="Search for a player"/>
-                        <input type="submit" value="Search" class="p-2 bg-blue-500 text-white font-bold rounded-r-lg cursor-pointer"/>
+                    <form hx-get={fmt.Sprintf("/api/list-players?page=1&leagueName=%s", league["name"].(string))} method="get" class="flex" hx-target="#table-body">
+                        <input type="text" name="playerName" class="w-full p-2 rounded-l-lg border border-gray-300" placeholder="Search for a player"/>
+                        <input type="submit" value="Search" class="btn btn-primary rounded-l-none"/>
                     </form>
                 </div>
             <div class="w-full">
@@ -79,8 +68,8 @@ templ LeaguePage() {
                                     <th class="py-2 px-6 border-b">Value</th>
                                 </tr>
                             </thead>
-                           <tbody id="table-body" hx-get={fmt.Sprintf("/api/list-players?page=1&leagueName=%s", league["league_name"].(string))} hx-trigger="load" hx-swap="innerHTML">
-                           </tbody>
+                           <tbody id="table-body" hx-get={fmt.Sprintf("/api/list-players?page=1&leagueName=%s", league["name"].(string))} hx-trigger="load" hx-swap="innerHTML">
+                          </tbody>
                         </table>
                         <button id="load-more" class="w-full p-2 btn btn-primary text-white rounded mt-8">Load More</button>
                     </div>

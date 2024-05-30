@@ -639,6 +639,48 @@ func (m *MSqlStorage) GetLeagueList(page int, amount int, filters map[string]int
 	return Leagues, nil
 }
 
+func (m *MSqlStorage) GetLeagueById(id int) (map[string]interface{}, error) {
+	rows, err := m.db.Query("SELECT * FROM GetLeagueById(@league_id)", sql.Named("league_id", id))
+	if err != nil {
+		fmt.Println(err)
+		return nil, err
+	}
+	defer rows.Close()
+
+	var league map[string]interface{}
+
+	for rows.Next() {
+		var leagueID int
+		var leagueName, nation string
+		var valueTotal float64
+		var totalPlayers int
+		var totalClubs int
+		var totalWage float64
+		var avgAtt float64
+
+		err := rows.Scan(&leagueID, &leagueName, &nation, &totalClubs, &totalPlayers, &valueTotal, &totalWage, &avgAtt)
+		if err != nil {
+			fmt.Println(err)
+			return nil, err
+		}
+
+		league = map[string]interface{}{
+			"league_id":     leagueID,
+			"name":          leagueName,
+			"nation":        nation,
+			"total_value":   valueTotal,
+			"total_clubs":   totalClubs,
+			"total_players": totalPlayers,
+			"total_wage":    totalWage,
+			"avg_att":       avgAtt,
+		}
+	}
+
+	fmt.Println(league)
+
+	return league, nil
+}
+
 // Function to scan values from a row into a slice of interfaces
 func scanValues(rows *sql.Rows, columns []string) ([]interface{}, error) {
 	// Create a slice to hold the values of each row
