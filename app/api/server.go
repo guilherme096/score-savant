@@ -248,7 +248,6 @@ func (s *Server) Start() {
 			fmt.Println(err)
 			return c.String(500, "Internal Server Error")
 		}
-		fmt.Println(club)
 		return render(c, Club.ClubPage(club))
 	})
 
@@ -373,15 +372,13 @@ func (s *Server) Start() {
 		filters["order"] = order
 		filters["direction"] = direction
 
-		players, err := s.storage.GetClubList(page, 15, filters)
-		fmt.Println(players)
+		players, err := s.storage.GetLeagueList(page, 15, filters)
 
 		if err != nil {
 			fmt.Println(err)
 			return c.String(500, "Internal Server Error")
 		}
-		//return render(c, Search.LeagueSearchTable(players))
-		return nil
+		return render(c, Search.LeagueSearchTable(players))
 	})
 
 	e.GET("/search-nation", func(c echo.Context) error {

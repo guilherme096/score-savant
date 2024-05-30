@@ -31,7 +31,7 @@ func Base(children ...templ.Component) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"drawer-side\"><label for=\"my-drawer-4\" aria-label=\"close sidebar\" class=\"drawer-overlay\"></label><ul class=\"menu p-4 w-80 min-h-full bg-base-200 text-base-content\"><li><a href=\"/\">Home</a></li><li><a href=\"/search-player\">Search Player</a></li><li><a href=\"/search-club\">Search Club</a></li><li><a>Compare Players</a></li><li><a>Compare Clubs</a></li><li><a href=\"/player-insertion\">Add Players</a></li></ul></div></div></div><!-- htmx --><script src=\"https://unpkg.com/htmx.org@1.9.12\"></script></body></html>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"drawer-side\"><label for=\"my-drawer-4\" aria-label=\"close sidebar\" class=\"drawer-overlay\"></label><ul class=\"menu p-4 w-80 min-h-full bg-base-200 text-base-content\"><li><a href=\"/\">Home</a></li><li><a href=\"/search-player\">Search Player</a></li><li><a href=\"/search-club\">Search Club</a></li><li><a href=\"/search-league\">Search League</a></li><li><a href=\"/player-insertion\">Add Players</a></li></ul></div></div></div><!-- htmx --><script src=\"https://unpkg.com/htmx.org@1.9.12\"></script></body></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
