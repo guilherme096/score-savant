@@ -15,7 +15,8 @@ templ ClubSearchTable(clubs []map[string]interface{}) {
                         </svg>
                     </button>
                 </th>
-               <td class="py-2 px-6 border-b hover:underline">{club["name"].(string)}</td> 
+               <td class="py-2 px-6 h-20 w-64">
+               <a class="font-bold text-md hover:underline" href={templ.URL(club["page_link"].(string))}>{club["name"].(string)}</a></td>
                <td class="py-2 px-6 border-b hover:underline">{club["nation"].(string)}</td> 
                <td class="py-2 px-6 border-b hover:underline">{club["league"].(string)}</td> 
                <td class="py-2 px-6 border-b">{strconv.Itoa(club["player_count"].(int))}</td> 

@@ -7,8 +7,9 @@ import (
 	"strings"
 	"time"
 
-	_ "github.com/microsoft/go-mssqldb"
 	Utils "guilherme096/score-savant/utils"
+
+	_ "github.com/microsoft/go-mssqldb"
 )
 
 type MSqlStorage struct {
@@ -548,6 +549,13 @@ func (m *MSqlStorage) GetClubById(id int) (map[string]interface{}, error) {
 			switch v := values[i].(type) {
 			case int64:
 				convertedvalue = int(v)
+			case []uint8:
+				strVal := string(v)
+				floatVal, err := strconv.ParseFloat(strVal, 64)
+				if err != nil {
+					return nil, fmt.Errorf("error converting %s to float64: %v", col, err)
+				}
+				convertedvalue = floatVal
 			default:
 				convertedvalue = v
 			}

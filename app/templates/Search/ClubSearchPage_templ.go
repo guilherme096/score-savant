@@ -12,25 +12,6 @@ import "bytes"
 
 import "guilherme096/score-savant/templates/Layout"
 
-var clubs = []map[string]interface{}{
-	{
-		"name":         "Manchester United",
-		"nation":       "England",
-		"league":       "Premier League",
-		"player_count": 30,
-		"wage_total":   1000000.00,
-		"value_total":  1000000000.00,
-	},
-	{
-		"name":         "Manchester City",
-		"nation":       "England",
-		"league":       "Premier League",
-		"player_count": 38,
-		"wage_total":   1200000.00,
-		"value_total":  10000000.00,
-	},
-}
-
 func ClubSearchPage() templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)

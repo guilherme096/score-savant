@@ -236,8 +236,20 @@ func (s *Server) Start() {
 		return render(c, Search.PlayerSearchTable(players))
 	})
 
-	e.GET("/club", func(c echo.Context) error {
-		return render(c, Club.ClubPage())
+	e.GET("/club/:id", func(c echo.Context) error {
+		id, err := strconv.Atoi(c.Param("id"))
+		if err != nil {
+			fmt.Println(err)
+			return c.String(500, "Internal Server Error")
+		}
+
+		club, err := s.storage.GetClubById(id)
+		if err != nil {
+			fmt.Println(err)
+			return c.String(500, "Internal Server Error")
+		}
+		fmt.Println(club)
+		return render(c, Club.ClubPage(club))
 	})
 
 	e.GET("/search-league", func(c echo.Context) error {
@@ -362,12 +374,14 @@ func (s *Server) Start() {
 		filters["direction"] = direction
 
 		players, err := s.storage.GetClubList(page, 15, filters)
+		fmt.Println(players)
 
 		if err != nil {
 			fmt.Println(err)
 			return c.String(500, "Internal Server Error")
 		}
-		return render(c, Search.LeagueSearchTable(players))
+		//return render(c, Search.LeagueSearchTable(players))
+		return nil
 	})
 
 	e.GET("/", func(c echo.Context) error {
