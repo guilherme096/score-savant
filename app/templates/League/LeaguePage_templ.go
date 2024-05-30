@@ -17,7 +17,18 @@ import (
 	"strconv"
 )
 
-func ClubPage(club map[string]interface{}) templ.Component {
+var league map[string]interface{} = map[string]interface{}{
+	"league_id":     1,
+	"league_name":   "Premier League",
+	"nation_name":   "England",
+	"total_clubs":   20,
+	"total_players": 500,
+	"total_value":   1000000000.00,
+	"total_wage":    100000000.00,
+	"avg_att":       12,
+}
+
+func LeaguePage() templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -36,14 +47,14 @@ func ClubPage(club map[string]interface{}) templ.Component {
 				templ_7745c5c3_Buffer = templ.GetBuffer()
 				defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"w-full max-h-full m-10 flex flex-row\"><div class=\"w-96 flex flex-col\"><div class=\"w-full\"><div class=\"w-full bg-gray-200 rounded-lg p-4\"><h1 class=\"text-2xl font-bold\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"w-full max-h-full m-8 flex flex-row\"><div class=\"w-96\"><div class=\"w-full bg-gray-200 rounded-lg p-4\"><h1 class=\"text-2xl font-bold\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var3 string
-			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(club["club_name"].(string))
+			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(league["league_name"].(string))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/Club/ClubPage.templ`, Line: 17, Col: 81}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/League/LeaguePage.templ`, Line: 27, Col: 81}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
@@ -54,87 +65,87 @@ func ClubPage(club map[string]interface{}) templ.Component {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var4 string
-			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(club["nation_name"].(string))
+			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(league["nation_name"].(string))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/Club/ClubPage.templ`, Line: 22, Col: 90}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/League/LeaguePage.templ`, Line: 32, Col: 88}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h1></div><div class=\"flex flex-row\"><h1 class=\"text-lg font-bold\">League:</h1><h1 class=\"text-lg ml-2\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h1></div><div class=\"flex flex-row\"><h1 class=\"text-lg font-bold\">Total Clubs:</h1><h1 class=\"text-lg ml-2\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var5 string
-			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(club["league_name"].(string))
+			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(league["total_clubs"].(int)))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/Club/ClubPage.templ`, Line: 26, Col: 90}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/League/LeaguePage.templ`, Line: 36, Col: 99}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h1></div></div></div></div></div><div class=\"w-full mt-4 bg-gray-200 rounded-lg p-4\"><h1 class=\"text-2xl font-bold\">Statistics</h1><div class=\"w-full h-1/2 flex flex-col\"><div class=\"flex flex-row\"><h1 class=\"text-lg font-bold\">Player Count:</h1><h1 class=\"text-lg ml-2\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h1></div><div class=\"flex flex-row\"><h1 class=\"text-lg font-bold\">Player Count:</h1><h1 class=\"text-lg ml-2\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var6 string
-			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(club["player_count"].(int)))
+			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(league["total_players"].(int)))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/Club/ClubPage.templ`, Line: 37, Col: 94}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/League/LeaguePage.templ`, Line: 40, Col: 101}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h1></div><div class=\"flex flex-row\"><h1 class=\"text-lg font-bold\">Average Wage:</h1><h1 class=\"text-lg ml-2\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h1></div><div class=\"flex flex-row\"><h1 class=\"text-lg font-bold\">Average Attribute Rating:</h1><h1 class=\"text-lg ml-2\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var7 string
-			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(Utils.FormatNumber(club["wage_average"].(float64)))
+			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(league["avg_att"].(int)))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/Club/ClubPage.templ`, Line: 41, Col: 104}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/League/LeaguePage.templ`, Line: 44, Col: 95}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h1></div><div class=\"flex flex-row\"><h1 class=\"text-lg font-bold\">Average Value:</h1><h1 class=\"text-lg ml-2\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h1></div><div class=\"flex flex-row\"><h1 class=\"text-lg font-bold\">Total Wage:</h1><h1 class=\"text-lg ml-2\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var8 string
-			templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(Utils.FormatNumber(club["wage_average"].(float64)))
+			templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(Utils.FormatNumber(league["total_wage"].(float64)))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/Club/ClubPage.templ`, Line: 45, Col: 104}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/League/LeaguePage.templ`, Line: 48, Col: 108}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h1></div></div></div></div><div class=\"mx-auto pl-6 pr-20 flex-1\"><div class=\"search-bar w-full mb-5\"><form class=\"flex\" hx-get=\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h1></div><div class=\"flex flex-row\"><h1 class=\"text-lg font-bold\">Total Value:</h1><h1 class=\"text-lg ml-2\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var9 string
-			templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("/api/list-players?page=1&clubName=%s", club["club_name"].(string)))
+			templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(Utils.FormatNumber(league["total_value"].(float64)))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/Club/ClubPage.templ`, Line: 52, Col: 126}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/League/LeaguePage.templ`, Line: 52, Col: 109}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-target=\"#table-body\"><input type=\"text\" name=\"playerName\" class=\"w-full p-2 rounded-l-lg border border-gray-300\" placeholder=\"Search for a player\"> <input type=\"submit\" value=\"Search\" class=\"btn btn-primary rounded-l-none\"></form></div><div class=\"w-full\"><div class=\"club-list\"><div class=\"mx-auto\"><table class=\"table table-zebra w-full rounded-lg overflow-clip\"><thead class=\"bg-gray-300\"><tr class=\"text-md\"><th class=\"py-2 px-6 border-b\">Star</th><th class=\"py-2 px-6 border-b\">Name</th><th class=\"py-2 px-6 border-b\">Age</th><th class=\"py-2 px-6 border-b\">Position</th><th class=\"py-2 px-6 border-b\">Club</th><th class=\"py-2 px-6 border-b\">Nation</th><th class=\"py-2 px-6 border-b\">League</th><th class=\"py-2 px-6 border-b\">Wage</th><th class=\"py-2 px-6 border-b\">Value</th></tr></thead> <tbody id=\"table-body\" hx-get=\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h1></div></div></div></div></div><div class=\"mx-auto px-12 flex-1\"><div class=\"search-bar w-full mb-5\"><form action=\"/search\" method=\"get\" class=\"flex\"><input type=\"text\" name=\"search\" class=\"w-full p-2 rounded-l-lg border border-gray-300\" placeholder=\"Search for a player\"> <input type=\"submit\" value=\"Search\" class=\"p-2 bg-blue-500 text-white font-bold rounded-r-lg cursor-pointer\"></form></div><div class=\"w-full\"><div class=\"club-list\"><div class=\"mx-auto\"><table class=\"table table-zebra w-full rounded-lg overflow-clip\"><thead class=\"bg-gray-300\"><tr class=\"text-md\"><th class=\"py-2 px-6 border-b\">Star</th><th class=\"py-2 px-6 border-b\">Name</th><th class=\"py-2 px-6 border-b\">Age</th><th class=\"py-2 px-6 border-b\">Position</th><th class=\"py-2 px-6 border-b\">Club</th><th class=\"py-2 px-6 border-b\">Nation</th><th class=\"py-2 px-6 border-b\">League</th><th class=\"py-2 px-6 border-b\">Wage</th><th class=\"py-2 px-6 border-b\">Value</th></tr></thead> <tbody id=\"table-body\" hx-get=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var10 string
-			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("/api/list-players?page=1&clubName=%s", club["club_name"].(string)))
+			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("/api/list-players?page=1&leagueName=%s", league["league_name"].(string)))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/Club/ClubPage.templ`, Line: 74, Col: 137}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/League/LeaguePage.templ`, Line: 82, Col: 143}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 			if templ_7745c5c3_Err != nil {
