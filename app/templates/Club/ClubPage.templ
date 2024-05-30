@@ -10,41 +10,48 @@ import (
 
 templ ClubPage(club map[string]interface{}) {
     @Layout.Base() {
-        <div class="w-full max-h-full m-8 flex flex-row">
-            <div class="w-96">
-                <div class="w-full bg-gray-200 rounded-lg p-4">
-                   <h1 class="text-2xl font-bold">{club["club_name"].(string)}</h1>
-                    <div class="w-full h-1/2 flex flex-col mt-6">
-                        <div class="w-full h-1/2 flex flex-col">
-                            <div class="flex flex-row">
-                                <h1 class="text-lg font-bold">Nation:</h1>
-                                <h1 class="text-lg ml-2">{club["nation_name"].(string)}</h1>
-                            </div>
-                            <div class="flex flex-row">
-                                <h1 class="text-lg font-bold">League:</h1>
-                                <h1 class="text-lg ml-2">{club["league_name"].(string)}</h1>
-                            </div>
-                            <div class="flex flex-row">
-                                <h1 class="text-lg font-bold">Player Count:</h1>
-                                <h1 class="text-lg ml-2">{strconv.Itoa(club["player_count"].(int))}</h1>
-                            </div>
-                            <div class="flex flex-row">
-                                <h1 class="text-lg font-bold">Average Wage:</h1>
-                                <h1 class="text-lg ml-2">{Utils.FormatNumber(club["wage_average"].(float64))}</h1>
-                            </div>
-                            <div class="flex flex-row">
-                                <h1 class="text-lg font-bold">Average Value:</h1>
-                                <h1 class="text-lg ml-2">{Utils.FormatNumber(club["value_average"].(float64))}</h1>
+        <div class="w-full max-h-full m-10 flex flex-row">
+            <div class="w-96 flex flex-col">
+                <div class="w-full">
+                    <div class="w-full bg-gray-200 rounded-lg p-4">
+                       <h1 class="text-2xl font-bold">{club["club_name"].(string)}</h1>
+                        <div class="w-full h-1/2 flex flex-col mt-6">
+                            <div class="w-full h-1/2 flex flex-col">
+                                <div class="flex flex-row">
+                                    <h1 class="text-lg font-bold">Nation:</h1>
+                                    <h1 class="text-lg ml-2">{club["nation_name"].(string)}</h1>
+                                </div>
+                                <div class="flex flex-row">
+                                    <h1 class="text-lg font-bold">League:</h1>
+                                    <h1 class="text-lg ml-2">{club["league_name"].(string)}</h1>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="w-full mt-4 bg-gray-200 rounded-lg p-4">
+                    <h1 class="text-2xl font-bold">Statistics</h1>
+                    <div class="w-full h-1/2 flex flex-col">
+                        <div class="flex flex-row">
+                            <h1 class="text-lg font-bold">Player Count:</h1>
+                            <h1 class="text-lg ml-2">{strconv.Itoa(club["player_count"].(int))}</h1>
+                        </div>
+                        <div class="flex flex-row">
+                            <h1 class="text-lg font-bold">Average Wage:</h1>
+                            <h1 class="text-lg ml-2">{Utils.FormatNumber(club["wage_average"].(float64))}</h1>
+                        </div>
+                        <div class="flex flex-row">
+                            <h1 class="text-lg font-bold">Average Value:</h1>
+                            <h1 class="text-lg ml-2">{Utils.FormatNumber(club["wage_average"].(float64))}</h1>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="mx-auto px-12 flex-1">
+            <div class="mx-auto pl-6 pr-20 flex-1">
                 <div class="search-bar w-full mb-5">
-                    <form action="/search" method="get" class="flex">
-                        <input type="text" name="search" class="w-full p-2 rounded-l-lg border border-gray-300" placeholder="Search for a player"/>
-                        <input type="submit" value="Search" class="p-2 bg-blue-500 text-white font-bold rounded-r-lg cursor-pointer"/>
+                    <form class="flex" hx-get={fmt.Sprintf("/api/list-players?page=1&clubName=%s", club["club_name"].(string))} hx-target="#table-body">
+                        <input type="text" name="playerName" class="w-full p-2 rounded-l-lg border border-gray-300" placeholder="Search for a player"/>
+                        <input type="submit" value="Search" class="btn btn-primary rounded-l-none"/>
                     </form>
                 </div>
             <div class="w-full">
