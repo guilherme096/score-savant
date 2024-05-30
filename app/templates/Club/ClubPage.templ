@@ -42,8 +42,8 @@ templ ClubPage(club map[string]interface{}) {
             </div>
             <div class="mx-auto px-12 flex-1">
                 <div class="search-bar w-full mb-5">
-                    <form action="/search" method="get" class="flex">
-                        <input type="text" name="search" class="w-full p-2 rounded-l-lg border border-gray-300" placeholder="Search for a player"/>
+                    <form class="flex" hx-get={fmt.Sprintf("/api/list-players?page=1&clubName=%s", club["club_name"].(string))} hx-target="#table-body">
+                        <input type="text" name="playerName" class="w-full p-2 rounded-l-lg border border-gray-300" placeholder="Search for a player"/>
                         <input type="submit" value="Search" class="p-2 bg-blue-500 text-white font-bold rounded-r-lg cursor-pointer"/>
                     </form>
                 </div>
