@@ -71,10 +71,7 @@ templ LeagueSearchPage(){
         <div class="flex flex-row h-full mr-6 p-4">
             <div class="w-80 bg-gray-200 p-4 ml-10 mr-5 rounded-lg h-fit">
                 <h2 class="text-xl font-bold mb-4">Filters</h2>
-                <form hx-get="/api/list-clubs" method="get" hx-target="#table-body" class="space-y-4">
-                    <div>
-                        <input type="submit" value="Apply Filters" class="w-full p-2 btn btn-primary text-white font-bold rounded cursor-pointer"/>
-                    </div>
+                <form hx-get="/api/list-leagues" hx-target="#table-body" class="space-y-4">
                     <div class="flex flex-rol justify-between space-x-2">
                         <div>
                             <label for="sort" class="block text-sm font-medium">Sort By</label>
@@ -94,8 +91,8 @@ templ LeagueSearchPage(){
                         </div>
                         </div>
                     <div>
-                        <label for="clubName" class="block text-sm font-medium">League Name</label>
-                        <input type="text" name="clubName" id="clubName" placeholder="Club name" class="w-full p-2 border border-gray-300 rounded"/>
+                        <label for="leagueName" class="block text-sm font-medium">League Name</label>
+                        <input type="text" name="leagueName" id="leagueName" placeholder="League Name" class="w-full p-2 border border-gray-300 rounded"/>
                     </div>
                     <div>
                         <label for="nationName" class="block text-sm font-medium">Nation</label>
@@ -125,8 +122,7 @@ templ LeagueSearchPage(){
                                     <th class="py-2 px-6 border-b cursor-pointer">Value Total</th>
                                 </tr>
                             </thead>
-                           <tbody id="table-body">
-                                @LeagueSearchTable(leagues)
+                           <tbody id="table-body" hx-get="api/list-leagues?page=1" hx-trigger="load" hx-swap="innerHTML">
                            </tbody>
                         </table>
                         <button id="load-more" class="w-full p-2 btn btn-primary text-white rounded mt-8">Load More</button>
@@ -148,9 +144,6 @@ templ LeagueSearchPage(){
             target: '#table-body',
         });
         }
-
-// Initially load the first page
-fetchPage(currentPage);
-</script>
+        </script>
 }
 }
