@@ -240,6 +240,10 @@ func (s *Server) Start() {
 		return render(c, Club.ClubPage())
 	})
 
+	e.GET("/search-league", func(c echo.Context) error {
+		return render(c, Search.LeagueSearchPage())
+	})
+
 	e.GET("/search-club", func(c echo.Context) error {
 		return render(c, Search.ClubSearchPage())
 	})
@@ -303,6 +307,67 @@ func (s *Server) Start() {
 			return c.String(500, "Internal Server Error")
 		}
 		return render(c, Search.ClubSearchTable(players))
+	})
+
+	e.GET("/api/list-leagues", func(c echo.Context) error {
+		page, page_err := strconv.Atoi(c.QueryParam("page"))
+		order := c.QueryParam("sort")
+		direction := c.QueryParam("direction")
+		clubName := c.QueryParam("clubName")
+		nationName := c.QueryParam("nationName")
+		leagueName := c.QueryParam("leagueName")
+		minWage, err := strconv.ParseFloat(c.QueryParam("minWage"), 64)
+		maxWage, err := strconv.ParseFloat(c.QueryParam("maxWage"), 64)
+		minValue, err := strconv.ParseFloat(c.QueryParam("minValue"), 64)
+		maxValue, err := strconv.ParseFloat(c.QueryParam("maxValue"), 64)
+		minPlayerCount, err := strconv.Atoi(c.QueryParam("minPlayerCount"))
+		maxPlayerCount, err := strconv.Atoi(c.QueryParam("maxPlayerCount"))
+
+		if maxPlayerCount == 0 {
+			maxPlayerCount = 99999999999999
+		}
+
+		if order == "" {
+			direction = ""
+		}
+
+		if page_err != nil {
+			page = 0
+		}
+
+		if maxWage == 0 {
+			maxWage = 99999999
+		}
+
+		if minValue == 0 {
+			minValue = -2
+		}
+
+		if maxValue == 0 {
+			maxValue = 99999999
+		}
+
+		filters := make(map[string]interface{})
+
+		filters["clubName"] = clubName
+		filters["nationName"] = nationName
+		filters["leagueName"] = leagueName
+		filters["minWage"] = minWage
+		filters["maxWage"] = maxWage
+		filters["minValue"] = minValue
+		filters["maxValue"] = maxValue
+		filters["minPlayerCount"] = minPlayerCount
+		filters["maxPlayerCount"] = maxPlayerCount
+		filters["order"] = order
+		filters["direction"] = direction
+
+		players, err := s.storage.GetClubList(page, 15, filters)
+
+		if err != nil {
+			fmt.Println(err)
+			return c.String(500, "Internal Server Error")
+		}
+		return render(c, Search.LeagueSearchTable(players))
 	})
 
 	e.GET("/", func(c echo.Context) error {

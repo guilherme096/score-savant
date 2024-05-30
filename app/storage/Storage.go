@@ -13,4 +13,5 @@ type IStorage interface {
 	GetClubList(page int, amount int, filters map[string]interface{}) ([]map[string]interface{}, error)
 	GetRandomPlayer() (name string, nation string, club string, url string, playerId int, nationId int, clubId int, err error)
 	GetClubById(id int) (map[string]interface{}, error)
+	GetLeagueList(page int, amount int, filters map[string]interface{}) ([]map[string]interface{}, error)
 }

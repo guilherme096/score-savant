@@ -560,6 +560,77 @@ func (m *MSqlStorage) GetClubById(id int) (map[string]interface{}, error) {
 	return club, nil
 }
 
+func (m *MSqlStorage) GetLeagueList(page int, amount int, filters map[string]interface{}) ([]map[string]interface{}, error) {
+	if page < 1 {
+		page = 1
+	}
+	pageNumber := page
+	pageSize := amount
+	orderBy := filters["order"].(string)
+	orderDirection := filters["direction"].(string)
+	searchLeagueName := filters["leagueName"].(string)
+	searchNationName := filters["nationName"].(string)
+	minValue := filters["minValue"].(float64)
+	maxValue := filters["maxValue"].(float64)
+
+	// Execute the function
+	rows, err := m.db.Query(`
+        SELECT * FROM dbo.GetLeaguesWithPagination(
+            @PageNumber,
+            @PageSize,
+            @OrderBy,
+            @OrderDirection,
+            @SearchLeagueName,
+            @SearchNationName,
+            @MinValueTotal,
+            @MaxValueTotal
+        )`,
+		sql.Named("PageNumber", pageNumber),
+		sql.Named("PageSize", pageSize),
+		sql.Named("OrderBy", orderBy),
+		sql.Named("OrderDirection", orderDirection),
+		sql.Named("SearchLeagueName", searchLeagueName),
+		sql.Named("SearchNationName", searchNationName),
+		sql.Named("MinValueTotal", minValue),
+		sql.Named("MaxValueTotal", maxValue),
+	)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer rows.Close()
+
+	var Leagues []map[string]interface{} = nil
+
+	// Process the results
+	for rows.Next() {
+		var leagueID int
+		var leagueName, nation string
+		var valueTotal float64
+
+		err := rows.Scan(&leagueID, &leagueName, &nation, &valueTotal)
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		Leagues = append(Leagues, map[string]interface{}{
+			"league_id":   leagueID,
+			"page_link":   fmt.Sprintf("/league/%d", leagueID),
+			"name":        leagueName,
+			"nation":      nation,
+			"value_total": valueTotal,
+		})
+
+	}
+
+	if err := rows.Err(); err != nil {
+		fmt.Println(err)
+		return nil, err
+	}
+
+	return Leagues, nil
+}
+
 // Function to scan values from a row into a slice of interfaces
 func scanValues(rows *sql.Rows, columns []string) ([]interface{}, error) {
 	// Create a slice to hold the values of each row
