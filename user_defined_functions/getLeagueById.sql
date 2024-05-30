@@ -19,6 +19,7 @@ RETURN
     SELECT
         l.league_id,
         l.name AS league_name,
+        n.name AS nation_name,
         COUNT(DISTINCT c.club_id) AS total_clubs,
         COUNT(DISTINCT p.player_id) AS total_players,
         SUM(c.value_total) AS total_value,
@@ -28,6 +29,7 @@ RETURN
         League l
         INNER JOIN Club c ON l.league_id = c.league_id
         INNER JOIN Player p ON c.club_id = p.club_id
+        INNER JOIN Nation n ON l.nation_id = n.nation_id
     WHERE
         l.league_id = @LeagueID
     GROUP BY

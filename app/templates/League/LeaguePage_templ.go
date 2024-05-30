@@ -17,7 +17,18 @@ import (
 	"strconv"
 )
 
-func ClubPage(club map[string]interface{}) templ.Component {
+var league map[string]interface{} = map[string]interface{}{
+	"league_id":     1,
+	"league_name":   "Premier League",
+	"nation_name":   "England",
+	"total_clubs":   20,
+	"total_players": 500,
+	"total_value":   1000000000.00,
+	"total_wage":    100000000.00,
+	"avg_att":       12,
+}
+
+func LeaguePage() templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -41,9 +52,9 @@ func ClubPage(club map[string]interface{}) templ.Component {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var3 string
-			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(club["club_name"].(string))
+			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(league["league_name"].(string))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/Club/ClubPage.templ`, Line: 16, Col: 77}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/League/LeaguePage.templ`, Line: 27, Col: 81}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
@@ -54,22 +65,22 @@ func ClubPage(club map[string]interface{}) templ.Component {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var4 string
-			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(club["nation_name"].(string))
+			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(league["nation_name"].(string))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/Club/ClubPage.templ`, Line: 21, Col: 86}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/League/LeaguePage.templ`, Line: 32, Col: 88}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h1></div><div class=\"flex flex-row\"><h1 class=\"text-lg font-bold\">League:</h1><h1 class=\"text-lg ml-2\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h1></div><div class=\"flex flex-row\"><h1 class=\"text-lg font-bold\">Total Clubs:</h1><h1 class=\"text-lg ml-2\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var5 string
-			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(club["league_name"].(string))
+			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(league["total_clubs"].(int)))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/Club/ClubPage.templ`, Line: 25, Col: 86}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/League/LeaguePage.templ`, Line: 36, Col: 99}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {
@@ -80,37 +91,50 @@ func ClubPage(club map[string]interface{}) templ.Component {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var6 string
-			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(club["player_count"].(int)))
+			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(league["total_players"].(int)))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/Club/ClubPage.templ`, Line: 29, Col: 98}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/League/LeaguePage.templ`, Line: 40, Col: 101}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h1></div><div class=\"flex flex-row\"><h1 class=\"text-lg font-bold\">Average Wage:</h1><h1 class=\"text-lg ml-2\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h1></div><div class=\"flex flex-row\"><h1 class=\"text-lg font-bold\">Average Attribute Rating:</h1><h1 class=\"text-lg ml-2\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var7 string
-			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(Utils.FormatNumber(club["wage_average"].(float64)))
+			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(league["avg_att"].(int)))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/Club/ClubPage.templ`, Line: 33, Col: 108}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/League/LeaguePage.templ`, Line: 44, Col: 95}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h1></div><div class=\"flex flex-row\"><h1 class=\"text-lg font-bold\">Average Value:</h1><h1 class=\"text-lg ml-2\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h1></div><div class=\"flex flex-row\"><h1 class=\"text-lg font-bold\">Total Wage:</h1><h1 class=\"text-lg ml-2\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var8 string
-			templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(Utils.FormatNumber(club["value_average"].(float64)))
+			templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(Utils.FormatNumber(league["total_wage"].(float64)))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/Club/ClubPage.templ`, Line: 37, Col: 109}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/League/LeaguePage.templ`, Line: 48, Col: 108}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h1></div><div class=\"flex flex-row\"><h1 class=\"text-lg font-bold\">Total Value:</h1><h1 class=\"text-lg ml-2\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var9 string
+			templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(Utils.FormatNumber(league["total_value"].(float64)))
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/League/LeaguePage.templ`, Line: 52, Col: 109}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -118,12 +142,12 @@ func ClubPage(club map[string]interface{}) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var9 string
-			templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("/api/list-players?page=1&clubName=%s", club["club_name"].(string)))
+			var templ_7745c5c3_Var10 string
+			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("/api/list-players?page=1&leagueName=%s", league["league_name"].(string)))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/Club/ClubPage.templ`, Line: 67, Col: 137}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/League/LeaguePage.templ`, Line: 82, Col: 143}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

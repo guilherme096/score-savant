@@ -7,34 +7,49 @@ import (
 	"fmt"
 )
 
+var league map[string]interface{} = map[string]interface{}{
+    "league_id": 1,
+    "league_name": "Premier League",
+    "nation_name": "England",
+    "total_clubs": 20,
+    "total_players": 500,
+    "total_value": 1000000000.00,
+    "total_wage": 100000000.00,
+    "avg_att": 12,
+}
 
-templ ClubPage(club map[string]interface{}) {
+
+templ LeaguePage() {
     @Layout.Base() {
         <div class="w-full max-h-full m-8 flex flex-row">
             <div class="w-96">
                 <div class="w-full bg-gray-200 rounded-lg p-4">
-                   <h1 class="text-2xl font-bold">{club["club_name"].(string)}</h1>
+                   <h1 class="text-2xl font-bold">{league["league_name"].(string)}</h1>
                     <div class="w-full h-1/2 flex flex-col mt-6">
                         <div class="w-full h-1/2 flex flex-col">
                             <div class="flex flex-row">
                                 <h1 class="text-lg font-bold">Nation:</h1>
-                                <h1 class="text-lg ml-2">{club["nation_name"].(string)}</h1>
+                                <h1 class="text-lg ml-2">{league["nation_name"].(string)}</h1>
                             </div>
                             <div class="flex flex-row">
-                                <h1 class="text-lg font-bold">League:</h1>
-                                <h1 class="text-lg ml-2">{club["league_name"].(string)}</h1>
+                                <h1 class="text-lg font-bold">Total Clubs:</h1>
+                                <h1 class="text-lg ml-2">{strconv.Itoa(league["total_clubs"].(int))}</h1>
                             </div>
                             <div class="flex flex-row">
                                 <h1 class="text-lg font-bold">Player Count:</h1>
-                                <h1 class="text-lg ml-2">{strconv.Itoa(club["player_count"].(int))}</h1>
+                                <h1 class="text-lg ml-2">{strconv.Itoa(league["total_players"].(int))}</h1>
                             </div>
                             <div class="flex flex-row">
-                                <h1 class="text-lg font-bold">Average Wage:</h1>
-                                <h1 class="text-lg ml-2">{Utils.FormatNumber(club["wage_average"].(float64))}</h1>
+                                <h1 class="text-lg font-bold">Average Attribute Rating:</h1>
+                                <h1 class="text-lg ml-2">{strconv.Itoa(league["avg_att"].(int))}</h1>
                             </div>
                             <div class="flex flex-row">
-                                <h1 class="text-lg font-bold">Average Value:</h1>
-                                <h1 class="text-lg ml-2">{Utils.FormatNumber(club["value_average"].(float64))}</h1>
+                                <h1 class="text-lg font-bold">Total Wage:</h1>
+                                <h1 class="text-lg ml-2">{Utils.FormatNumber(league["total_wage"].(float64))}</h1>
+                            </div>
+                            <div class="flex flex-row">
+                                <h1 class="text-lg font-bold">Total Value:</h1>
+                                <h1 class="text-lg ml-2">{Utils.FormatNumber(league["total_value"].(float64))}</h1>
                             </div>
                         </div>
                     </div>
@@ -64,7 +79,7 @@ templ ClubPage(club map[string]interface{}) {
                                     <th class="py-2 px-6 border-b">Value</th>
                                 </tr>
                             </thead>
-                           <tbody id="table-body" hx-get={fmt.Sprintf("/api/list-players?page=1&clubName=%s", club["club_name"].(string))} hx-trigger="load" hx-swap="innerHTML">
+                           <tbody id="table-body" hx-get={fmt.Sprintf("/api/list-players?page=1&leagueName=%s", league["league_name"].(string))} hx-trigger="load" hx-swap="innerHTML">
                            </tbody>
                         </table>
                         <button id="load-more" class="w-full p-2 btn btn-primary text-white rounded mt-8">Load More</button>
