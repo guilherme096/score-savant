@@ -384,6 +384,10 @@ func (s *Server) Start() {
 		return nil
 	})
 
+	e.GET("/search-nation", func(c echo.Context) error {
+		return render(c, Search.NationSearchPage())
+	})
+
 	e.GET("/", func(c echo.Context) error {
 		return render(c, Home.HomePage())
 	})

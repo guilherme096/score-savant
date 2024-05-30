@@ -2,71 +2,60 @@ package Search;
 
 import "guilherme096/score-savant/templates/Layout"
 
-var leagues = []map[string]interface{}{
+var nations = []map[string]interface{}{
     {
-        "LeagueID": 1,
-        "LeagueName": "Premier League",
-        "Nation": "England",
-        "ValueTotal": 7000000000.00,
+        "NationID": 1,
+        "NationName": "Brazil",
+        "ValueTotal": 1000000.00,
     },
     {
-        "LeagueID": 2,
-        "LeagueName": "LaLiga",
-        "Nation": "Spain",
-        "ValueTotal": 5000000000.00,
+        "NationID": 2,
+        "NationName": "Argentina",
+        "ValueTotal": 2000000.00,
     },
     {
-        "LeagueID": 3,
-        "LeagueName": "Serie A",
-        "Nation": "Italy",
-        "ValueTotal": 4500000000.00,
+        "NationID": 3,
+        "NationName": "Germany",
+        "ValueTotal": 3000000.00,
     },
     {
-        "LeagueID": 4,
-        "LeagueName": "Bundesliga",
-        "Nation": "Germany",
-        "ValueTotal": 4200000000.00,
+        "NationID": 4,
+        "NationName": "France",
+        "ValueTotal": 4000000.00,
     },
     {
-        "LeagueID": 5,
-        "LeagueName": "Ligue 1",
-        "Nation": "France",
-        "ValueTotal": 3500000000.00,
+        "NationID": 5,
+        "NationName": "Spain",
+        "ValueTotal": 5000000.00,
     },
     {
-        "LeagueID": 6,
-        "LeagueName": "Eredivisie",
-        "Nation": "Netherlands",
-        "ValueTotal": 1000000000.00,
+        "NationID": 6,
+        "NationName": "Italy",
+        "ValueTotal": 6000000.00,
     },
     {
-        "LeagueID": 7,
-        "LeagueName": "Primeira Liga",
-        "Nation": "Portugal",
-        "ValueTotal": 1200000000.00,
+        "NationID": 7,
+        "NationName": "England",
+        "ValueTotal": 7000000.00,
     },
     {
-        "LeagueID": 8,
-        "LeagueName": "Major League Soccer",
-        "Nation": "USA",
-        "ValueTotal": 1500000000.00,
+        "NationID": 8,
+        "NationName": "Portugal",
+        "ValueTotal": 8000000.00,
     },
     {
-        "LeagueID": 9,
-        "LeagueName": "Brasileirão",
-        "Nation": "Brazil",
-        "ValueTotal": 1300000000.00,
+        "NationID": 9,
+        "NationName": "Netherlands",
+        "ValueTotal": 9000000.00,
     },
     {
-        "LeagueID": 10,
-        "LeagueName": "J1 League",
-        "Nation": "Japan",
-        "ValueTotal": 800000000.00,
+        "NationID": 10,
+        "NationName": "Belgium",
+        "ValueTotal": 10000000.00,
     },
 }
 
-
-templ LeagueSearchPage(){
+templ NationSearchPage(){
     @Layout.Base() {
         <div class="flex flex-row h-full mr-6 p-4">
             <div class="w-80 bg-gray-200 p-4 ml-10 mr-5 rounded-lg h-fit">
@@ -80,7 +69,6 @@ templ LeagueSearchPage(){
                             <label for="sort" class="block text-sm font-medium">Sort By</label>
                             <select name="sort" id="sort" class="select select-bordered w-full max-w-1/2">
                                 <option value="">Default</option>
-                                <option value="League">League</option>
                                 <option value="Nation">Nation</option>
                                 <option value="Value">Value</option>
                             </select>
@@ -93,10 +81,6 @@ templ LeagueSearchPage(){
                             </select>
                         </div>
                         </div>
-                    <div>
-                        <label for="clubName" class="block text-sm font-medium">League Name</label>
-                        <input type="text" name="clubName" id="clubName" placeholder="Club name" class="w-full p-2 border border-gray-300 rounded"/>
-                    </div>
                     <div>
                         <label for="nationName" class="block text-sm font-medium">Nation</label>
                         <input type="text" name="nationName" id="nationName" placeholder="Nation" class="w-full p-2 border border-gray-300 rounded"/>
@@ -120,13 +104,12 @@ templ LeagueSearchPage(){
                             <thead class="bg-gray-300">
                                 <tr class="text-md">
                                     <th class="py-2 px-6 border-b cursor-pointer">Star</th>
-                                    <th class="py-2 px-6 border-b cursor-pointer">League</th>
                                     <th class="py-2 px-6 border-b cursor-pointer">Nation</th>
                                     <th class="py-2 px-6 border-b cursor-pointer">Value Total</th>
                                 </tr>
                             </thead>
                            <tbody id="table-body">
-                                @LeagueSearchTable(leagues)
+                                @NationSearchTable(nations)
                            </tbody>
                         </table>
                         <button id="load-more" class="w-full p-2 btn btn-primary text-white rounded mt-8">Load More</button>
@@ -143,7 +126,7 @@ templ LeagueSearchPage(){
                 });
 
         function fetchPage(page) {
-            htmx.ajax('GET', `/api/list-leagues?page=${page}`, {
+            htmx.ajax('GET', `/api/list-nations?page=${page}`, {
             swap: 'beforeend',
             target: '#table-body',
         });
@@ -153,4 +136,4 @@ templ LeagueSearchPage(){
 fetchPage(currentPage);
 </script>
 }
-}
+    }
