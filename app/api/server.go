@@ -388,7 +388,12 @@ func (s *Server) Start() {
 	})
 
 	e.GET("/league", func(c echo.Context) error {
-		return render(c, League.LeaguePage())
+		league, err := s.storage.GetLeagueById(1)
+		if err != nil {
+			fmt.Println(err)
+			return c.String(500, "Internal Server Error")
+		}
+		return render(c, League.LeaguePage(league))
 	})
 
 	e.GET("/", func(c echo.Context) error {
