@@ -7,7 +7,7 @@ import (
 
 templ PlayerSearchTable(mock_players []map[string]interface{}) {
         for _, player := range mock_players {
-            <tr hx-get={"/player/" + strconv.Itoa(player["player_id"].(int))} hx-push-url={"/player/" + strconv.Itoa(player["player_id"].(int))}>
+            <tr >
                 <th class="py-2 px-6 border-b">
                     <button id="starButton" class="w-10 h-10 flex items-center justify-end">
                         <svg id="starIcon1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="w-5 h-5">
@@ -15,12 +15,12 @@ templ PlayerSearchTable(mock_players []map[string]interface{}) {
                         </svg>
                     </button>
                 </th>
-                <th class="py-2 px-6 border-b">{player["name"].(string)}</th>
-               <th class="py-2 px-6 border-b">{strconv.Itoa(player["age"].(int))}</th>
+               <th class="py-2 px-6 border-b underline"><a href={templ.URL(player["page_link"].(string))}>{player["name"].(string)}</a></th>
+               <th class="py-2 px-6 border-b">{strconv.Itoa(player["age"].(int))}</th>                                                                                                                                                                                                                                  
                <th class="py-2 px-6 border-b">{player["position"].(string)}</th>
-               <th class="py-2 px-6 border-b">{player["club"].(string)}</th>
-               <th class="py-2 px-6 border-b">{player["nation"].(string)}</th>
-               <th class="py-2 px-6 border-b">{player["league"].(string)}</th>
+               <th class="py-2 px-6 border-b underline">{player["club"].(string)}</th>
+               <th class="py-2 px-6 border-b underline">{player["nation"].(string)}</th>
+               <th class="py-2 px-6 border-b underline">{player["league"].(string)}</th>
                <th class="py-2 px-6 border-b">{Utils.FormatNumber(player["wage"].(float64))}</th>
                <th class="py-2 px-6 border-b">{player["value"].(string)}</th>
             </tr>

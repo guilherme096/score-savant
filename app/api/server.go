@@ -151,11 +151,75 @@ func (s *Server) Start() {
 	})
 
 	e.GET("/api/list-players", func(c echo.Context) error {
-		page, err := strconv.Atoi(c.QueryParam("page"))
-		if err != nil {
+		page, page_err := strconv.Atoi(c.QueryParam("page"))
+		order := c.QueryParam("sort")
+		direction := c.QueryParam("direction")
+		playerName := c.QueryParam("playerName")
+		clubName := c.QueryParam("clubName")
+		positionName := c.QueryParam("positionName")
+		nationName := c.QueryParam("nationName")
+		leagueName := c.QueryParam("leagueName")
+		minWage, err := strconv.ParseFloat(c.QueryParam("minWage"), 64)
+		maxWage, err := strconv.ParseFloat(c.QueryParam("maxWage"), 64)
+		minValue, err := strconv.ParseFloat(c.QueryParam("minValue"), 64)
+		maxValue, err := strconv.ParseFloat(c.QueryParam("maxValue"), 64)
+		minAge, err := strconv.Atoi(c.QueryParam("minAge"))
+		maxAge, err := strconv.Atoi(c.QueryParam("maxAge"))
+		minReleaseClause, err := strconv.ParseFloat(c.QueryParam("minReleaseClause"), 64)
+		maxReleaseClause, err := strconv.ParseFloat(c.QueryParam("maxReleaseClause"), 64)
+
+		if order == "" {
+			direction = ""
+		}
+
+		if page_err != nil {
 			page = 0
 		}
-		players, err := s.storage.GetPlayerList(page, 10)
+
+		if maxAge == 0 {
+			maxAge = 99
+		}
+
+		if maxWage == 0 {
+			maxWage = 99999999999999
+		}
+
+		if minValue == 0 {
+			minValue = -2
+		}
+
+		if maxValue == 0 {
+			maxValue = 99999999999999
+		}
+
+		if minReleaseClause == 0 {
+			minReleaseClause = -2
+		}
+
+		if maxReleaseClause == 0 {
+			maxReleaseClause = 99999999999999
+		}
+
+		filters := make(map[string]interface{})
+
+		filters["playerName"] = playerName
+		filters["clubName"] = clubName
+		filters["positionName"] = positionName
+		filters["nationName"] = nationName
+		filters["leagueName"] = leagueName
+		filters["minWage"] = minWage
+		filters["maxWage"] = maxWage
+		filters["minValue"] = minValue
+		filters["maxValue"] = maxValue
+		filters["minAge"] = minAge
+		filters["maxAge"] = maxAge
+		filters["minReleaseClause"] = minReleaseClause
+		filters["maxReleaseClause"] = maxReleaseClause
+		filters["order"] = order
+		filters["direction"] = direction
+
+		players, err := s.storage.GetPlayerList(page, 15, filters)
+
 		if err != nil {
 			fmt.Println(err)
 			return c.String(500, "Internal Server Error")
