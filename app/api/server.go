@@ -15,6 +15,8 @@ import (
 
 	League "guilherme096/score-savant/templates/League"
 
+	Nation "guilherme096/score-savant/templates/Nation"
+
 	Utils "guilherme096/score-savant/utils"
 
 	Home "guilherme096/score-savant/templates/Home"
@@ -392,6 +394,10 @@ func (s *Server) Start() {
 
 	e.GET("/league", func(c echo.Context) error {
 		return render(c, League.LeaguePage())
+	})
+
+	e.GET("/nation", func(c echo.Context) error {
+		return render(c, Nation.NationPage())
 	})
 
 	e.GET("/", func(c echo.Context) error {
