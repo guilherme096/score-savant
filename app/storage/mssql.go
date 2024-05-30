@@ -518,6 +518,48 @@ func (m *MSqlStorage) GetRandomPlayer() (string, string, string, string, int, in
 	return name, nation, club, url, playerId, nationId, clubId, nil
 }
 
+func (m *MSqlStorage) GetClubById(id int) (map[string]interface{}, error) {
+	rows, err := m.db.Query("SELECT * FROM GetClubById(@club_id)", sql.Named("club_id", id))
+	if err != nil {
+		fmt.Println(err)
+		return nil, err
+	}
+	defer rows.Close()
+
+	var club map[string]interface{}
+
+	if rows.Next() {
+		columns, err := rows.Columns()
+		if err != nil {
+			fmt.Println(err)
+			return nil, err
+		}
+
+		values, err := scanValues(rows, columns)
+		if err != nil {
+			fmt.Println(err)
+			return nil, err
+		}
+
+		club = make(map[string]interface{})
+
+		for i, col := range columns {
+			var convertedvalue interface{}
+			switch v := values[i].(type) {
+			case int64:
+				convertedvalue = int(v)
+			default:
+				convertedvalue = v
+			}
+			club[col] = convertedvalue
+		}
+	} else {
+		return nil, fmt.Errorf("club with id %d not found", id)
+	}
+
+	return club, nil
+}
+
 // Function to scan values from a row into a slice of interfaces
 func scanValues(rows *sql.Rows, columns []string) ([]interface{}, error) {
 	// Create a slice to hold the values of each row
