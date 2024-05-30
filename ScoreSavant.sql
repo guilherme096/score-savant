@@ -34,7 +34,8 @@ CREATE TABLE [Club] (
   [wage_total] decimal(18, 2),
   [value_total] decimal(18, 2),
   [wage_average] decimal(18, 2),
-  [value_average] decimal(18, 2)
+  [value_average] decimal(18, 2),
+  [avg_att] decimal (18, 2)
 );
 GO
 
