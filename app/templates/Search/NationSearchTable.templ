@@ -3,8 +3,8 @@ import (
     Utils "guilherme096/score-savant/utils"
 )
 
-templ LeagueSearchTable(leagues []map[string]interface{}) {
-        for _, leagues := range leagues {
+templ NationSearchTable(nations []map[string]interface{}) {
+        for _, nations := range nations {
             <tr>
                 <th class="py-2 px-6 border-b">
                     <button id="starButton" class="w-10 h-10 flex items-center justify-end">
@@ -13,9 +13,8 @@ templ LeagueSearchTable(leagues []map[string]interface{}) {
                         </svg>
                     </button>
                 </th>
-               <td class="py-2 px-6 border-b hover:underline">{leagues["LeagueName"].(string)}</td> 
-               <td class="py-2 px-6 border-b hover:underline">{leagues["Nation"].(string)}</td> 
-               <td class="py-2 px-6 border-b hover:underline">{Utils.FormatNumber(leagues["ValueTotal"].(float64))}</td> 
+               <td class="py-2 px-6 border-b hover:underline">{nations["NationName"].(string)}</td> 
+               <td class="py-2 px-6 border-b hover:underline">{Utils.FormatNumber(nations["ValueTotal"].(float64))}</td> 
             </tr>
         }
 }
