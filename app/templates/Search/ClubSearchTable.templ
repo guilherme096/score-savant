@@ -15,9 +15,9 @@ templ ClubSearchTable(clubs []map[string]interface{}) {
                         </svg>
                     </button>
                 </th>
-               <td class="py-2 px-6 border-b">{club["name"].(string)}</td> 
-               <td class="py-2 px-6 border-b">{club["nation"].(string)}</td> 
-               <td class="py-2 px-6 border-b">{club["league"].(string)}</td> 
+               <td class="py-2 px-6 border-b hover:underline">{club["name"].(string)}</td> 
+               <td class="py-2 px-6 border-b hover:underline">{club["nation"].(string)}</td> 
+               <td class="py-2 px-6 border-b hover:underline">{club["league"].(string)}</td> 
                <td class="py-2 px-6 border-b">{strconv.Itoa(club["player_count"].(int))}</td> 
                <td class="py-2 px-6 border-b">{Utils.FormatNumber(club["wage_total"].(float64))}</td> 
                <td class="py-2 px-6 border-b">{Utils.FormatNumber(club["value_total"].(float64))}</td> 
