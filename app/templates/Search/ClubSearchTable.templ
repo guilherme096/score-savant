@@ -5,8 +5,8 @@ import (
 );
 
 
-templ PlayerSearchTable(mock_players []map[string]interface{}) {
-        for _, player := range mock_players {
+templ ClubSearchTable(clubs []map[string]interface{}) {
+        for _, club := range clubs {
             <tr>
                 <th class="py-2 px-6 border-b">
                     <button id="starButton" class="w-10 h-10 flex items-center justify-end">
@@ -15,15 +15,12 @@ templ PlayerSearchTable(mock_players []map[string]interface{}) {
                         </svg>
                     </button>
                 </th>
-               <td class="py-2 px-6 h-20 w-64"><div class="flex flex-row space-x-4 align-middle items-center"><image class="w-auto h-20 object-cover rounded-lg" src={"https://" + player["url"].(string)}/>
-               <a class="font-bold text-md hover:underline" href={templ.URL(player["page_link"].(string))}>{player["name"].(string)}</a></div></td>
-               <td class="py-2 px-6 border-b">{strconv.Itoa(player["age"].(int))}</td> 
-               <td class="py-2 px-6 border-b">{player["position"].(string)}</td>
-               <td class="py-2 px-6 border-b hover:underline">{player["club"].(string)}</td>
-               <td class="py-2 px-6 border-b hover:underline">{player["nation"].(string)}</td>
-               <td class="py-2 px-6 border-b hover:underline">{player["league"].(string)}</td>
-               <td class="py-2 px-6 border-b">{Utils.FormatNumber(player["wage"].(float64))}</td>
-               <td class="py-2 px-6 border-b">{player["value"].(string)}</td>
+               <td class="py-2 px-6 border-b hover:underline">{club["name"].(string)}</td> 
+               <td class="py-2 px-6 border-b hover:underline">{club["nation"].(string)}</td> 
+               <td class="py-2 px-6 border-b hover:underline">{club["league"].(string)}</td> 
+               <td class="py-2 px-6 border-b">{strconv.Itoa(club["player_count"].(int))}</td> 
+               <td class="py-2 px-6 border-b">{Utils.FormatNumber(club["wage_total"].(float64))}</td> 
+               <td class="py-2 px-6 border-b">{Utils.FormatNumber(club["value_total"].(float64))}</td> 
             </tr>
         }
 }

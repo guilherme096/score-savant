@@ -360,11 +360,11 @@ func (m *MSqlStorage) GetPlayerList(page int, amount int, filters map[string]int
 	// Process the results
 	for rows.Next() {
 		var playerID int
-		var playerName, position, club, nation, league string
+		var playerName, position, club, nation, league, url string
 		var wage, value, releaseClause float64
 		var age int
 
-		err := rows.Scan(&playerID, &playerName, &position, &club, &wage, &value, &nation, &league, &age, &releaseClause)
+		err := rows.Scan(&playerID, &url, &playerName, &position, &club, &wage, &value, &nation, &league, &age, &releaseClause)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -381,6 +381,7 @@ func (m *MSqlStorage) GetPlayerList(page int, amount int, filters map[string]int
 			"player_id":      playerID,
 			"page_link":      fmt.Sprintf("/player/%d", playerID),
 			"name":           playerName,
+			"url":            url,
 			"position":       position,
 			"club":           club,
 			"nation":         nation,
@@ -389,6 +390,98 @@ func (m *MSqlStorage) GetPlayerList(page int, amount int, filters map[string]int
 			"value":          PlayerValue,
 			"age":            age,
 			"release_clause": releaseClause,
+		})
+
+	}
+
+	if err := rows.Err(); err != nil {
+		fmt.Println(err)
+		return nil, err
+	}
+
+	return Players, nil
+
+}
+
+func (m *MSqlStorage) GetClubList(page int, amount int, filters map[string]interface{}) ([]map[string]interface{}, error) {
+
+	if page < 1 {
+		page = 1
+	}
+	pageNumber := page
+	pageSize := amount
+	orderBy := filters["order"].(string)
+	orderDirection := filters["direction"].(string)
+	searchClubName := filters["clubName"].(string)
+	searchNationName := filters["nationName"].(string)
+	searchLeagueName := filters["leagueName"].(string)
+	//minWage := filters["minWage"].(float64)
+	//maxWage := filters["maxWage"].(float64)
+	minValue := filters["minValue"].(float64)
+	maxValue := filters["maxValue"].(float64)
+	//minPlayerCount := filters["minPlayerCount"].(int)
+	//maxPlayerCount := filters["maxPlayerCount"].(int)
+
+	// Execute the function
+	rows, err := m.db.Query(`
+        SELECT * FROM dbo.GetClubsWithPagination(
+            @PageNumber,
+            @PageSize,
+            @OrderBy,
+            @OrderDirection,
+            @SearchClubName,
+            @SearchLeagueName,
+            @SearchNationName,
+            @MinPlayerCount,
+            @MaxPlayerCount,
+            @MinWageTotal,
+            @MaxWageTotal,
+            @MinValueTotal,
+            @MaxValueTotal
+        )`,
+		sql.Named("PageNumber", pageNumber),
+		sql.Named("PageSize", pageSize),
+		sql.Named("OrderBy", orderBy),
+		sql.Named("OrderDirection", orderDirection),
+		sql.Named("SearchClubName", searchClubName),
+		sql.Named("SearchLeagueName", searchLeagueName),
+		sql.Named("SearchNationName", searchNationName),
+		sql.Named("MinPlayerCount", -1),
+		sql.Named("MaxPlayerCount", 20),
+		sql.Named("MinWageTotal", -1.00),
+		sql.Named("MaxWageTotal", 99999999.00),
+		sql.Named("MinValueTotal", minValue),
+		sql.Named("MaxValueTotal", maxValue),
+	)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer rows.Close()
+
+	var Players []map[string]interface{} = nil
+
+	// Process the results
+	for rows.Next() {
+		var clubID int
+		var clubName, nation, league string
+		var playerCount int
+		var wageTotal, valueTotal float64
+
+		err := rows.Scan(&clubID, &clubName, &nation, &league, &playerCount, &wageTotal, &valueTotal)
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		Players = append(Players, map[string]interface{}{
+			"club_id":      clubID,
+			"page_link":    fmt.Sprintf("/club/%d", clubID),
+			"name":         clubName,
+			"nation":       nation,
+			"league":       league,
+			"value_total":  valueTotal,
+			"wage_total":   wageTotal,
+			"player_count": playerCount,
 		})
 
 	}
