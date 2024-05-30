@@ -360,11 +360,11 @@ func (m *MSqlStorage) GetPlayerList(page int, amount int, filters map[string]int
 	// Process the results
 	for rows.Next() {
 		var playerID int
-		var playerName, position, club, nation, league string
+		var playerName, position, club, nation, league, url string
 		var wage, value, releaseClause float64
 		var age int
 
-		err := rows.Scan(&playerID, &playerName, &position, &club, &wage, &value, &nation, &league, &age, &releaseClause)
+		err := rows.Scan(&playerID, &url, &playerName, &position, &club, &wage, &value, &nation, &league, &age, &releaseClause)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -381,6 +381,7 @@ func (m *MSqlStorage) GetPlayerList(page int, amount int, filters map[string]int
 			"player_id":      playerID,
 			"page_link":      fmt.Sprintf("/player/%d", playerID),
 			"name":           playerName,
+			"url":            url,
 			"position":       position,
 			"club":           club,
 			"nation":         nation,
