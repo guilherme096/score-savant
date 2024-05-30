@@ -581,6 +581,13 @@ func (m *MSqlStorage) GetLeagueList(page int, amount int, filters map[string]int
 	minValue := filters["minValue"].(float64)
 	maxValue := filters["maxValue"].(float64)
 
+	var maxValUsed *float64 = nil
+
+	if maxValue != -1 {
+		maxValUsed = &maxValue
+	}
+
+	fmt.Println(maxValUsed)
 	// Execute the function
 	rows, err := m.db.Query(`
         SELECT * FROM dbo.GetLeaguesWithPagination(
@@ -600,7 +607,7 @@ func (m *MSqlStorage) GetLeagueList(page int, amount int, filters map[string]int
 		sql.Named("SearchLeagueName", searchLeagueName),
 		sql.Named("SearchNationName", searchNationName),
 		sql.Named("MinValueTotal", minValue),
-		sql.Named("MaxValueTotal", maxValue),
+		sql.Named("MaxValueTotal", maxValUsed),
 	)
 
 	if err != nil {
@@ -612,6 +619,7 @@ func (m *MSqlStorage) GetLeagueList(page int, amount int, filters map[string]int
 
 	// Process the results
 	for rows.Next() {
+		fmt.Println("here")
 		var leagueID int
 		var leagueName, nation string
 		var valueTotal float64
@@ -635,6 +643,8 @@ func (m *MSqlStorage) GetLeagueList(page int, amount int, filters map[string]int
 		fmt.Println(err)
 		return nil, err
 	}
+
+	fmt.Println(Leagues)
 
 	return Leagues, nil
 }

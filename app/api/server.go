@@ -359,7 +359,7 @@ func (s *Server) Start() {
 		}
 
 		if maxValue == 0 {
-			maxValue = 99999999
+			maxValue = -1
 		}
 
 		filters := make(map[string]interface{})
@@ -377,6 +377,8 @@ func (s *Server) Start() {
 		filters["direction"] = direction
 
 		players, err := s.storage.GetLeagueList(page, 15, filters)
+
+		fmt.Println(players)
 
 		if err != nil {
 			fmt.Println(err)
