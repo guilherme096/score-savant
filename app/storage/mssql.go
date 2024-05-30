@@ -495,6 +495,29 @@ func (m *MSqlStorage) GetClubList(page int, amount int, filters map[string]inter
 
 }
 
+func (m *MSqlStorage) GetRandomPlayer() (string, string, string, string, int, int, int, error) {
+	rows, err := m.db.Query("SELECT * FROM RandomPlayer")
+	if err != nil {
+		fmt.Println(err)
+		return "", "", "", "", -1, -1, -1, err
+	}
+	defer rows.Close()
+
+	var name, nation, club, url string
+	var playerId, nationId, clubId int
+
+	if rows.Next() {
+		err := rows.Scan(&playerId, &name, &nationId, &nation, &clubId, &club, &url)
+		if err != nil {
+			return "", "", "", "", -1, -1, -1, err
+		}
+	} else {
+		return "", "", "", "", -1, -1, -1, fmt.Errorf("no random player found")
+	}
+
+	return name, nation, club, url, playerId, nationId, clubId, nil
+}
+
 // Function to scan values from a row into a slice of interfaces
 func scanValues(rows *sql.Rows, columns []string) ([]interface{}, error) {
 	// Create a slice to hold the values of each row

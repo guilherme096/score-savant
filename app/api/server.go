@@ -110,7 +110,7 @@ func (s *Server) Start() {
 
 		Roles := s.storage.GetRolesByPositionId(PositionId)
 
-		PreferedRole, err := s.storage.GetRoleByPlayerId(PositionId)
+		PreferedRole, err := s.storage.GetRoleByPlayerId(player["player_id"].(int))
 
 		if err != nil {
 			fmt.Println(err)
@@ -148,6 +148,15 @@ func (s *Server) Start() {
 
 	e.GET("/search-player", func(c echo.Context) error {
 		return render(c, Search.PlayerSearchPage())
+	})
+
+	e.GET("/api/get-random-player", func(c echo.Context) error {
+		name, nation, club, url, playerId, nationId, clubId, err := s.storage.GetRandomPlayer()
+		if err != nil {
+			fmt.Println(err)
+			return c.String(500, "Internal Server Error")
+		}
+		return render(c, Player.RandomPlayerCard(name, nation, club, url, playerId, nationId, clubId))
 	})
 
 	e.GET("/api/list-players", func(c echo.Context) error {

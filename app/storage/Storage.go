@@ -11,4 +11,5 @@ type IStorage interface {
 	GetRoleByPlayerId(player_id int) (string, error)
 	GetPlayerList(page int, amount int, filters map[string]interface{}) ([]map[string]interface{}, error)
 	GetClubList(page int, amount int, filters map[string]interface{}) ([]map[string]interface{}, error)
+	GetRandomPlayer() (name string, nation string, club string, url string, playerId int, nationId int, clubId int, err error)
 }
