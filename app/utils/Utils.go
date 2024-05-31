@@ -20,22 +20,23 @@ func FormatNumber(num float64) string {
 
 func AttributeColor(str_val string) string {
 	value, err := strconv.Atoi(str_val)
-	prefix := "text-"
-	color := "black"
+	var color string
 	if err != nil {
-		color = "danger"
+		color = "text-black"
 	}
 	switch {
+	case value >= 18:
+		color = "text-green-600"
 	case value >= 16:
-		color = "success"
+		color = "text-green-500"
 	case value >= 12:
-		color = "info"
+		color = "text-green-400"
 	case value >= 8:
-		color = "warning"
+		color = "text-yellow-500"
 	default:
-		color = "danger"
+		color = "text-red-500"
 	}
-	return prefix + color
+	return color
 }
 
 func CalculateRoleRating(atts_ratings []map[string]interface{}, role_key_atts []string) int {

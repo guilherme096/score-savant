@@ -19,4 +19,6 @@ type IStorage interface {
 	DeletePlayer(id int)
 	GetNationList(page int, amount int, filters map[string]interface{}) ([]map[string]interface{}, error)
 	GetNationById(id int) (map[string]interface{}, error)
+	StarPlayer(id int)
+	GetStaredPlayers(pageNumber int) ([]map[string]interface{}, error)
 }

@@ -2,6 +2,7 @@ package Player;
 import (
     "guilherme096/score-savant/templates/Layout"
 	"strconv"
+	Utils "guilherme096/score-savant/utils"
 )
 
 templ Player(Player map[string]interface{}, Technical_Atts []map[string]interface{}, Mental_Atts []map[string]interface{}, Physical_Atts []map[string]interface{}, PlayerPositionName string, PreferedRole string, RoleRatings []map[string]interface{}){
@@ -21,7 +22,7 @@ templ Player(Player map[string]interface{}, Technical_Atts []map[string]interfac
                     </div>
                     <div class="mt-4 flex flex-col">
                      for _, attribute := range Technical_Atts{
-                         @Attribute(attribute["att_id"].(string), strconv.Itoa(attribute["rating"].(int)), "")
+                         @Attribute(attribute["att_id"].(string), strconv.Itoa(attribute["rating"].(int)), Utils.AttributeColor(strconv.Itoa(attribute["rating"].(int))))
                      }                                                                                                                                                                                                        
                     </div>
                 </div>

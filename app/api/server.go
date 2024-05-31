@@ -2,7 +2,9 @@ package api
 
 import (
 	"fmt"
+
 	Player "guilherme096/score-savant/templates/Player"
+
 	"strconv"
 
 	storage "guilherme096/score-savant/storage"
@@ -20,6 +22,8 @@ import (
 	Utils "guilherme096/score-savant/utils"
 
 	Home "guilherme096/score-savant/templates/Home"
+
+	TopPlayers "guilherme096/score-savant/templates/TopPlayers"
 
 	"sort"
 
@@ -292,7 +296,7 @@ func (s *Server) Start() {
 		maxPlayerCount, err := strconv.Atoi(c.QueryParam("maxPlayerCount"))
 
 		if maxPlayerCount == 0 {
-			maxPlayerCount = 99999999999999
+			maxPlayerCount = 99999999
 		}
 
 		if order == "" {
@@ -304,7 +308,7 @@ func (s *Server) Start() {
 		}
 
 		if maxWage == 0 {
-			maxWage = 99999999
+			maxWage = 99999999999999.00
 		}
 
 		if minValue == 0 {
@@ -312,7 +316,7 @@ func (s *Server) Start() {
 		}
 
 		if maxValue == 0 {
-			maxValue = 99999999
+			maxValue = 99999999999999.00
 		}
 
 		filters := make(map[string]interface{})
@@ -556,7 +560,43 @@ func (s *Server) Start() {
 			fmt.Println(err)
 			return c.String(500, "Internal Server Error")
 		}
+
+		if nation["league_names"].([]string)[0] == "" {
+			nation["league_names"] = []string{"N/A"}
+		}
 		return render(c, Nation.NationPage(nation))
 	})
+
+	e.GET("/api/star-player", func(c echo.Context) error {
+		id, _ := strconv.Atoi(c.QueryParam("id"))
+		s.storage.StarPlayer(id)
+		return c.String(200, "OK")
+	})
+
+	e.GET("/stared-players", func(c echo.Context) error {
+		return render(c, Search.GetStaredPlayers())
+	})
+
+	e.GET("/api/list-stared-players", func(c echo.Context) error {
+		page, page_err := strconv.Atoi(c.QueryParam("page"))
+
+		if page_err != nil {
+			page = 1
+		}
+
+		players, err := s.storage.GetStaredPlayers(page)
+
+		if err != nil {
+			fmt.Println(err)
+			return c.String(500, "Internal Server Error")
+		}
+
+		return render(c, Search.StaredPlayersTable(players))
+	})
+
+	e.GET("/top-players", func(c echo.Context) error {
+		return render(c, TopPlayers.TopPlayersPage())
+	})
+
 	e.Logger.Fatal(e.Start(s.listen_add))
 }

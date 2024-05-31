@@ -3,7 +3,7 @@ module.exports = {
     content: ["./templates/**/*.templ"],
     theme: {},
     daisyui: {
-        themes: ["emerald"],
+        themes: ["cupcake"],
     },
     plugins: [require("daisyui")],
 };

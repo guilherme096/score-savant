@@ -360,8 +360,8 @@ func (m *MSqlStorage) GetPlayerList(page int, amount int, filters map[string]int
 
 	// Process the results
 	for rows.Next() {
-		var playerID int
 		var playerName, position, club, nation, league, url string
+		var playerID int
 		var wage, value, releaseClause float64
 		var age int
 
@@ -416,12 +416,12 @@ func (m *MSqlStorage) GetClubList(page int, amount int, filters map[string]inter
 	searchClubName := filters["clubName"].(string)
 	searchNationName := filters["nationName"].(string)
 	searchLeagueName := filters["leagueName"].(string)
-	//minWage := filters["minWage"].(float64)
-	//maxWage := filters["maxWage"].(float64)
+	minWage := filters["minWage"].(float64)
+	maxWage := filters["maxWage"].(float64)
 	minValue := filters["minValue"].(float64)
 	maxValue := filters["maxValue"].(float64)
-	//minPlayerCount := filters["minPlayerCount"].(int)
-	//maxPlayerCount := filters["maxPlayerCount"].(int)
+	minPlayerCount := filters["minPlayerCount"].(int)
+	maxPlayerCount := filters["maxPlayerCount"].(int)
 
 	// Execute the function
 	rows, err := m.db.Query(`
@@ -447,10 +447,10 @@ func (m *MSqlStorage) GetClubList(page int, amount int, filters map[string]inter
 		sql.Named("SearchClubName", searchClubName),
 		sql.Named("SearchLeagueName", searchLeagueName),
 		sql.Named("SearchNationName", searchNationName),
-		sql.Named("MinPlayerCount", -1),
-		sql.Named("MaxPlayerCount", 20),
-		sql.Named("MinWageTotal", -1.00),
-		sql.Named("MaxWageTotal", 99999999.00),
+		sql.Named("MinPlayerCount", minPlayerCount),
+		sql.Named("MaxPlayerCount", maxPlayerCount),
+		sql.Named("MinWageTotal", minWage),
+		sql.Named("MaxWageTotal", maxWage),
 		sql.Named("MinValueTotal", minValue),
 		sql.Named("MaxValueTotal", maxValue),
 	)
@@ -692,7 +692,9 @@ func (m *MSqlStorage) GetLeagueById(id int) (map[string]interface{}, error) {
 }
 
 func (m *MSqlStorage) AddPlayer(name string, age int, weight int, height int, nation string, nation_league_id int, league string, club string, foot string, value int, position string, role string, wage float64, contract_end string, release_clause int, atts []string, url string) {
-	atts_flat := "Corners:8,Crossing:8,Dribbling:8,Finishing:8,First_Touch:8,Free_Kick_Taking:8,Heading:8,Long_Shots:8,Long_Throws:8,Marking:8,Passing:8,Penalty_Taking:8,Tackling:8,Technique:8,Aggression:8,Anticipation:8,Bravery:8,Composure:8,Concentration:8,Decisons:8,Determination:8,Flair:8,Leadership:8,Off_The_Ball:8,Positioning:8,Teamwork:8,Vision:8,Work_Rate:8,Acceleration:8,Agility:8,Balance:8,Jumping_Reach:8,Natural_Fitness:8,Pace:8,Stamina:8,Strength:8"
+	// get the atts from att that arent in split_atts
+
+	atts_flat := strings.Join(atts, ",")
 
 	fmt.Println(atts_flat)
 
@@ -817,6 +819,83 @@ func (m *MSqlStorage) GetNationById(id int) (map[string]interface{}, error) {
 	fmt.Println(nation)
 
 	return nation, nil
+}
+
+func (m *MSqlStorage) StarPlayer(id int) {
+	_, err := m.db.Exec("AddStaredPlayer", id)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	return
+}
+
+func (m *MSqlStorage) GetStaredPlayers(pageNumber int) ([]map[string]interface{}, error) {
+	if pageNumber < 1 {
+		pageNumber = 1
+	}
+	pageSize := 15
+
+	rows, err := m.db.Query(`
+        SELECT * FROM dbo.GetStaredPlayersWithPagination(
+            @PageNumber,
+            @PageSize
+        )`,
+		sql.Named("PageNumber", pageNumber),
+		sql.Named("PageSize", pageSize),
+	)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer rows.Close()
+
+	var Players []map[string]interface{} = nil
+
+	// Process the results
+	for rows.Next() {
+		var playerName, position, club, nation, league, url string
+		var playerID int
+		var wage, value, releaseClause float64
+		var age int
+
+		err := rows.Scan(&playerID, &playerName, &url, &position, &club, &wage, &value, &nation, &league, &age, &releaseClause)
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		PlayerValue := ""
+
+		if value < 0 {
+			PlayerValue = "Not For Sale"
+		} else {
+			PlayerValue = Utils.FormatNumber(value)
+		}
+
+		Players = append(Players, map[string]interface{}{
+			"player_id":      playerID,
+			"page_link":      fmt.Sprintf("/player/%d", playerID),
+			"name":           playerName,
+			"url":            url,
+			"position":       position,
+			"club":           club,
+			"nation":         nation,
+			"league":         league,
+			"wage":           wage,
+			"value":          PlayerValue,
+			"age":            age,
+			"release_clause": releaseClause,
+		})
+
+	}
+
+	if err := rows.Err(); err != nil {
+		fmt.Println(err)
+		return nil, err
+	}
+
+	return Players, nil
+
 }
 
 // Function to scan values from a row into a slice of interfaces

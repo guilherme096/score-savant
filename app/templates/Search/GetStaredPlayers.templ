@@ -1,0 +1,54 @@
+package Search;
+
+import (
+    "guilherme096/score-savant/templates/Layout"
+)
+
+templ GetStaredPlayers(){
+    @Layout.Base() {
+        <div class="flex flex-row h-full mr-6 p-4">
+            <div class="w-full">
+                <div class="player-list">
+                    <div class="container mx-auto">
+                         <table class="w-full table-zebra rounded-lg shadow-lg overflow-clip table">
+                            <thead class="bg-gray-300">
+                                <tr class="text-md">
+                                    <th class="py-2 px-6 border-b cursor-pointer">Star</th>
+                                    <th class="py-2 px-6 border-b cursor-pointer text-left">Name</th>
+                                    <th class="py-2 px-6 border-b cursor-pointer">Age</th>
+                                    <th class="py-2 px-6 border-b cursor-pointer">Position</th>
+                                    <th class="py-2 px-6 border-b cursor-pointer">Club</th>
+                                    <th class="py-2 px-6 border-b cursor-pointer">Nation</th>
+                                    <th class="py-2 px-6 border-b cursor-pointer">League</th>
+                                    <th class="py-2 px-6 border-b cursor-pointer">Wage</th>
+                                    <th class="py-2 px-6 border-b cursor-pointer">Value</th>
+                                </tr>
+                            </thead>
+                           <tbody id="table-body" hx-get="api/list-stared-players?page=1" hx-trigger="load" hx-swap="innerHTML">
+                           </tbody>
+                        </table>
+                         <button id="load-more" class="w-full p-2 btn btn-primary text-white rounded mt-8">Load More</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+        let currentPage = 1; // Initialize the current page
+
+        document.getElementById('load-more').addEventListener('click', function () {
+                currentPage++; // Increment the current page
+                fetchPage(currentPage); // Fetch the new page
+                });
+
+        function fetchPage(page) {
+            htmx.ajax('GET', `/api/list-stared-players?page=${page}`, {
+            swap: 'beforeend',
+            target: '#table-body',
+        });
+        }
+
+// Initially load the first page
+fetchPage(currentPage);
+</script>
+    }
+}

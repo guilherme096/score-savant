@@ -10,7 +10,7 @@ import "context"
 import "io"
 import "bytes"
 
-var goalkeeper []string = []string{"Aerial_Reach", "Command_of_the_Area", "Communication", "Eccentricity", "First_Touch", "Handling", "Kicking", "One_on_ones", "Passing", "Punching", "Rushing_Out", "Throwing", "Gk_Free_Kick", "Penalties", "Technique"}
+var goalkeeper []string = []string{"Aerial_Reach", "Command_Of_Area", "Communication", "Eccentricity", "Gk_First_Touch", "Handling", "Kicking", "One_On_Ones", "Gk_Passing", "Punching", "Rushing_Out", "Throwing", "Gk_Free_Kick", "Gk_Penalty_Taking", "Gk_Technique"}
 
 func GoalkeeperAttributeForms() templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
