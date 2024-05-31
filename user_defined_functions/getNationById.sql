@@ -28,13 +28,16 @@ BEGIN
         n.nation_id,
         n.name AS nation_name,
         COUNT(DISTINCT l.league_id) AS total_leagues,
-        (
-            SELECT STRING_AGG(name, ', ') AS league_names
-            FROM (
-                SELECT DISTINCT l.name
-                FROM League l
-                WHERE l.nation_id = n.nation_id
-            ) AS sub
+        COALESCE(
+            (
+                SELECT STRING_AGG(name, ', ') AS league_names
+                FROM (
+                    SELECT DISTINCT l.name
+                    FROM League l
+                    WHERE l.nation_id = n.nation_id
+                ) AS sub
+            ), 
+            ''
         ) AS league_names,
         SUM(p.value) AS total_player_value
     FROM

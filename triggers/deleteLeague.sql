@@ -3,17 +3,31 @@ GO
 
 CREATE TRIGGER trg_after_delete_league
 ON League
-AFTER DELETE
+INSTEAD OF DELETE
 AS
 BEGIN
     DECLARE @league_id INT;
 
-    -- Get the league_id from the deleted row
-    SELECT @league_id = league_id
-    FROM DELETED;
+    -- Loop through each league to be deleted
+    DECLARE deleted_league_cursor CURSOR FOR
+    SELECT league_id FROM DELETED;
 
-    -- Delete clubs associated with the deleted league
-    DELETE FROM Club
-    WHERE league_id = @league_id;
+    OPEN deleted_league_cursor;
+
+    FETCH NEXT FROM deleted_league_cursor INTO @league_id;
+
+    WHILE @@FETCH_STATUS = 0
+    BEGIN
+        -- Delete associated clubs (and their players) first
+        DELETE FROM Club WHERE league_id = @league_id;
+
+        -- Finally, delete the league record
+        DELETE FROM League WHERE league_id = @league_id;
+
+        FETCH NEXT FROM deleted_league_cursor INTO @league_id;
+    END
+
+    CLOSE deleted_league_cursor;
+    DEALLOCATE deleted_league_cursor;
 END;
 GO
