@@ -39,6 +39,7 @@ RETURN
     WHERE
         p.player_id = @player_id
     )
+GO
 
 CREATE FUNCTION dbo.GetPlayerAttributes(
     @player_id INT

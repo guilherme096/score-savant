@@ -1,4 +1,0 @@
-triggers que podemos fazer:
-- club avarage wage
-- club avarage age
-- club value of squad
