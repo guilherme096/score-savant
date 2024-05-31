@@ -413,5 +413,78 @@ func (s *Server) Start() {
 		return render(c, Home.HomePage())
 	})
 
+	e.POST("/api/add-player", func(c echo.Context) error {
+		playerType := c.FormValue("playerType")
+
+		var playerName, playerUrl, playerFoot, playerNationality, contractEnd, playerClub string
+		var playerAge, playerHeight, playerWeight int
+		var playerWage, playerValue, playerReleaseClause float64
+
+		playerName = c.FormValue("playerName")
+		playerUrl = c.FormValue("playerUrl")
+		playerFoot = c.FormValue("playerFoot")
+		playerNationality = c.FormValue("playerNationality")
+		contractEnd = c.FormValue("contractEnd")
+		playerClub = c.FormValue("playerClub")
+		playerAge, _ = strconv.Atoi(c.FormValue("playerAge"))
+		playerHeight, _ = strconv.Atoi(c.FormValue("playerHeight"))
+		playerWeight, _ = strconv.Atoi(c.FormValue("playerWeight"))
+		playerWage, _ = strconv.ParseFloat(c.FormValue("playerWage"), 64)
+		playerValue, _ = strconv.ParseFloat(c.FormValue("playerValue"), 64)
+		playerReleaseClause, _ = strconv.ParseFloat(c.FormValue("playerReleaseClause"), 64)
+
+		fmt.Println(playerName, playerUrl, playerFoot, playerNationality, contractEnd, playerClub, playerAge, playerHeight, playerWeight, playerWage, playerValue, playerReleaseClause)
+
+		mental_atts_list := s.storage.GetAttributeList("Mental")
+		physical_atts_list := s.storage.GetAttributeList("Physical")
+
+		var atts []string
+
+		for _, att_name := range mental_atts_list {
+			rating, _ := strconv.Atoi(c.FormValue(att_name))
+			if rating == 0 {
+				continue
+			}
+			atts = append(atts, fmt.Sprintf("%s:%d", att_name, rating))
+		}
+
+		for _, att_name := range physical_atts_list {
+			rating, _ := strconv.Atoi(c.FormValue(att_name))
+			if rating == 0 {
+				continue
+			}
+			atts = append(atts, fmt.Sprintf("%s:%d", att_name, rating))
+		}
+
+		if playerType == "Goalkeeper" {
+			gk_atts_list := s.storage.GetAttributeList("Goalkeeping")
+
+			for _, att_name := range gk_atts_list {
+				rating, _ := strconv.Atoi(c.FormValue(att_name))
+				if rating == 0 {
+					continue
+				}
+				atts = append(atts, fmt.Sprintf("%s:%d", att_name, rating))
+			}
+
+		}
+
+		if playerType == "Outfield" {
+			technical_atts_list := s.storage.GetAttributeList("Technical")
+
+			for _, att_name := range technical_atts_list {
+				rating, _ := strconv.Atoi(c.FormValue(att_name))
+				if rating == 0 {
+					continue
+				}
+				atts = append(atts, fmt.Sprintf("%s:%d", att_name, rating))
+			}
+
+		}
+
+		s.storage.AddPlayer(playerName, playerAge, playerWeight, playerHeight, playerNationality, 1, "Premier League", playerClub, playerFoot, int(playerValue), playerType, "Poacher (Attack)", playerWage, contractEnd, int(playerReleaseClause), atts, playerUrl)
+		return c.String(200, "OK")
+	})
+
 	e.Logger.Fatal(e.Start(s.listen_add))
 }

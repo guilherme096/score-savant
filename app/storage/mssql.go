@@ -691,6 +691,19 @@ func (m *MSqlStorage) GetLeagueById(id int) (map[string]interface{}, error) {
 	return league, nil
 }
 
+func (m *MSqlStorage) AddPlayer(name string, age int, weight int, height int, nation string, nation_league_id int, league string, club string, foot string, value int, position string, role string, wage float64, contract_end string, release_clause int, atts []string, url string) {
+	atts_flat := "Corners:8,Crossing:8,Dribbling:8,Finishing:8,First_Touch:8,Free_Kick_Taking:8,Heading:8,Long_Shots:8,Long_Throws:8,Marking:8,Passing:8,Penalty_Taking:8,Tackling:8,Technique:8,Aggression:8,Anticipation:8,Bravery:8,Composure:8,Concentration:8,Decisons:8,Determination:8,Flair:8,Leadership:8,Off_The_Ball:8,Positioning:8,Teamwork:8,Vision:8,Work_Rate:8,Acceleration:8,Agility:8,Balance:8,Jumping_Reach:8,Natural_Fitness:8,Pace:8,Stamina:8,Strength:8"
+
+	fmt.Println(atts_flat)
+
+	_, err := m.db.Exec("AddPlayer", name, age, weight, height, nation, nation_league_id, league, club, foot, value, "STC", role, wage, contract_end, release_clause, atts_flat, url)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	return
+}
+
 // Function to scan values from a row into a slice of interfaces
 func scanValues(rows *sql.Rows, columns []string) ([]interface{}, error) {
 	// Create a slice to hold the values of each row

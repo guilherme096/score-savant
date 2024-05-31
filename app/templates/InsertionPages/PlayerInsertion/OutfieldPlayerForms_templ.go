@@ -10,9 +10,9 @@ import "context"
 import "io"
 import "bytes"
 
-var technical []string = []string{"Corners", "Crossing", "Dribbling", "Finishing", "First Touch", "Free Kick Taking", "Heading", "Long Shots", "Long Throws", "Marking", "Passing", "Penalty Taking", "Tackling", "Technique"}
-var mental []string = []string{"Aggression", "Anticipation", "Bravery", "Composure", "Concentration", "Decisions", "Determination", "Flair", "Leadership", "Off The Ball", "Positioning", "Teamwork", "Vision", "Work Rate"}
-var physical []string = []string{"Acceleration", "Agility", "Balance", "Jumping Reach", "Natural Fitness", "Pace", "Stamina", "Strength"}
+var technical []string = []string{"Corners", "Crossing", "Dribbling", "Finishing", "First_Touch", "Free_Kick_Taking", "Heading", "Long_Shots", "Long_Throws", "Marking", "Passing", "Penalty_Taking", "Tackling", "Technique"}
+var mental []string = []string{"Aggression", "Anticipation", "Bravery", "Composure", "Concentration", "Decisons", "Determination", "Flair", "Leadership", "Off_The_Ball", "Positioning", "Teamwork", "Vision", "Work_Rate"}
+var physical []string = []string{"Acceleration", "Agility", "Balance", "Jumping_Reach", "Natural_Fitness", "Pace", "Stamina", "Strength"}
 
 func OutfieldPlayerForms() templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
