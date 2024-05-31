@@ -704,6 +704,15 @@ func (m *MSqlStorage) AddPlayer(name string, age int, weight int, height int, na
 	return
 }
 
+func (m *MSqlStorage) DeletePlayer(id int) {
+	_, err := m.db.Exec("DELETE FROM Player WHERE PlayerID = @player_id", sql.Named("player_id", id))
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	return
+}
+
 // Function to scan values from a row into a slice of interfaces
 func scanValues(rows *sql.Rows, columns []string) ([]interface{}, error) {
 	// Create a slice to hold the values of each row

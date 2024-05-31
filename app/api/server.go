@@ -486,5 +486,11 @@ func (s *Server) Start() {
 		return c.String(200, "OK")
 	})
 
+	e.GET("/api/delete-player", func(c echo.Context) error {
+		id, _ := strconv.Atoi(c.QueryParam("id"))
+		s.storage.DeletePlayer(id)
+		return c.String(200, "OK")
+	})
+
 	e.Logger.Fatal(e.Start(s.listen_add))
 }
