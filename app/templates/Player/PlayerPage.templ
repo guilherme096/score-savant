@@ -3,11 +3,19 @@ import (
     "guilherme096/score-savant/templates/Layout"
 	"strconv"
 	Utils "guilherme096/score-savant/utils"
+	"fmt"
 )
 
 templ Player(Player map[string]interface{}, Technical_Atts []map[string]interface{}, Mental_Atts []map[string]interface{}, Physical_Atts []map[string]interface{}, PlayerPositionName string, PreferedRole string, RoleRatings []map[string]interface{}){
     @Layout.Base(){
-
+        <div class="flex flex-row">
+        <form hx-post={fmt.Sprintf("/api/star/remove/%d",Player["player_id"].(int))} class="ml-auto w-fit mr-3">
+            <input type="submit" value="Remove Star" class="btn btn-outline"/>
+        </form>
+        <form hx-post={fmt.Sprintf("/api/player/remove/%d",Player["player_id"].(int))}class="w-fit mr-10">
+            <input type="submit" value="RemovePlayer" class="btn btn-error"/>
+        </form>
+        </div>
         <div class="w-full max-h-full m-8 flex flex-row">
             <div class="w-1/4">
                 @PlayerBio(Player)

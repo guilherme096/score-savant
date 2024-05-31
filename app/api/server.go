@@ -598,5 +598,19 @@ func (s *Server) Start() {
 		return render(c, TopPlayers.TopPlayersPage())
 	})
 
+	e.POST("/api/player/remove/:id", func(c echo.Context) error {
+		id, _ := strconv.Atoi(c.Param("id"))
+		fmt.Println(id)
+		s.storage.RemovePlayer(id)
+		return c.String(200, "Player Removed")
+	})
+
+	e.POST("/api/star/remove/:id", func(c echo.Context) error {
+		id, _ := strconv.Atoi(c.Param("id"))
+		fmt.Println(id)
+		s.storage.RemoveStar(id)
+		return c.String(200, "Star Removed")
+	})
+
 	e.Logger.Fatal(e.Start(s.listen_add))
 }

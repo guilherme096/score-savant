@@ -21,4 +21,6 @@ type IStorage interface {
 	GetNationById(id int) (map[string]interface{}, error)
 	StarPlayer(id int)
 	GetStaredPlayers(pageNumber int) ([]map[string]interface{}, error)
+	RemovePlayer(id int)
+	RemoveStar(id int)
 }

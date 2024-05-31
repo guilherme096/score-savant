@@ -898,6 +898,24 @@ func (m *MSqlStorage) GetStaredPlayers(pageNumber int) ([]map[string]interface{}
 
 }
 
+func (m *MSqlStorage) RemovePlayer(id int) {
+	_, err := m.db.Exec("DELETE FROM Player WHERE player_id = @player_id", sql.Named("player_id", id))
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	return
+}
+
+func (m *MSqlStorage) RemoveStar(id int) {
+	_, err := m.db.Exec("RemoveStaredPlayer", id)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	return
+}
+
 // Function to scan values from a row into a slice of interfaces
 func scanValues(rows *sql.Rows, columns []string) ([]interface{}, error) {
 	// Create a slice to hold the values of each row
