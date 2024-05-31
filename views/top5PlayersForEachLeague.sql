@@ -14,6 +14,7 @@ WITH RankedPlayers AS
     SELECT
         p.player_id AS PlayerID,
         p.name AS PlayerName,
+        p.url AS Url,
         l.league_id AS LeagueID,
         l.name AS LeagueName,
         cl.name AS ClubName,
