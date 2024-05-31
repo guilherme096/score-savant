@@ -62,6 +62,20 @@ func (s *Server) Start() {
 			return c.String(404, "Not Found")
 		}
 
+		fmt.Println(player)
+
+		if player["value"] == -1 {
+			player["value"] = "N/A"
+		} else {
+			player["value"] = Utils.FormatNumber(float64(player["value"].(int)))
+		}
+
+		if player["release_clause"] == -1 {
+			player["release_clause"] = "N/A"
+		} else {
+			player["release_clause"] = Utils.FormatNumber(float64(player["release_clause"].(int)))
+		}
+
 		technical_atts_list := s.storage.GetAttributeList("Technical")
 		mental_atts_list := s.storage.GetAttributeList("Mental")
 		physical_atts_list := s.storage.GetAttributeList("Physical")
@@ -405,10 +419,6 @@ func (s *Server) Start() {
 		return render(c, League.LeaguePage(league))
 	})
 
-	e.GET("/nation", func(c echo.Context) error {
-		return render(c, Nation.NationPage())
-	})
-
 	e.GET("/", func(c echo.Context) error {
 		return render(c, Home.HomePage())
 	})
@@ -492,5 +502,61 @@ func (s *Server) Start() {
 		return c.String(200, "OK")
 	})
 
+	e.GET("/api/list-nations", func(c echo.Context) error {
+		page, page_err := strconv.Atoi(c.QueryParam("page"))
+		order := c.QueryParam("sort")
+		direction := c.QueryParam("direction")
+		nationName := c.QueryParam("nationName")
+		minValue, err := strconv.ParseFloat(c.QueryParam("minValue"), 64)
+		maxValue, err := strconv.ParseFloat(c.QueryParam("maxValue"), 64)
+
+		if order == "" {
+			direction = ""
+		}
+
+		if page_err != nil {
+			page = 1
+		}
+
+		if minValue == 0 {
+			minValue = -2
+		}
+
+		if maxValue == 0 {
+			maxValue = 99999999
+		}
+
+		filters := make(map[string]interface{})
+
+		filters["nationName"] = nationName
+		filters["minValue"] = minValue
+		filters["maxValue"] = maxValue
+		filters["order"] = order
+		filters["direction"] = direction
+
+		nations, err := s.storage.GetNationList(page, 15, filters)
+
+		if err != nil {
+			fmt.Println(err)
+			return c.String(500, "Internal Server Error")
+		}
+
+		return render(c, Search.NationSearchTable(nations))
+
+	})
+
+	e.GET("/nation/:id", func(c echo.Context) error {
+		id, err := strconv.Atoi(c.Param("id"))
+		if err != nil {
+			fmt.Println(err)
+			return c.String(500, "Internal Server Error")
+		}
+		nation, err := s.storage.GetNationById(id)
+		if err != nil {
+			fmt.Println(err)
+			return c.String(500, "Internal Server Error")
+		}
+		return render(c, Nation.NationPage(nation))
+	})
 	e.Logger.Fatal(e.Start(s.listen_add))
 }

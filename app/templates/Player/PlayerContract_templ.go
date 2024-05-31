@@ -59,9 +59,9 @@ func PlayerContract(Contract map[string]interface{}) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var4 string
-		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(Utils.FormatNumber(float64(Contract["value"].(int))))
+		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(Contract["value"].(string))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/Player/PlayerContract.templ`, Line: 24, Col: 93}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/Player/PlayerContract.templ`, Line: 24, Col: 67}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 		if templ_7745c5c3_Err != nil {
@@ -98,9 +98,9 @@ func PlayerContract(Contract map[string]interface{}) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var7 string
-		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(Utils.FormatNumber(float64(Contract["release_clause"].(int))))
+		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(Contract["release_clause"].(string))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/Player/PlayerContract.templ`, Line: 36, Col: 102}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/Player/PlayerContract.templ`, Line: 36, Col: 76}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 		if templ_7745c5c3_Err != nil {

@@ -13,8 +13,8 @@ templ NationSearchTable(nations []map[string]interface{}) {
                         </svg>
                     </button>
                 </th>
-               <td class="py-2 px-6 border-b hover:underline">{nations["NationName"].(string)}</td> 
-               <td class="py-2 px-6 border-b hover:underline">{Utils.FormatNumber(nations["ValueTotal"].(float64))}</td> 
+               <td><a class="font-bold text-md hover:underline" href={templ.URL(nations["page_link"].(string))}>{nations["name"].(string)}</a></td>
+               <td class="py-2 px-6 border-b hover:underline">{Utils.FormatNumber(nations["value_total"].(float64))}</td> 
             </tr>
         }
 }

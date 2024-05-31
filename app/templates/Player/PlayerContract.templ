@@ -21,7 +21,7 @@ templ PlayerContract(Contract map[string]interface{}){
                 </div>
                 <div class="flex flex-row h-full justify-between mt-4">
                    <div class="text-sm font-semibold">Value: </div>
-                   <div class="text-sm">{Utils.FormatNumber(float64(Contract["value"].(int)))}€</div>
+                   <div class="text-sm">{Contract["value"].(string)}€</div>
                 </div>
                 <div class="flex flex-row h-full justify-between mt-4">
                    <div class="text-sm font-semibold">Contract Duration: </div>
@@ -33,7 +33,7 @@ templ PlayerContract(Contract map[string]interface{}){
                 </div>
                 <div class="flex flex-row h-full justify-between mt-4">
                    <div class="text-sm font-semibold">Release Clause: </div>
-                   <div class="text-sm">{Utils.FormatNumber(float64(Contract["release_clause"].(int)))}€</div>
+                   <div class="text-sm">{Contract["release_clause"].(string)}€</div>
                 </div>
             </div>
        </div>
