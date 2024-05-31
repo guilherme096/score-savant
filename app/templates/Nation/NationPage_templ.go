@@ -17,15 +17,7 @@ import (
 	"strconv"
 )
 
-var nation map[string]interface{} = map[string]interface{}{
-	"nation_id":          1,
-	"nation_name":        "England",
-	"total_leagues":      2,
-	"league_names":       []string{"Premier League", "Championship"},
-	"total_player_value": 1000000000.00,
-}
-
-func NationPage() templ.Component {
+func NationPage(nation map[string]interface{}) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -49,9 +41,9 @@ func NationPage() templ.Component {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var3 string
-			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(nation["nation_name"].(string))
+			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(nation["name"].(string))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/Nation/NationPage.templ`, Line: 24, Col: 81}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/Nation/NationPage.templ`, Line: 15, Col: 74}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
@@ -64,7 +56,7 @@ func NationPage() templ.Component {
 			var templ_7745c5c3_Var4 string
 			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(nation["total_leagues"].(int)))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/Nation/NationPage.templ`, Line: 29, Col: 101}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/Nation/NationPage.templ`, Line: 20, Col: 101}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
@@ -75,14 +67,14 @@ func NationPage() templ.Component {
 				return templ_7745c5c3_Err
 			}
 			for _, league := range nation["league_names"].([]string) {
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<span class=\"text-sm\">")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<span class=\"text-md\">")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 				var templ_7745c5c3_Var5 string
 				templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(league)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/Nation/NationPage.templ`, Line: 35, Col: 69}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/Nation/NationPage.templ`, Line: 26, Col: 69}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 				if templ_7745c5c3_Err != nil {
@@ -98,9 +90,9 @@ func NationPage() templ.Component {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var6 string
-			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(Utils.FormatNumber(nation["total_player_value"].(float64)))
+			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(Utils.FormatNumber(nation["total_value"].(float64)))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/Nation/NationPage.templ`, Line: 41, Col: 116}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/Nation/NationPage.templ`, Line: 32, Col: 109}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 			if templ_7745c5c3_Err != nil {
@@ -111,9 +103,9 @@ func NationPage() templ.Component {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var7 string
-			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("/api/list-players?page=1&nationName=%s", nation["nation_name"].(string)))
+			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("/api/list-players?page=1&nationName=%s", nation["name"].(string)))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/Nation/NationPage.templ`, Line: 71, Col: 148}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/Nation/NationPage.templ`, Line: 62, Col: 141}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 			if templ_7745c5c3_Err != nil {

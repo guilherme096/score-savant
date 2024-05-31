@@ -581,6 +581,13 @@ func (m *MSqlStorage) GetLeagueList(page int, amount int, filters map[string]int
 	minValue := filters["minValue"].(float64)
 	maxValue := filters["maxValue"].(float64)
 
+	var maxValUsed *float64 = nil
+
+	if maxValue != -1 {
+		maxValUsed = &maxValue
+	}
+
+	fmt.Println(maxValUsed)
 	// Execute the function
 	rows, err := m.db.Query(`
         SELECT * FROM dbo.GetLeaguesWithPagination(
@@ -600,7 +607,7 @@ func (m *MSqlStorage) GetLeagueList(page int, amount int, filters map[string]int
 		sql.Named("SearchLeagueName", searchLeagueName),
 		sql.Named("SearchNationName", searchNationName),
 		sql.Named("MinValueTotal", minValue),
-		sql.Named("MaxValueTotal", maxValue),
+		sql.Named("MaxValueTotal", maxValUsed),
 	)
 
 	if err != nil {
@@ -612,6 +619,7 @@ func (m *MSqlStorage) GetLeagueList(page int, amount int, filters map[string]int
 
 	// Process the results
 	for rows.Next() {
+		fmt.Println("here")
 		var leagueID int
 		var leagueName, nation string
 		var valueTotal float64
@@ -635,6 +643,8 @@ func (m *MSqlStorage) GetLeagueList(page int, amount int, filters map[string]int
 		fmt.Println(err)
 		return nil, err
 	}
+
+	fmt.Println(Leagues)
 
 	return Leagues, nil
 }
@@ -679,6 +689,134 @@ func (m *MSqlStorage) GetLeagueById(id int) (map[string]interface{}, error) {
 	fmt.Println(league)
 
 	return league, nil
+}
+
+func (m *MSqlStorage) AddPlayer(name string, age int, weight int, height int, nation string, nation_league_id int, league string, club string, foot string, value int, position string, role string, wage float64, contract_end string, release_clause int, atts []string, url string) {
+	atts_flat := "Corners:8,Crossing:8,Dribbling:8,Finishing:8,First_Touch:8,Free_Kick_Taking:8,Heading:8,Long_Shots:8,Long_Throws:8,Marking:8,Passing:8,Penalty_Taking:8,Tackling:8,Technique:8,Aggression:8,Anticipation:8,Bravery:8,Composure:8,Concentration:8,Decisons:8,Determination:8,Flair:8,Leadership:8,Off_The_Ball:8,Positioning:8,Teamwork:8,Vision:8,Work_Rate:8,Acceleration:8,Agility:8,Balance:8,Jumping_Reach:8,Natural_Fitness:8,Pace:8,Stamina:8,Strength:8"
+
+	fmt.Println(atts_flat)
+
+	_, err := m.db.Exec("AddPlayer", name, age, weight, height, nation, nation_league_id, league, club, foot, value, "STC", role, wage, contract_end, release_clause, atts_flat, url)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	return
+}
+
+func (m *MSqlStorage) DeletePlayer(id int) {
+	_, err := m.db.Exec("DELETE FROM Player WHERE PlayerID = @player_id", sql.Named("player_id", id))
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	return
+}
+
+func (m *MSqlStorage) GetNationList(page int, amount int, filters map[string]interface{}) ([]map[string]interface{}, error) {
+	if page < 1 {
+		page = 1
+	}
+	pageNumber := page
+	pageSize := amount
+	orderBy := filters["order"].(string)
+	orderDirection := filters["direction"].(string)
+	searchNationName := filters["nationName"].(string)
+	minValue := filters["minValue"].(float64)
+	//maxValue := filters["maxValue"].(float64)
+
+	// Execute the function
+	rows, err := m.db.Query(`
+        SELECT * FROM dbo.GetNationsWithPagination(
+            @PageNumber,
+            @PageSize,
+            @OrderBy,
+            @OrderDirection,
+            @SearchNationName,
+            @MinValueTotal,
+            @MaxValueTotal
+        )`,
+		sql.Named("PageNumber", pageNumber),
+		sql.Named("PageSize", pageSize),
+		sql.Named("OrderBy", orderBy),
+		sql.Named("OrderDirection", orderDirection),
+		sql.Named("SearchNationName", searchNationName),
+		sql.Named("MinValueTotal", minValue),
+		sql.Named("MaxValueTotal", nil),
+	)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer rows.Close()
+
+	var Nations []map[string]interface{} = nil
+
+	// Process the results
+	for rows.Next() {
+		var nationID int
+		var nationName string
+		var valueTotal float64
+
+		err := rows.Scan(&nationID, &nationName, &valueTotal)
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		Nations = append(Nations, map[string]interface{}{
+			"nation_id":   nationID,
+			"page_link":   fmt.Sprintf("/nation/%d", nationID),
+			"name":        nationName,
+			"value_total": valueTotal,
+		})
+
+	}
+
+	if err := rows.Err(); err != nil {
+		fmt.Println(err)
+		return nil, err
+	}
+
+	return Nations, nil
+}
+
+func (m *MSqlStorage) GetNationById(id int) (map[string]interface{}, error) {
+	rows, err := m.db.Query("SELECT * FROM GetNationById(@nation_id)", sql.Named("nation_id", id))
+	if err != nil {
+		fmt.Println(err)
+		return nil, err
+	}
+	defer rows.Close()
+
+	var nation map[string]interface{}
+
+	for rows.Next() {
+		var nationID int
+		var nationName string
+		var valueTotal float64
+		var totalPlayers int
+		var totalLeagues int
+		var leagueNames string
+
+		err := rows.Scan(&nationID, &nationName, &totalLeagues, &leagueNames, &valueTotal)
+		if err != nil {
+			fmt.Println(err)
+			return nil, err
+		}
+
+		nation = map[string]interface{}{
+			"nation_id":     nationID,
+			"name":          nationName,
+			"total_leagues": totalLeagues,
+			"total_players": totalPlayers,
+			"total_value":   valueTotal,
+			"league_names":  strings.Split(leagueNames, ","),
+		}
+	}
+
+	fmt.Println(nation)
+
+	return nation, nil
 }
 
 // Function to scan values from a row into a slice of interfaces

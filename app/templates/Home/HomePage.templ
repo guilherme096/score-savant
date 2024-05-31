@@ -4,13 +4,15 @@ import "guilherme096/score-savant/templates/Layout"
 
 templ HomePage(){
     @Layout.Base(){
-            <div class="flex flex-row h-[300px] w-fit items-center mx-auto mt-20">
+            <div class="flex flex-row h-[300px] w-fit items-center mx-auto mt-20 mt-16">
                 <div class="w-[420px] h-full">
                     <h1 class="text-center text-5xl font-bold">Score-Savant</h1>
                     <div class="w-full">
                         <ul class="w-full text-center p-4 w-80 min-h-full bg-base-200 text-base-content rounded-xl mt-8">
                           <li class="mt-2 h-12 hover:bg-base-300 rounded-xl flex flex-col justify-center items-center align-middle"><a href="/search-player">Search Player</a></li>
                           <li class="mt-2 h-12 hover:bg-base-300 rounded-xl flex flex-col justify-center items-center align-middle"><a href="/search-club">Search Club</a></li>
+                          <li class="mt-2 h-12 hover:bg-base-300 rounded-xl flex flex-col justify-center items-center align-middle"><a href="/search-league">Search League</a></li>
+                          <li class="mt-2 h-12 hover:bg-base-300 rounded-xl flex flex-col justify-center items-center align-middle"><a href="/search-nation">Search Nation</a></li>
                           <li class="mt-2 h-12 hover:bg-base-300 rounded-xl flex flex-col justify-center items-center align-middle"><a href="/player-insertion">Add Players</a></li>
                         </ul>
                     </div>

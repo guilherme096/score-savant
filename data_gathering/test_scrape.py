@@ -22,8 +22,7 @@ def scrape_player_data(player_url, file):
 
     player_info["name"] = player_name
 
-    print("\n\n- - - - - - - - - - - - " +
-          player_name + " - - - - - - - - - - - - \n")
+    print("\n\n- - - - - - - - - - - - " + player_name + " - - - - - - - - - - - - \n")
 
     if player_name is None:
         return
@@ -36,13 +35,12 @@ def scrape_player_data(player_url, file):
     end = player_image_style.find(
         ")", start
     )  # Find the end of the URL, starting from the end of 'url('
-    url = player_image_style[start + 2: end]
+    url = player_image_style[start + 2 : end]
     player_info["url"] = url
 
     # file.write(f"Name: {player_name} - ")
     basic_info_wrapper = (
-        player_name_wrapper.find(
-            "div", class_="meta").find("ul").find_all("li")
+        player_name_wrapper.find("div", class_="meta").find("ul").find_all("li")
     )
 
     # CLUB AND COUNTRY
@@ -270,7 +268,7 @@ def scrape_player_data(player_url, file):
         int(player_info["Height"][0]),  # @weight
         player_info["nation"],  # @nation
         1,
-        "Premier League",  # @league
+        "Primeira Liga",  # @league
         player_info["club"],  # @value
         player_info["Foot"],  # @position
         int(player_info["Value"]),  # @role
@@ -310,8 +308,7 @@ def scrape_listing_page(listing_url):
 
     # Find all links to player pages - adjust selector as needed
     # Assuming player_links_wrapper is correctly finding the <div> containing player information
-    player_links_wrapper = soup.find(
-        "div", class_="players")  # This finds the <div>
+    player_links_wrapper = soup.find("div", class_="players")  # This finds the <div>
 
     # Instead of iterating over player_links_wrapper directly,
     # you should find all <ul> or <li> elements (or whatever contains the player links) inside it
@@ -371,7 +368,7 @@ payload = {
     "uid": "",
     "club": "",
     "nationality": "",
-    "league": "Premier League",
+    "league": "Primeira Liga",
     "min_age": "",
     "max_age": "",
     "max_value": "",
@@ -385,10 +382,13 @@ payload = {
 # Send the POST request
 response = session.post(url, data=payload, timeout=15)
 
+skip = session.post(sequence_url, timeout=15)
+skip2 = session.post(sequence_url, timeout=15)
+
 # Print the response
-print(f"Status Code: {response.status_code}")
-print("Response Text:", response.text)
-# scrape_listing_page(listing_url)
+# print(f"Status Code: {response.status_code}")
+# print("Response Text:", response.text)
+scrape_listing_page(listing_url)
 while True:
     exists = scrape_listing_page(sequence_url)
 

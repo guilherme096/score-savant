@@ -2,58 +2,6 @@ package Search;
 
 import "guilherme096/score-savant/templates/Layout"
 
-var nations = []map[string]interface{}{
-    {
-        "NationID": 1,
-        "NationName": "Brazil",
-        "ValueTotal": 1000000.00,
-    },
-    {
-        "NationID": 2,
-        "NationName": "Argentina",
-        "ValueTotal": 2000000.00,
-    },
-    {
-        "NationID": 3,
-        "NationName": "Germany",
-        "ValueTotal": 3000000.00,
-    },
-    {
-        "NationID": 4,
-        "NationName": "France",
-        "ValueTotal": 4000000.00,
-    },
-    {
-        "NationID": 5,
-        "NationName": "Spain",
-        "ValueTotal": 5000000.00,
-    },
-    {
-        "NationID": 6,
-        "NationName": "Italy",
-        "ValueTotal": 6000000.00,
-    },
-    {
-        "NationID": 7,
-        "NationName": "England",
-        "ValueTotal": 7000000.00,
-    },
-    {
-        "NationID": 8,
-        "NationName": "Portugal",
-        "ValueTotal": 8000000.00,
-    },
-    {
-        "NationID": 9,
-        "NationName": "Netherlands",
-        "ValueTotal": 9000000.00,
-    },
-    {
-        "NationID": 10,
-        "NationName": "Belgium",
-        "ValueTotal": 10000000.00,
-    },
-}
 
 templ NationSearchPage(){
     @Layout.Base() {
@@ -108,8 +56,7 @@ templ NationSearchPage(){
                                     <th class="py-2 px-6 border-b cursor-pointer">Value Total</th>
                                 </tr>
                             </thead>
-                           <tbody id="table-body">
-                                @NationSearchTable(nations)
+                           <tbody id="table-body" hx-get="api/list-nations?page=1" hx-trigger="load" hx-swap="innerHTML">
                            </tbody>
                         </table>
                         <button id="load-more" class="w-full p-2 btn btn-primary text-white rounded mt-8">Load More</button>

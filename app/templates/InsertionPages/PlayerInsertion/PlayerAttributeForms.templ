@@ -6,9 +6,9 @@ templ PlayerAttributeForms(){
                 Player Type
             </div>
             <div role="tablist" class="tabs tabs-lifted mt-4">
-                <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Outfield Player" checked/>
+                <input type="radio" value="Outfield" name="playerType" role="tab" class="tab" aria-label="Outfield Player" checked/>
                 <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-4">@OutfieldPlayerForms()</div>
-                <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Goalkepeer"  />
+                <input type="radio" value="Goalkepeer" name="playerType" role="tab" class="tab" aria-label="Goalkepeer"  />
                 <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-4">@GoalkeeperAttributeForms()</div>
             </div>
         </div>

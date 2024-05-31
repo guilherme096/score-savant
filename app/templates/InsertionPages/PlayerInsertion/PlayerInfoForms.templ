@@ -9,7 +9,7 @@ templ PlayerInfoForms(){
                         </div>
                         <label class="input input-bordered flex items-center gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 opacity-70"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" /></svg>
-                            <input type="text" placeholder="First & Last" class="grow" />
+                            <input name="playerName" type="text" placeholder="First & Last" class="grow" />
                         </label>
                     </div>
                     <div class="my-1">
@@ -17,7 +17,7 @@ templ PlayerInfoForms(){
                             <span class="label-text font-bold">Image</span>
                         </div>
                         <label class="input input-bordered flex items-center gap-2">
-                            <input type="text" placeholder="Insert Link" class="grow" />
+                            <input type="text" name="playerUrl" placeholder="Insert Link" class="grow" />
                         </label>
                     </div>
                     <div class="flex flex-row max-w-sm justify-between">
@@ -26,7 +26,7 @@ templ PlayerInfoForms(){
                                 <span class="label-text font-bold">Age</span>
                             </div>
                                 <label class="input input-bordered flex items-center gap-2 max-w-full">
-                                <input type="number" placeholder="Age" class="max-w-[85px]"/>
+                                <input type="number" name="playerAge" placeholder="Age" class="max-w-[85px]"/>
                             </label>
                         </div>
                         <div class="my-1 max-w-[85px]">
@@ -34,7 +34,7 @@ templ PlayerInfoForms(){
                                 <span class="label-text font-bold">Height</span>
                             </div>
                                 <label class="input input-bordered flex items-center gap-2 max-w-full">
-                                <input type="number" placeholder="Height" class="max-w-[85px]"/>
+                                <input type="number" name="playerHeight" placeholder="Height" class="max-w-[85px]"/>
                             </label>
                         </div>
                         <div class="my-1 max-w-[85px]">
@@ -42,7 +42,7 @@ templ PlayerInfoForms(){
                                 <span class="label-text font-bold">Weight</span>
                             </div>
                                 <label class="input input-bordered flex items-center gap-2 max-w-full">
-                                <input type="number" placeholder="Weight" class="max-w-[85px]"/>
+                                <input type="number" name="playerWeight" placeholder="Weight" class="max-w-[85px]"/>
                             </label>
                         </div>
                     </div>
@@ -51,28 +51,22 @@ templ PlayerInfoForms(){
                             <div class="label">
                                 <span class="label-text">Best Foot</span>
                               </div>
-                              <select class="select select-bordered max-w-full">
+                              <select name="playerFoot" class="select select-bordered max-w-full">
                                 <option disabled selected>Pick Foot</option>
-                                <option>Star Wars</option>
-                                <option>Harry Potter</option>
-                                <option>Lord of the Rings</option>
-                                <option>Planet of the Apes</option>
-                                <option>Star Trek</option>
+                                <option value="left">Left</option>
+                                <option value="right">Right</option>
                               </select>
                         </div>
                         <div class="my-1 max-w-[150px]">
+                    <div class="flex flex-col max-w-sm justify-between">
                             <div class="label">
-                                <span class="label-text">Nationality</span>
-                              </div>
-                              <select class="select select-bordered max-w-full">
-                                <option disabled selected>Pick Country</option>
-                                <option>Star Wars</option>
-                                <option>Harry Potter</option>
-                                <option>Lord of the Rings</option>
-                                <option>Planet of the Apes</option>
-                                <option>Star Trek</option>
-                              </select>
-                        </div>
+                                <span class="label-text font-bold">Nationality</span>
+                            </div>
+                                <label class="input input-bordered flex items-center gap-2 max-w-full">
+                                <input type="text" name="playerNation" placeholder="Nation" class="w-full"/>
+                            </label>
+                    </div>
+                    </div>
                     </div>
                     <h2 class="text-2xl font-bold mt-6">Contract Info</h2>
                     <div class="flex flex-row max-w-sm justify-between">
@@ -81,7 +75,7 @@ templ PlayerInfoForms(){
                                 <span class="label-text font-bold">Wage</span>
                             </div>
                                 <label class="input input-bordered flex items-center gap-2 max-w-full">
-                                <input type="number" placeholder="Wage" class="max-w-[85px]"/>
+                                <input type="number" name="playerWage" placeholder="Wage" class="max-w-[85px]"/>
                             </label>
                         </div>
                         <div class="my-1 max-w-[85px]">
@@ -89,7 +83,7 @@ templ PlayerInfoForms(){
                                 <span class="label-text font-bold">Value</span>
                             </div>
                                 <label class="input input-bordered flex items-center gap-2 max-w-full">
-                                <input type="number" placeholder="Value" class="max-w-[85px]"/>
+                                <input type="number" name="playerValue" placeholder="Value" class="max-w-[85px]"/>
                             </label>
                         </div>
                         <div class="my-1 max-w-[125px]">
@@ -97,43 +91,28 @@ templ PlayerInfoForms(){
                                 <span class="label-text font-bold">Realease Clause</span>
                             </div>
                                 <label class="input input-bordered flex items-center gap-2 max-w-full">
-                                <input type="number" placeholder="Value" class="max-w-[85px]"/>
+                                <input type="number" name="playerReleaseClause" placeholder="Value" class="max-w-[85px]"/>
                             </label>
                         </div>
                     </div>
                     <div class="flex flex-row max-w-sm justify-between">
                         <div class="my-1 max-w-[150px]">
                             <div class="label">
-                                <span class="label-text font-bold">Contract Duration</span>
+                                <span class="label-text font-bold">Contract End</span>
                             </div>
                                 <label class="input input-bordered flex items-center gap-2 max-w-full">
-                                <input type="number" placeholder="Years" class="w-full"/>
-                            </label>
-                        </div>
-                        <div class="my-1 max-w-[150px]">
-                            <div class="label">
-                                <span class="label-text font-bold">Contract Duration</span>
-                            </div>
-                                <label class="input input-bordered flex items-center gap-2 max-w-full">
-                                <input type="date" placeholder="Years" class="w-full"/>
+                                <input type="date" placeholder="Years" name="contractEnd" class="w-full"/>
                             </label>
                         </div>
                     </div>
-                    <div class="flex flex-row max-w-sm justify-between">
-                        <div class="my-1 max-w-[150px]">
+                    <div class="flex flex-col max-w-sm justify-between">
                             <div class="label">
-                                <span class="label-text">Club</span>
-                              </div>
-                              <select class="select select-bordered max-w-full">
-                                <option disabled selected>Pick Club</option>
-                                <option>Star Wars</option>
-                                <option>Harry Potter</option>
-                                <option>Lord of the Rings</option>
-                                <option>Planet of the Apes</option>
-                                <option>Star Trek</option>
-                              </select>
-                        </div>
+                                <span class="label-text font-bold">Club</span>
+                            </div>
+                                <label class="input input-bordered flex items-center gap-2 max-w-full">
+                                <input type="text" placeholder="Club" name="playerClub" class="w-full"/>
+                            </label>
                     </div>
                     </div>
-                    <btn class="btn btn-primary absolute bottom-0 btn-wide left-1/2 -translate-x-1/2">Submit</btn>
+                    <input value="Submit" type="submit" class="btn btn-primary absolute bottom-0 btn-wide left-1/2 -translate-x-1/2"/>
     }
