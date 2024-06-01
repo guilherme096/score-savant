@@ -92,10 +92,10 @@ func (s *Server) Start() {
 	api.GET("/list-stared-players", func(c echo.Context) error {
 		return Handlers.ListStaredPlayersHandler(c, s.storage)
 	})
-	api.POST("/api/player/remove/:id", func(c echo.Context) error {
+	api.POST("/player/remove/:id", func(c echo.Context) error {
 		return Handlers.RemovePlayerHandler(c, s.storage)
 	})
-	api.POST("/api/star/remove/:id", func(c echo.Context) error {
+	api.POST("/star/remove/:id", func(c echo.Context) error {
 		return Handlers.RemoveStarHandler(c, s.storage)
 	})
 
