@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	server "guilherme096/score-savant/api"
-	storage "guilherme096/score-savant/storage"
+	mssqlStorage "guilherme096/score-savant/storage/Mssql"
 )
 
 func main() {
@@ -11,7 +11,7 @@ func main() {
 
 	fmt.Println("App listening on port: ", listen_addr)
 
-	db := storage.NewMSqlStorage("p5g5", "bo_jack64", "mednat.ieeta.pt", 8101, "p5g5")
+	db := mssqlStorage.NewMSqlStorage("p5g5", "bo_jack64", "mednat.ieeta.pt", 8101, "p5g5")
 
 	// Create a new server
 	server := server.New_server(listen_addr, db)
