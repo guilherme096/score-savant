@@ -62,7 +62,7 @@ func Player(Player map[string]interface{}, Technical_Atts []map[string]interface
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"w-fit mr-10\"><input type=\"submit\" value=\"RemovePlayer\" class=\"btn btn-error\"></form></div><div class=\"w-full max-h-full m-8 flex flex-row\"><div class=\"w-1/4\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"w-fit mr-10\"><input type=\"submit\" value=\"Remove Player\" class=\"btn btn-error\"></form></div><div class=\"w-full max-h-full m-8 flex flex-row\"><div class=\"w-1/4\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

@@ -13,7 +13,7 @@ templ Player(Player map[string]interface{}, Technical_Atts []map[string]interfac
             <input type="submit" value="Remove Star" class="btn btn-outline"/>
         </form>
         <form hx-post={fmt.Sprintf("/api/player/remove/%d",Player["player_id"].(int))}class="w-fit mr-10">
-            <input type="submit" value="RemovePlayer" class="btn btn-error"/>
+            <input type="submit" value="Remove Player" class="btn btn-error"/>
         </form>
         </div>
         <div class="w-full max-h-full m-8 flex flex-row">

@@ -363,7 +363,7 @@ func ListStaredPlayersHandler(c echo.Context, s IStorage) error {
 }
 
 func RemovePlayerHandler(c echo.Context, s IStorage) error {
-	id, _ := strconv.Atoi(c.QueryParam("id"))
+	id, _ := strconv.Atoi(c.Param("id"))
 	s.RemovePlayer(id)
 	return c.String(200, "OK")
 }
