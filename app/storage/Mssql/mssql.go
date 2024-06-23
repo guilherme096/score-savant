@@ -22,9 +22,11 @@ func (m *MSqlStorage) Start() {
 	fmt.Printf("Connecting to SQL Server: %s\n", m.connectionString)
 	db, err := sql.Open("sqlserver", m.connectionString)
 	if err != nil {
-		panic(err)
+		fmt.Println("Error creating connection pool: " + err.Error())
+		return
+	} else {
+		fmt.Println("Connected to SQL Server")
 	}
-	fmt.Println("Connected to SQL Server")
 	m.db = db
 }
 
