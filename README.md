@@ -2,6 +2,12 @@
 
 An app that acts as a database of football players, clubs, leagues and countries with detailed information about each entity.
 
+<p align="center">
+   
+<img src="https://github.com/guilherme096/score-savant/assets/69405307/178884df-de8b-4e05-a773-ea0457027550" height="300">
+
+</p>
+
 ## Context
 
 Project developed under the Databases course at University of Aveiro.
